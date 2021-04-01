@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exemples JS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="res/css/index.css"/>
+</head>
+<body>
+    <div id="content"></div>
+    <div id="modalConformDelet" class="modal">
+        <div class="modal-content">
+            <h4>supprimer</h4>
+            <p> supprimer l'element <span id="objectDelet"></span>?</p>
+        </div>
+        <div class="model-footer">
+            <button class="waves-effect waves-light btn" id="btnDelet" >suppr</button>
+        </div>
+    </div>
+    <script type="application/ecmascript" src="app/tools.js"></script>
+    <script type="application/ecmascript" src="app/model/classes.js"></script>
+    <script type="application/ecmascript" src="app/model/model.js"></script>
+    <script type="application/ecmascript" src="app/controllers/basecontroller.js"></script>
+    <script type="application/ecmascript" src="app/controllers/baseformcontroller.js"></script>
+    <script type="application/ecmascript" src="app/service/baseapiservice.js"></script>
+    <script type="application/ecmascript" src="app/service/useraccountapi.js"></script>
+    <script type="application/ecmascript" src="app/service/listeapi.js"></script>
+    <script type="application/ecmascript" src="app/service/produitapi.js"></script>
+    <script>navigate("index")</script>
+</body>
+</html>
