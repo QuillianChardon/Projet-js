@@ -144,10 +144,10 @@ class IndexController extends BaseController {
                      doneStatus = "<label><input type='checkbox' class='filled-in' onclick='indexController.checkItems("+produit.id+")'/> <span>valider</span></label>"
                 }
                 if(object.done==true){
-                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.edit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
+                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
                 }
                 else{
-                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn'>suppr</button> <button onclick='indexController.edit("+produit.id+")' class='waves-effect waves-light btn'>modif</button>"+doneStatus+"</a>"
+                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn'>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn'>modif</button>"+doneStatus+"</a>"
                 }
 
             }

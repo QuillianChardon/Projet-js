@@ -11,6 +11,9 @@ module.exports=(app,service,jwt)=>{
             if(liste==undefined){
                 return res.status(404).end()
             }
+            console.log(liste.useraccount_id)
+            console.log(req.user.id)
+
             if (liste.useraccount_id !== req.user.id) {
                 return res.status(403).end()
             }
