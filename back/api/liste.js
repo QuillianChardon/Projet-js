@@ -66,6 +66,29 @@ module.exports=(app,service,jwt)=>{
             console.log(err)
             res.status(400).end()
         }
+    })//delete
+    app.delete("/liste/:id" ,jwt.validateJWT, async (req,res) => {
+        try{
+            const liste = await service.dao.getById(req.params.id)
+            if(liste===undefined){
+                return res.status(404).end()
+            }
+
+            if (liste.useraccount_id !== req.user.id) {
+                return res.status(403).end()
+            }
+
+            service.dao.delete(req.params.id)
+                .then(res.status(200).end())
+                .catch(err =>{
+                    console.log(err)
+                    res.status(500).end()
+                })
+        }
+        catch (err){
+            console.log(err)
+            res.status(400).end()
+        }
     })
 
     //modification

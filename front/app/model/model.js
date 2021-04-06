@@ -2,6 +2,8 @@ class Model {
     constructor() {
         this.api = new ListeApi()
         this.apiProduct = new ProduitApi()
+        this.apiShared = new SharedApi()
+        this.apiUser = new UserAccountAPI()
     }
     async getAllListes(){
         let listes=[]
@@ -56,5 +58,55 @@ class Model {
         return Object.assign(new Produits(),produit)
     }
 
+    //shared
+    insertShared(shared){
+        return this.apiShared.insert(shared).then(res => res.status)
+    }
+
+    async getShared(id){
+        let shared = await this.apiShared.getShared(id)
+        return Object.assign(new Shared(),shared)
+    }
+
+    async getSharedByListe(idListe){
+        let shareds=[]
+        for(let shared of await this.apiShared.getByIdListe(idListe)){
+            shareds.push(Object.assign(new Shared(), shared))
+        }
+        return shareds
+    }
+
+    updateShared(shared) {
+        return this.apiShared.update(shared).then(res => res.status)
+    }
+
+    async getSharedByListe(idListe){
+        let shareds=[]
+        for(let shared of await this.apiShared.getByIdListe(idListe)){
+            shareds.push(Object.assign(new Shared(), shared))
+        }
+        return shareds
+    }
+
+    deleteShared(id) {
+        return this.apiShared.delete(id).then(res => res.status)
+    }
+
+    async getAllUserNotInShared(idliste){
+        let users=[]
+        for(let user of await this.apiUser.getAllshared(idliste)){
+            users.push(Object.assign(new User(), user))
+        }
+        return users
+    }
+    async getAllUser(id){
+        let userCache
+        for(let user of await this.apiUser.getAll()) {
+            if(user.id==id){
+                userCache=Object.assign(new User(), user)
+            }
+        }
+        return userCache
+    }
 
 }

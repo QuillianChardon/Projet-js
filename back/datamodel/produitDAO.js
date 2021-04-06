@@ -13,9 +13,9 @@ module.exports= class produitDAO extends BaseDAO{
         }))
     }
 
-    getAll(){
+    getAll(user){
         return new Promise(((resolve, reject) => {
-            this.db.query("select * from produit order by id")
+            this.db.query("select * from produit,liste where idListe=liste.id and liste.useraccount_id=$1 order by id", [user.id])
                 .then(res=>resolve(res.rows))
                 .catch(err=>reject(err))
         }))
@@ -30,6 +30,6 @@ module.exports= class produitDAO extends BaseDAO{
     }
 
     update(produit){
-        return this.db.query("UPDATE produit SET nom=$1, quantite=$2, done=$3where id=$4", [produit.nom,produit.quantite,produit.done,produit.id])
+        return this.db.query("UPDATE produit SET nom=$1, quantite=$2, done=$3 where id=$4", [produit.nom,produit.quantite,produit.done,produit.id])
     }
 }

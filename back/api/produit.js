@@ -1,17 +1,24 @@
-module.exports=(app,service,serviceListe)=>{
+module.exports=(app,service,serviceListe,jwt)=>{
     //get all
-    app.get("/produit", (req,res)=>{
-        service.dao.getAll()
+    app.get("/produit",jwt.validateJWT, (req,res)=>{
+        service.dao.getAll(req.user)
             .then(produits => {res.json(produits)})
     })
 
 
     //get one
-    app.get("/produit/:id",async (req,res) =>{
+    app.get("/produit/:id",jwt.validateJWT,async (req,res) =>{
         try {
             const produit = await service.dao.getById(req.params.id)
             if(produit==undefined){
                 return res.status(404).end()
+            }
+            const liste = await serviceListe.dao.getById(produit.idliste)
+            if(liste==undefined){
+                return res.status(404).end()
+            }
+            if (liste.useraccount_id !== req.user.id) {
+                return res.status(403).end()
             }
             return res.json(produit)
         }
@@ -21,16 +28,24 @@ module.exports=(app,service,serviceListe)=>{
     })
 
     //get all by liste
-    app.get("/produit/liste/:id", async (req,res)=>{
+    app.get("/produit/liste/:id",jwt.validateJWT, async (req,res)=>{
         try {
-            // const liste = await serviceListe.dao.getById(req.params.id)
-            // if(liste==undefined){
-            //     return res.status(404).end()
-            // }
-            produit = await service.dao.getAllByListe(req.params.id)
+           const produit = await service.dao.getAllByListe(req.params.id)
             if(produit==undefined){
                 return res.status(404).end()
             }
+
+            const liste = await serviceListe.dao.getById(produit[0].idliste)
+
+
+            if(liste==undefined){
+                return res.status(404).end()
+            }
+            if (liste.useraccount_id !== req.user.id) {
+                return res.status(403).end()
+            }
+
+
             return res.json(produit)
         }
         catch (e){
@@ -39,11 +54,19 @@ module.exports=(app,service,serviceListe)=>{
     })
 
     //insert
-    app.post("/produit",async (req,res)=>{
+    app.post("/produit",jwt.validateJWT,async (req,res)=>{
         const produit=req.body
         if(! await service.isValid(produit)){
             return res.status(400).end()
         }
+        const liste = await serviceListe.dao.getById(produit.idListe)
+        if(liste==undefined){
+            return res.status(404).end()
+        }
+        if (liste.useraccount_id !== req.user.id) {
+            return res.status(403).end()
+        }
+
         service.dao.insert(produit)
             .then(res.status(200).end())
             .catch(e=>{
@@ -53,12 +76,21 @@ module.exports=(app,service,serviceListe)=>{
     })
 
     //delete
-    app.delete("/produit/:id", async (req,res) => {
+    app.delete("/produit/:id",jwt.validateJWT, async (req,res) => {
         try{
             const produit = await service.dao.getById(req.params.id)
             if(produit===undefined){
                 return res.status(404).end()
             }
+
+            const liste = await serviceListe.dao.getById(produit.idliste)
+            if(liste==undefined){
+                return res.status(404).end()
+            }
+            if (liste.useraccount_id !== req.user.id) {
+                return res.status(403).end()
+            }
+
             service.dao.delete(req.params.id)
                 .then(res.status(200).end())
                 .catch(err =>{
@@ -73,7 +105,7 @@ module.exports=(app,service,serviceListe)=>{
     })
 
     //modification
-    app.put("/produit",async (req,res) => {
+    app.put("/produit",jwt.validateJWT,async (req,res) => {
         const produit = req.body
         if((produit.id===undefined)|| (produit.id==null)||(!service.isValid(produit))){
             return res.status(400).end()
@@ -81,6 +113,15 @@ module.exports=(app,service,serviceListe)=>{
         if(await service.dao.getById(produit.id)===undefined){
             return res.status(404).end()
         }
+
+        const liste = await serviceListe.dao.getById(produit.idliste)
+        if(liste==undefined){
+            return res.status(404).end()
+        }
+        if (liste.useraccount_id !== req.user.id) {
+            return res.status(403).end()
+        }
+
         service.dao.update(produit)
             .then(res.status(200).end())
             .catch(err=>{

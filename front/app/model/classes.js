@@ -25,3 +25,21 @@ class Produits {
         return `${this.nom} ${this.quantite}`
     }
 }
+
+class Shared{
+    constructor(idListe,idUser,droit) {
+        this.idListe=idListe
+        this.idUser=idUser
+        this.droit=droit
+    }
+    toString(){
+        return `${this.idUser} ${this.droit}`
+    }
+}
+
+class User{
+    constructor(id,login) {
+        this.id=id
+        this.login=login
+    }
+}

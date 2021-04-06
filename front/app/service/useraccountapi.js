@@ -17,4 +17,11 @@ class UserAccountAPI extends BaseAPIService {
             }
         }).catch(err => reject(err)))
     }
+
+    getAllshared(idliste){
+        return fetchJSON(`${this.url}/share/${idliste}`, this.token)
+    }
+    getAll(){
+        return fetchJSON(`${this.url}`, this.token)
+    }
 }

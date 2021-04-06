@@ -1,6 +1,6 @@
-class ProduitApi extends BaseAPIService{
+class SharedApi extends BaseAPIService {
     constructor() {
-        super("produit")
+        super("shared")
     }
 
     getAll(){
@@ -12,7 +12,7 @@ class ProduitApi extends BaseAPIService{
         return fetch(`${this.url}/${id}`,{ method: 'DELETE', headers: this.headers })
     }
 
-    getProduit(id){
+    getShared(id){
         return fetchJSON(`${this.url}/${id}`, this.token)
     }
 
@@ -20,21 +20,24 @@ class ProduitApi extends BaseAPIService{
         return fetchJSON(`${this.url}/liste/${id}`, this.token)
     }
 
-    insert(produit) {
+    insert(shared) {
         this.headers.set( 'Content-Type', 'application/json' )
         return fetch(this.url, {
             method: 'POST',
             headers: this.headers,
-            body: JSON.stringify(produit)
+            body: JSON.stringify(shared)
         })
     }
 
-    update(produit) {
+    update(shared) {
         this.headers.set( 'Content-Type', 'application/json' )
         return fetch(this.url, {
             method: 'PUT',
             headers: this.headers,
-            body: JSON.stringify(produit)
+            body: JSON.stringify(shared)
         })
     }
+
+
+
 }

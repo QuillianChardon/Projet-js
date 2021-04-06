@@ -1,0 +1,15 @@
+rajout d'une table shared(idUser,idListe,droit)
+droit : 1 modification
+0 :  visualisation
+
+proprio :
+	-rajouter le nombre de personne sur la liste du prorpiètaire 
+	-rajouter un tool tip avec les noms
+
+personne lambda :
+	-voir le nombre de personne sur la liste
+	-voir le proprio
+	- modifier la liste si droit ok
+
+
+rajout d'une class / dao / api  / service

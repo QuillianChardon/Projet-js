@@ -21,6 +21,49 @@
             <button class="waves-effect waves-light btn" id="btnDelet" >suppr</button>
         </div>
     </div>
+
+
+    <!-- affichage-->
+    <div id="modalSharedDisplay" class="modal">
+        <div class="modal-content">
+            <h4>visualisation des partage</h4>
+            <table class="stripped responsive-table">
+                <thead>
+                <tr>
+                    <th>nom</th>
+                    <th>droit</th>
+                </tr>
+                </thead>
+                <tbody id="tableSharedcontent">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ajout-->
+    <div id="modalShared" class="modal">
+        <div class="modal-content">
+            <h4>Ajout d'un partage</h4>
+            <div class="input-field col s12">
+                <select id="listeUser">
+                    <option value="-1" disabled selected>Choose your option</option>
+                </select>
+                <label>Choisir un utilisateur</label>
+            </div>
+
+            <label>
+                <input type="checkbox" id="checkedDroit"/>
+                <span>modification</span>
+            </label>
+        </div>
+        <div class="model-footer">
+            <button class="waves-effect waves-light btn" id="addUserShared" onclick="indexController.addShared()">add</button>
+        </div>
+    </div>
+
+
+
     <script type="application/ecmascript" src="app/tools.js"></script>
     <script type="application/ecmascript" src="app/model/classes.js"></script>
     <script type="application/ecmascript" src="app/model/model.js"></script>
@@ -28,6 +71,7 @@
     <script type="application/ecmascript" src="app/controllers/baseformcontroller.js"></script>
     <script type="application/ecmascript" src="app/service/baseapiservice.js"></script>
     <script type="application/ecmascript" src="app/service/useraccountapi.js"></script>
+    <script type="application/ecmascript" src="app/service/sharedapi.js"></script>
     <script type="application/ecmascript" src="app/service/listeapi.js"></script>
     <script type="application/ecmascript" src="app/service/produitapi.js"></script>
     <script>navigate("index")</script>

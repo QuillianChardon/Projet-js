@@ -19,4 +19,11 @@ module.exports=(app,service,jwt)=>{
                 res.status(500).end()
             }))
     })
+    app.get("/useraccount",jwt.validateJWT, async(req,res)=>{
+        res.json(await service.dao.getAll(req.user.id))
+    })
+
+    app.get("/useraccount/share/:id",jwt.validateJWT, async(req,res)=>{
+        res.json(await service.dao.getAllShare(req.user.id, req.params.id))
+    })
 }

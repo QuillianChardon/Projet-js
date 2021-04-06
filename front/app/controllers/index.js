@@ -8,6 +8,7 @@ class IndexController extends BaseController {
         this.displayAllListe()
         this.getlock()
     }
+
     async displayAllListe(){
         this.tableListe.style.display="none"
         try{
@@ -15,11 +16,16 @@ class IndexController extends BaseController {
             let contentOff=''
             for(const liste of await this.model.getAllListes()){
                 const date= liste.date.toLocaleDateString()
+                let cpt=0
+                for(const Share of await this.model.getSharedByListe(liste.id)) {
+                    cpt++
+
+                }
                 if(liste.done==true){
-                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn disabledQC\" disabled '>modif</button>"
+                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"waves-effect waves-light btn disabledQC\"><i class=\"fa fa-share-alt\"></i></button><button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn disabledQC\" disabled '>modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
                 }
                 else{
-                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn\">modif</button>"
+                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"waves-effect waves-light btn\"><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn\">modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
                 }
             }
             this.refreshDisable()
@@ -31,6 +37,91 @@ class IndexController extends BaseController {
             console.log(e)
             this.displayServiceError()
         }
+    }
+
+
+
+    async shared(id,event){
+        //partage de la liste
+        event.stopPropagation();
+        this.getModal("#modalShared").open()
+        let result="<table className=\"stripped responsive-table\" style=\"display: none\">"
+        let userLogin = ""
+
+        $("#addUserShared").setAttribute("onclick","indexController.addShared("+id+")")
+
+        for(const user of await this.model.getAllUserNotInShared(id)){
+            console.log(user)
+            if(this.shared.idLogin==user.id){
+                userLogin+="<option selected value='"+user.id+"'>"+user.login+"</option>"
+            }
+            else{
+                userLogin+="<option value='"+user.id+"'>"+user.login+"</option>"
+            }
+        }
+        $("#listeUser").innerHTML += userLogin
+
+        M.FormSelect.init($("#listeUser"));
+    }
+
+    async addShared(idListe){
+
+        let droit =$("#checkedDroit").checked
+        let user=$("#listeUser").value
+
+        console.log(droit)
+        console.log(user)
+        if(user==-1){
+            return
+        }
+
+        if(await this.model.insertShared(new Shared(idListe,user,droit))===200){
+            this.toast("ajout bien effectué")
+            navigate("index",indexController.idListe)
+            return
+        }
+        else{
+            this.displayServiceError()
+        }
+    }
+
+    async changeShard(id){
+        let shared = await this.model.getShared(id)
+        shared.droit =$("#checkedDroit"+id).checked
+        if(await this.model.updateShared(shared)===200){
+            this.toast("modif bien effectué")
+            if($("#texteCheckboxChange").innerText=="modification"){
+                $("#texteCheckboxChange").innerText = "visualisation"
+            }
+            else{
+                $("#texteCheckboxChange").innerText = "modification"
+            }
+        }
+        else{
+            this.displayServiceError()
+        }
+    }
+
+   async afficheShared(id,event){
+        if(event!=null){
+            event.stopPropagation();
+        }
+       let sharedResult=""
+       let droit = ""
+       let user
+        for(const shared of await this.model.getSharedByListe(id)){
+            if(shared.droit){
+                droit=" <label > <input type='checkbox' checked id='checkedDroit"+shared.id+"' onclick='indexController.changeShard("+shared.id+")'> <span id='texteCheckboxChange'>modification</span></label>"
+            }
+            else{
+                droit=" <label > <input type='checkbox' id='checkedDroit"+shared.id+"' onclick='indexController.changeShard("+shared.id+")'/> <span id='texteCheckboxChange'>visualisation</span></label>"
+            }
+            user = await this.model.getAllUser(shared.iduser)
+            console.log(user)
+            sharedResult+="<tr><td>"+user.login+"</td><td>"+droit+"<button onclick='indexController.displayConfirmDeleteShared("+shared.id+")' class=\"waves-effect waves-light btn\">suppr</button></td>"
+        }
+        $("#tableSharedcontent").innerHTML=sharedResult
+       this.getModal("#modalSharedDisplay").open()
     }
 
     async edit(id){
@@ -195,6 +286,22 @@ class IndexController extends BaseController {
             }).catch(_ => this.displayServiceError("liste"))
         }
     }
+
+    undoDeleteShared() {
+        if (this.deleteShared) {
+
+            console.log(this.deleteShared)
+            this.model.insertShared(this.deleteShared).then(status => {
+                if (status == 200) {
+                    this.displayUndoDone()
+                    this.displayAllListe()
+                    this.afficheShared(this.deleteShared.idliste)
+                    this.deleteShared = null
+                }
+            }).catch(_ => this.displayServiceError("liste"))
+        }
+    }
+
     async displayConfirmDeleteProduit(id){
         try{
             const produit = await this.model.getProduit(id)
@@ -215,6 +322,34 @@ class IndexController extends BaseController {
                 }
                 this.displayAllListe()
                 this.AfficheProduit(idliste)
+            })
+        }catch (e){
+            console.log(e)
+            this.displayServiceError()
+        }
+    }
+
+    async displayConfirmDeleteShared(id){
+        try{
+            const shared = await this.model.getShared(id)
+            let idliste=shared.idliste
+            shared.idListe=shared.idliste
+            shared.idUser=shared.iduser
+            super.displayConfirmDelete(shared,async ()=>{
+                switch (await this.model.deleteShared(id)){
+                    case 200 :
+                        this.deleteShared = shared
+                        this.displayDeletedMessage("indexController.undoDeleteShared()");
+                        break
+                    case 404 :
+                        this.displayNotFoundError("shared")
+                        break
+                    default:
+                        this.displayServiceError()
+                        break
+                }
+                this.displayAllListe()
+               this.afficheShared(idliste)
             })
         }catch (e){
             console.log(e)
@@ -253,12 +388,14 @@ class IndexController extends BaseController {
 
 
     //other
-
     getlock(){
         let lock = this.getCookie("lock");
         let flag=false
+        //si cookie existe
         if (lock!= "") {
+            //si cookie est vrai
             if(lock=="true"){
+                //si l'icone est verrouillé
                 if($("#lock").innerText=="lock_outline"){
                     console.log("cas 1")
                     let r = confirm("En faisait oui vous rendez les listes archivé modifiable !");
@@ -268,6 +405,7 @@ class IndexController extends BaseController {
                          flag=true
                     }
                 }
+                //icone fermé ou non existante
                 else{
                     console.log("cas 2")
                     $("#lock").innerText="lock_outline"
@@ -275,14 +413,18 @@ class IndexController extends BaseController {
                     flag=false
                 }
             }
+            //cookie faux
             else{
+                //icone ouverte
                 if($("#lock").innerText=="lock_open"){
                     console.log("cas 3")
                     $("#lock").innerText="lock_outline"
                     this.setCookie("lock", true, 365);
                     flag=false
                 }
+                //icone fermé ou inexistante
                 else{
+                    //icone ouverte
                     if($("#lock").innerText=="lock_outline") {
                         console.log("cas 4")
                         let r = confirm("En faisait oui vous rendez les listes archivé modifiable !");
@@ -292,15 +434,18 @@ class IndexController extends BaseController {
                             flag=true
                         }
                     }
+                    //icone non existante
                     else{
                         console.log("cas 5")
                         $("#lock").innerText="lock_open"
                         this.setCookie("lock", false, 365);
-                        flag=true
+                        flag=false
                     }
                 }
             }
-        } else {
+
+        }//pas de cookie
+        else {
             console.log("cas 6")
             $("#lock").innerText="lock_outline"
             this.setCookie("lock", true, 365);
@@ -315,10 +460,10 @@ class IndexController extends BaseController {
         for(var i = 0; i < els.length; i++)
         {
             if(lock=="true"){
-                els[i].disabled=true
+                els[i].setAttribute("disabled",true);
             }
             else{
-                els[i].disabled=false
+                els[i].removeAttribute("disabled");
             }
         }
     }
