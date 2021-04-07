@@ -14,7 +14,7 @@ module.exports=class ProduitService{
         if(produit.quantite==0)return false
 
         if(produit.idListe==undefined){
-
+            console.log("iciliste manque")
             return false
         }
         console.log(produit.idListe)

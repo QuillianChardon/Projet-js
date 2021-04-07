@@ -9,7 +9,8 @@ class Liste{
     }
 
     toString(){
-        return `${this.nom} du ${this.date}`
+        const date= this.date.toLocaleDateString()
+        return `${this.nom} du ${date}`
     }
 }
 

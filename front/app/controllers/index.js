@@ -246,12 +246,15 @@ class IndexController extends BaseController {
                 $("#addProduct").style.display="block"
                 for(const produit of await this.model.getProduitByListe(id)){
                     let doneStatus=""
+
                     if(produit.done){
                         doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span>valider</span></label>"
                     }
                     else{
                         doneStatus = "<label><input type='checkbox' class='filled-in' onclick='indexController.checkItems("+produit.id+")'/> <span>valider</span></label>"
                     }
+
+
                     if(object.done==true){
                         result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
                     }
@@ -369,6 +372,7 @@ class IndexController extends BaseController {
                         this.displayServiceError()
                         break
                 }
+                this.getModal("#modalConformDelet").close();
                 this.displayAllListe()
                 this.AfficheProduit(idliste)
             })
@@ -398,6 +402,7 @@ class IndexController extends BaseController {
                         this.displayServiceError()
                         break
                 }
+                this.getModal("#modalConformDelet").close();
                 this.displayAllListe()
                this.afficheShared(idliste)
             })
@@ -436,6 +441,7 @@ class IndexController extends BaseController {
                         this.displayServiceError()
                         break
                 }
+                this.getModal("#modalConformDelet").close();
                 this.displayAllListe()
             })
         }catch (e){

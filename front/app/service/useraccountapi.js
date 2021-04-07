@@ -4,7 +4,7 @@ class UserAccountAPI extends BaseAPIService {
     }
     authenticate(login, password) {
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
-        console.log(`${this.url}/authenticate`)
+
         return new Promise((resolve, reject) => fetch(`${this.url}/authentificate`, {
             method: "POST",
             headers: this.headers,
@@ -23,5 +23,16 @@ class UserAccountAPI extends BaseAPIService {
     }
     getAll(){
         return fetchJSON(`${this.url}`, this.token)
+    }
+
+    inscription(login,password,pseudo){
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        return new Promise((resolve, reject) => fetch(`${this.url}/inscription`, {
+            method: "POST",
+            headers: this.headers,
+            body: `login=${login}&password=${password}&pseudo=${pseudo}`
+        }).then(res => {
+            resolve(res.status)
+        }).catch(err => reject(err)))
     }
 }

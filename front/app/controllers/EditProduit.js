@@ -13,7 +13,7 @@ class EditProduitController extends BaseFormController{
     async save(){
         let nom=this.valideRequiredField("#fieldName",'nom')
         let quantite=this.valideRequiredField("#fieldQtt",'quantite')
-        if(nom !=null && quantite !=null){
+        if(nom !=null && quantite !=null && indexController.idListe!=undefined){
             quantite = parseInt(quantite)
             console.log(quantite)
             if(quantite <= 0){
@@ -26,6 +26,9 @@ class EditProduitController extends BaseFormController{
                     this.produit.nom=nom.trim()
                     this.produit.quantite=quantite
                     this.produit.done=false
+                    this.produit.idliste=indexController.idListe
+                    this.produit.idListe=indexController.idListe
+
                     if(await this.model.updateP(this.produit)===200){
                         this.toast("modif bien effectué")
                         this.produit=null
@@ -34,6 +37,7 @@ class EditProduitController extends BaseFormController{
                     }
                 }
                 else{
+                    console.log(indexController.idListe)
                     if(await this.model.insertP(new Produits(indexController.idListe,nom,quantite,false))===200){
                         this.toast("ajout bien effectué")
                         navigate("index",indexController.idListe)

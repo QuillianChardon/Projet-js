@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Exemples NodeJS+Express</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="res/css/index.css"/>
+</head>
+<body>
+<div class="container">
+    <h3>Connexion</h3>
+    <div>
+        <div class="row">
+            <form class="col s12" id="formLogin">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="fieldLogin" type="text" class="validate">
+                        <label for="fieldLogin" class="active">Adresse e-mail</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="fieldNom" type="text" class="validate">
+                        <label for="fieldNom" class="active"> Pseudo</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="fieldPassword" type="password" class="validate">
+                        <label for="fieldPassword" class="active">Mot de passe</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="fieldPassword2" type="password" class="validate">
+                        <label for="fieldPassword2" class="active"> Re mot de passe</label>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <button class="waves-effect waves-light btn" onclick="inscriptionController.inscription()"><i class="material-icons right">check</i>S'inscrire</button>
+        </div>
+        <div class="row">
+            <button class="waves-effect waves-light btn" onclick="window.location.replace('login.html')"><i class="material-icons right">check</i>Se connecter</button>
+        </div>
+
+    </div>
+</div>
+
+<script type="application/ecmascript" src="app/tools.js"></script>
+<script type="application/ecmascript" src="app/model/classes.js"></script>
+<script type="application/ecmascript" src="app/model/model.js"></script>
+<script type="application/ecmascript" src="app/controllers/basecontroller.js"></script>
+<script type="application/ecmascript" src="app/controllers/baseformcontroller.js"></script>
+<script type="application/ecmascript" src="app/service/baseapiservice.js"></script>
+<script type="application/ecmascript" src="app/service/useraccountapi.js"></script>
+<script type="application/ecmascript" src="app/service/sharedapi.js"></script>
+<script type="application/ecmascript" src="app/service/listeapi.js"></script>
+<script type="application/ecmascript" src="app/service/produitapi.js"></script>
+<script type="application/ecmascript" src="app/controllers/inscription.js"></script>
+</body>
+</html>

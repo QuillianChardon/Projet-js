@@ -16,12 +16,15 @@ module.exports=class SharedService{
         if(shared.idListe==undefined || shared.idUser==undefined){
             return false
         }
+
         if(await this.daoListe.getById(shared.idListe)==undefined){
             return false
         }
+
         if(await this.daoAccount.getById(shared.idUser)==undefined){
             return false
         }
+
         return true
     }
 }

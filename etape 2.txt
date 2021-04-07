@@ -1,0 +1,9 @@
+2/ Création de comptes par les utilisateurs
+Les utilisateurs doivent pouvoir créer un compte avec leur adresse e-mail et un mot de passe comme informations de connexion (e-mail unique dans la base de données).
+Le compte une fois créé ne sera pas actif mais "en cours de validation".
+Un e-mail sera envoyé à l'adresse e-mail donnée avec un lien d'activation.
+L'utilisateur devra cliquer sur ce lien pour activer son compte et se connecter.
+Le lien d'activation ne devra pas pouvoir être deviné facilement et doit expirer 24h après envoi de l'e-mail de validation.
+L'utilisateur doit pouvoir demander l'envoi d'un nouvel e-mail d'activation.
+L'utilisateur doit pouvoir réinitialiser son mot de passe sans se connecter ("mot de passe perdu") avec un procédure similaire : envoi d'un e-mail de réinitialisation avec un lien temporaire (30 minutes) de réinitialisation de mot de passe.
+L'utilisateur, une fois connecté, doit pouvoir modifier ses informations : adresse e-mail et mot de passe.
