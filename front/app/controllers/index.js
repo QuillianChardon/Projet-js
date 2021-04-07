@@ -347,7 +347,7 @@ class IndexController extends BaseController {
                     this.afficheShared(this.deleteShared.idliste)
                     this.deleteShared = null
                 }
-            }).catch(_ => this.displayServiceError("liste"))
+            }).catch(_ => this.displayServiceError("partage"))
         }
     }
 
@@ -384,6 +384,7 @@ class IndexController extends BaseController {
             let idliste=shared.idliste
             shared.idListe=shared.idliste
             shared.idUser=shared.iduser
+            console.log(shared)
             super.displayConfirmDelete(shared,async ()=>{
                 switch (await this.model.deleteShared(id)){
                     case 200 :

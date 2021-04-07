@@ -97,7 +97,35 @@ module.exports=(app,service,listeService,jwt)=> {
                 res.status(500).end()
             })
     })
+//delete
+    app.delete("/shared/:id" ,jwt.validateJWT, async (req,res) => {
+        try{
 
+            const shared = await service.dao.getById(req.params.id)
+            if(shared===undefined){
+                return res.status(404).end()
+            }
+
+            const liste = await listeService.dao.getById(shared.idliste)
+            if(liste===undefined){
+                return res.status(404).end()
+            }
+            if (liste.useraccount_id !== req.user.id){
+                return res.status(403).end()
+            }
+
+            service.dao.delete(req.params.id)
+                .then(res.status(200).end())
+                .catch(err =>{
+                    console.log(err)
+                    res.status(500).end()
+                })
+        }
+        catch (err){
+            console.log(err)
+            res.status(400).end()
+        }
+    })
 
 
 
