@@ -28,8 +28,8 @@ const sharedService = new SharedService(db)
 
 const jwt = require('./jwt')(userAccountService)
 require('./api/useraccount')(app, userAccountService,jwt)
-require('./api/liste')(app, listeService,jwt)
-require('./api/produit')(app, produitService,listeService,jwt)
+require('./api/liste')(app, listeService,sharedService,jwt)
+require('./api/produit')(app, produitService,listeService,sharedService,jwt)
 
 require('./api/shared')(app,sharedService,listeService,jwt)
 

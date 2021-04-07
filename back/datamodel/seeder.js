@@ -7,8 +7,8 @@ module.exports = (userAccountService,listeService,produitService,sharedService) 
         try {
             await userAccountService.dao.db.query("CREATE TABLE useraccount(id SERIAL PRIMARY KEY, displayname TEXT NOT NULL, login TEXT NOT NULL, challenge TEXT NOT NULL)")
             await listeService.dao.db.query("CREATE TABLE liste(id SERIAL PRIMARY KEY, nom TEXT NOT NULL,date DATE NOT NULL,done BOOLEAN NOT NULL, useraccount_id INTEGER REFERENCES useraccount(id))")//clé étrangére --> useraccount_id INTEGER REFERENCES useraccount(id)
-            await produitService.dao.db.query("CREATE TABLE produit(id SERIAL PRIMARY KEY, idListe INTEGER REFERENCES liste(id), nom TEXT NOT NULL,quantite INTEGER NOT NULL,done BOOLEAN NOT NULL)")
-            await sharedService.dao.db.query("CREATE TABLE shared(id SERIAL PRIMARY KEY,idListe INTEGER REFERENCES liste(id),idUser INTEGER REFERENCES useraccount(id),droit BOOLEAN NOT NULL)")
+            await produitService.dao.db.query("CREATE TABLE produit(id SERIAL PRIMARY KEY, idListe INTEGER, nom TEXT NOT NULL,quantite INTEGER NOT NULL,done BOOLEAN NOT NULL)")
+            await sharedService.dao.db.query("CREATE TABLE shared(id SERIAL PRIMARY KEY,idListe INTEGER ,idUser INTEGER ,droit BOOLEAN NOT NULL)")
             // INSERTs
         } catch (e) {
             if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html

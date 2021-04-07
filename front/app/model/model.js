@@ -45,7 +45,7 @@ class Model {
         return this.apiProduct.delete(id).then(res => res.status)
     }
 
-    insertP(produit) {
+    async insertP(produit) {
         return this.apiProduct.insert(produit).then(res => res.status)
     }
 
@@ -59,8 +59,8 @@ class Model {
     }
 
     //shared
-    insertShared(shared){
-        return this.apiShared.insert(shared).then(res => res.status)
+    async insertShared(shared){
+        return await this.apiShared.insert(shared).then(res => res.status)
     }
 
     async getShared(id){
@@ -90,6 +90,14 @@ class Model {
 
     deleteShared(id) {
         return this.apiShared.delete(id).then(res => res.status)
+    }
+
+   async getShareByUser(){
+        let sharedListe=[]
+        for(let share of await this.apiShared.getAll()) {
+            sharedListe.push(Object.assign(new Shared(), share))
+        }
+        return sharedListe
     }
 
     async getAllUserNotInShared(idliste){

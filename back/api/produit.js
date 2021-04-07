@@ -1,4 +1,4 @@
-module.exports=(app,service,serviceListe,jwt)=>{
+module.exports=(app,service,serviceListe,sharedService,jwt)=>{
     //get all
     app.get("/produit",jwt.validateJWT, (req,res)=>{
         service.dao.getAll(req.user)
@@ -17,9 +17,17 @@ module.exports=(app,service,serviceListe,jwt)=>{
             if(liste==undefined){
                 return res.status(404).end()
             }
-            if (liste.useraccount_id !== req.user.id) {
+
+            let flag=false
+            for(const shared of await sharedService.dao.getAll(req.user.id)){
+                if(liste.id==shared.idliste){
+                    flag=true
+                }
+            }
+            if ((liste.useraccount_id !== req.user.id) && (flag==false)){
                 return res.status(403).end()
             }
+
             return res.json(produit)
         }
         catch (e){
@@ -34,14 +42,24 @@ module.exports=(app,service,serviceListe,jwt)=>{
             if(produit==undefined){
                 return res.status(404).end()
             }
-
+            if(produit[0]==undefined){
+                return res.json(produit)
+            }
             const liste = await serviceListe.dao.getById(produit[0].idliste)
 
 
             if(liste==undefined){
                 return res.status(404).end()
             }
-            if (liste.useraccount_id !== req.user.id) {
+
+            let flag=false
+            for(const shared of await sharedService.dao.getAll(req.user.id)){
+                console.log("icic :" + shared)
+                if(liste.id==shared.idliste){
+                    flag=true
+                }
+            }
+            if ((liste.useraccount_id !== req.user.id) && (flag==false)){
                 return res.status(403).end()
             }
 
@@ -49,6 +67,7 @@ module.exports=(app,service,serviceListe,jwt)=>{
             return res.json(produit)
         }
         catch (e){
+            console.log(e)
             res.status(400).end()
         }
     })
@@ -62,9 +81,6 @@ module.exports=(app,service,serviceListe,jwt)=>{
         const liste = await serviceListe.dao.getById(produit.idListe)
         if(liste==undefined){
             return res.status(404).end()
-        }
-        if (liste.useraccount_id !== req.user.id) {
-            return res.status(403).end()
         }
 
         service.dao.insert(produit)
@@ -87,9 +103,17 @@ module.exports=(app,service,serviceListe,jwt)=>{
             if(liste==undefined){
                 return res.status(404).end()
             }
-            if (liste.useraccount_id !== req.user.id) {
+
+            let flag=false
+            for(const shared of await sharedService.dao.getAll(req.user.id)){
+                if(liste.id==shared.idliste){
+                    flag=true
+                }
+            }
+            if ((liste.useraccount_id !== req.user.id) && (flag==false)){
                 return res.status(403).end()
             }
+
 
             service.dao.delete(req.params.id)
                 .then(res.status(200).end())
@@ -118,7 +142,14 @@ module.exports=(app,service,serviceListe,jwt)=>{
         if(liste==undefined){
             return res.status(404).end()
         }
-        if (liste.useraccount_id !== req.user.id) {
+
+        let flag=false
+        for(const shared of await sharedService.dao.getAll(req.user.id)){
+            if((liste.id==shared.idliste) &&(shared.droit==true)){
+                flag=true
+            }
+        }
+        if ((liste.useraccount_id !== req.user.id) && (flag==false)){
             return res.status(403).end()
         }
 

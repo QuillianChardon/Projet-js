@@ -7,6 +7,7 @@ class SharedApi extends BaseAPIService {
         return fetchJSON(this.url, this.token)
     }
 
+
     delete(id){
         this.headers.delete('Content-Type')
         return fetch(`${this.url}/${id}`,{ method: 'DELETE', headers: this.headers })

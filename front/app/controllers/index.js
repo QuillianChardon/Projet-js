@@ -3,8 +3,10 @@ class IndexController extends BaseController {
         super(true)
         this.tableListe=$('#tableListe')
         this.tablebody=$('#tableBody')
+        this.tableBodyPartage=$('#tableBodyPartage')
         this.tableBodyOff=$('#tableBodyOff')
         this.archive=$('#archive')
+        this.partage=$('#partage')
         this.displayAllListe()
         this.getlock()
     }
@@ -17,10 +19,11 @@ class IndexController extends BaseController {
             for(const liste of await this.model.getAllListes()){
                 const date= liste.date.toLocaleDateString()
                 let cpt=0
+                //nb share sur la liste en cours
                 for(const Share of await this.model.getSharedByListe(liste.id)) {
                     cpt++
-
                 }
+
                 if(liste.done==true){
                     contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"waves-effect waves-light btn disabledQC\"><i class=\"fa fa-share-alt\"></i></button><button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn disabledQC\" disabled '>modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
                 }
@@ -28,11 +31,25 @@ class IndexController extends BaseController {
                     contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"waves-effect waves-light btn\"><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn\">modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
                 }
             }
+            let contentShared=""
+            for (let shareListe of await this.model.getShareByUser()){
+                console.log(shareListe)
+                let obj = await this.model.getListe(shareListe.idliste)
+                const date= obj.date.toLocaleDateString()
+                if(shareListe.droit==true){
+                    contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+")'><td>"+obj.nom+"<td>"+date+" <button onclick='indexController.displayConfirmDelete("+obj.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+obj.id+")' class=\"waves-effect waves-light btn\">modif</button> "
+                }
+                else{
+                    contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+",false)'><td>"+obj.nom+"<td>"+date
+                }
+            }
             this.refreshDisable()
             this.tablebody.innerHTML=contentOff
             this.tableListe.style.display="block"
             this.tableBodyOff.innerHTML=contentOn
+            this.tableBodyPartage.innerHTML=contentShared
             this.archive.style.display="block"
+            this.partage.style.display="block"
         }catch (e) {
             console.log(e)
             this.displayServiceError()
@@ -46,7 +63,7 @@ class IndexController extends BaseController {
         event.stopPropagation();
         this.getModal("#modalShared").open()
         let result="<table className=\"stripped responsive-table\" style=\"display: none\">"
-        let userLogin = ""
+        let userLogin = "<option value=\"-1\" disabled selected>Choose your option</option>"
 
         $("#addUserShared").setAttribute("onclick","indexController.addShared("+id+")")
 
@@ -59,7 +76,7 @@ class IndexController extends BaseController {
                 userLogin+="<option value='"+user.id+"'>"+user.login+"</option>"
             }
         }
-        $("#listeUser").innerHTML += userLogin
+        $("#listeUser").innerHTML = userLogin
 
         M.FormSelect.init($("#listeUser"));
     }
@@ -208,7 +225,7 @@ class IndexController extends BaseController {
        }
     }
 
-    async AfficheProduit(id){
+    async AfficheProduit(id,open=true){
         this.idListe=id
         try{
             const object = await this.model.getListe(id)
@@ -225,23 +242,43 @@ class IndexController extends BaseController {
                 param=""
                 classAdd=""
             }
-            for(const produit of await this.model.getProduitByListe(id)){
-                let doneStatus=""
-
-                if(produit.done){
-                     doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span>valider</span></label>"
+            if(open){
+                $("#addProduct").style.display="block"
+                for(const produit of await this.model.getProduitByListe(id)){
+                    let doneStatus=""
+                    if(produit.done){
+                        doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span>valider</span></label>"
+                    }
+                    else{
+                        doneStatus = "<label><input type='checkbox' class='filled-in' onclick='indexController.checkItems("+produit.id+")'/> <span>valider</span></label>"
+                    }
+                    if(object.done==true){
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
+                    }
+                    else{
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn'>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn'>modif</button>"+doneStatus+"</a>"
+                    }
                 }
-                else{
-                     doneStatus = "<label><input type='checkbox' class='filled-in' onclick='indexController.checkItems("+produit.id+")'/> <span>valider</span></label>"
-                }
-                if(object.done==true){
-                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
-                }
-                else{
-                    result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn'>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn'>modif</button>"+doneStatus+"</a>"
-                }
-
             }
+            else{
+                $("#addProduct").style.display="none"
+                for(const produit of await this.model.getProduitByListe(id)){
+                    let doneStatus=""
+                    if(produit.done){
+                        doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' disabled checked/> <span>valider</span></label>"
+                    }
+                    else{
+                        doneStatus = "<label><input type='checkbox' class='filled-in' disabled /> <span>valider</span></label>"
+                    }
+                    if(object.done==true){
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
+                    }
+                    else{
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
+                    }
+                }
+            }
+
 
             $("#listeProduit").innerHTML=result
             document.querySelector("#divlisteProduit").classList.remove("d-none")
@@ -258,19 +295,31 @@ class IndexController extends BaseController {
 
     async undoDelete() {
         if (this.deletedliste) {
-           this.model.insert(this.deletedliste).then(id => {
+           await this.model.insert(this.deletedliste).then(id => {
                if (typeof id === "number"){
                     this.deletedliste = null
-                    console.log(id)
+
+                   for(let shared of this.deletedShareds){
+                       shared.idListe=id
+                       shared.idUser=shared.iduser
+                        this.model.insertShared(shared);
+                   }
+
+                    console.log(this.deletedShareds)
                     console.log(this.deletedlisteProduit)
+
                     for(let produit of this.deletedlisteProduit){
                         produit.idListe=id
-                        this.model.insertP(produit)
+                         this.model.insertP(produit)
                     }
+
                     this.displayUndoDone()
                     this.displayAllListe()
                 }
-            }).catch(_ => this.displayServiceError())
+            }).catch(e => {
+                console.log(e)
+                this.displayServiceError()
+           })
         }
     }
 
@@ -356,19 +405,27 @@ class IndexController extends BaseController {
             this.displayServiceError()
         }
     }
+
     async displayConfirmDelete(id){
         try{
             const liste = await this.model.getListe(id)
-            console.log(liste)
             super.displayConfirmDelete(liste,async ()=>{
+
+
+                this.deletedlisteProduit=[]
+                for(let ligne of await this.model.getProduitByListe(id)){
+                    this.deletedlisteProduit.push(Object.assign(new Produits(), ligne))
+                    await this.model.deleteP(ligne.id)
+                }
+
+                this.deletedShareds=[]
+                for(let shared of await this.model.getSharedByListe(id)){
+                    this.deletedShareds.push(Object.assign(new Shared(), shared))
+                }
+
                 switch ((await this.model.delete(id)).status){
                     case 200 :
                         this.deletedliste = liste
-                        this.deletedlisteProduit=[]
-                        for(let ligne of await this.model.getProduitByListe(id)){
-                            this.deletedlisteProduit.push(Object.assign(new Produits(), ligne))
-                            this.model.deleteP(ligne.id)
-                        }
                         this.displayDeletedMessage("indexController.undoDelete()");
                         break
                     case 404 :

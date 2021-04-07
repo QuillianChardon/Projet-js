@@ -1,7 +1,15 @@
 module.exports=(app,service,listeService,jwt)=> {
 
     app.get("/shared",jwt.validateJWT, (req,res)=>{
-        service.dao.getAll(req.user)
+        service.dao.getAll(req.user.id)
+            .then(shared => {
+                res.json(shared)
+            })
+    })
+
+
+    app.get("/shared",jwt.validateJWT, (req,res)=>{
+        service.dao.getAll(req.user.id)
             .then(shared => {res.json(shared)})
     })
 
@@ -53,7 +61,9 @@ module.exports=(app,service,listeService,jwt)=> {
             return res.json(shared)
         }
         catch (e){
+            console.log("ici")
             console.log(e)
+            console.log("la")
             res.status(400).end()
         }
     })
@@ -65,12 +75,18 @@ module.exports=(app,service,listeService,jwt)=> {
             return res.status(400).end()
         }
 
-        const liste = await listeService.dao.getById(shared.idListe)
+        const liste = await listeService.dao.getById(shared.idliste)
         if(liste===undefined){
             return res.status(404).end()
         }
 
-        if (liste.useraccount_id !== req.user.id) {
+        let flag=false
+        for(const shared of await service.dao.getAll(req.user.id)){
+            if(liste.id==shared.idliste){
+                flag=true
+            }
+        }
+        if ((liste.useraccount_id !== req.user.id) && (flag==false)){
             return res.status(403).end()
         }
 
@@ -83,36 +99,8 @@ module.exports=(app,service,listeService,jwt)=> {
     })
 
 
-    //delete
-    app.delete("/shared/:id" ,jwt.validateJWT, async (req,res) => {
-        try{
-            const shared = await service.dao.getById(req.params.id)
-            if(shared==undefined){
-                return res.status(404).end()
-            }
 
-            console.log("shared : ")
-            console.log(shared)
-            const liste = await listeService.dao.getById(shared.idliste)
-            if(liste===undefined){
-                return res.status(404).end()
-            }
 
-            if (liste.useraccount_id !== req.user.id) {
-                return res.status(403).end()
-            }
 
-            service.dao.delete(req.params.id)
-                .then(res.status(200).end())
-                .catch(err =>{
-                    console.log(err)
-                    res.status(500).end()
-                })
-        }
-        catch (err){
-            console.log(err)
-            res.status(400).end()
-        }
-    })
 
 }

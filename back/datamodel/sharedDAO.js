@@ -21,23 +21,16 @@ module.exports= class sharedDAO extends BaseDAO{
         }))
     }
 
-    getAllByUser(id){
-        return new Promise(((resolve, reject) => {
-            this.db.query("select * from shared where idUser=$1 order by id",[id])
-                .then(res => resolve(res.rows))
-                .catch(e => reject(e))
-        }))
-    }
-
     update(shared){
         return this.db.query("UPDATE shared SET droit=$1 where id=$2", [shared.droit,shared.id])
     }
 
-    getAll(user){
+    getAll(id){
         return new Promise(((resolve, reject) => {
-            this.db.query("select * from shared where idUser=$1 order by id Desc", [user.id])
+            this.db.query("select * from shared where idUser=$1 order by id Desc", [id])
                 .then(res=>resolve(res.rows))
                 .catch(err=>reject(err))
         }))
     }
+
 }

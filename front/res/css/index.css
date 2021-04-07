@@ -4,3 +4,7 @@ body {
 .Novisiblee{
     display: none !important;
 }
+
+html{
+    overflow: auto;
+}

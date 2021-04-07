@@ -6,7 +6,6 @@
             <tr>
                 <th>nom</th>
                 <th>date</th>
-                <th>???</th>
             </tr>
         </thead>
         <tbody id="tableBody">
@@ -19,13 +18,26 @@
         <tr>
             <th>nom</th>
             <th>date</th>
-            <th>???</th>
         </tr>
         </thead>
         <tbody id="tableBodyOff">
 
         </tbody>
     </table>
+
+    <h5>Vos liste partagé </h5>
+    <table id="partage" class="stripped responsive-table" style="display: none">
+        <thead>
+        <tr>
+            <th>nom</th>
+            <th>date</th>
+        </tr>
+        </thead>
+        <tbody id="tableBodyPartage">
+
+        </tbody>
+    </table>
+
 
     <div class="container mt-5 Novisiblee" id="afficheproduit">
         <div id="divlisteProduit" class="liste d-none">
@@ -39,7 +51,7 @@
 </div>
 
 <button onclick="indexController.getlock()" type="button" class="btn btn-primary"  style="
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 60px;
     border-radius: 35px;">
