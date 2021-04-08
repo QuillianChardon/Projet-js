@@ -54,6 +54,15 @@ module.exports=(app,service,jwt)=>{
             })
     })
 
+    app.get("/useraccount/sendMail/:id", async (req,res)=>{
+        let login= req.params.id
+        await service.sendMail(login,jwt).then(res.status(200).end())
+            .catch(e=>{
+                console.log(e)
+                res.status(400).end()
+            })
+    })
+
     app.get("/useraccount/token/:id",jwt.validateLienInscription, async (req,res)=>{
         try{
             if(req.user!== undefined){

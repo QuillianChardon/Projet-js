@@ -18,13 +18,18 @@ class LoginController extends BaseFormController {
                         this.toast("Adresse e-mail ou mot de passe incorrect")
                     }
                     else if(err == 406){
-                        this.toast("Compte non verifié")
+                        this.toast(`Compte non verifié <button class=\"waves-effect waves-light btn\" onclick='loginController.resendMe("${login}")'>redemander le lien</button>`)
                     }
                     else {
                         this.displayServiceError()
                     }
                 })
         }
+    }
+
+    resendMe(login) {
+        console.log("ici")
+        this.svc.reSendMailValidation(login)
     }
 }
 
