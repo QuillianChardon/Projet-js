@@ -16,7 +16,11 @@ class LoginController extends BaseFormController {
                     console.log(err)
                     if (err == 401) {
                         this.toast("Adresse e-mail ou mot de passe incorrect")
-                    } else {
+                    }
+                    else if(err == 406){
+                        this.toast("Compte non verifié")
+                    }
+                    else {
                         this.displayServiceError()
                     }
                 })

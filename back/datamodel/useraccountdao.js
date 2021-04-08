@@ -1,13 +1,11 @@
 const BaseDAO = require('./basedao')
 
+
 module.exports = class UserAccountDAO extends BaseDAO {
     constructor(db) {
         super(db, "useraccount")
     }
-    insert(useraccount) {
-        return this.db.query("INSERT INTO useraccount(displayname,login,challenge) VALUES ($1,$2,$3)",
-            [useraccount.displayName, useraccount.login, useraccount.challenge])
-    }
+
     getByLogin(login) {
         return new Promise((resolve, reject) =>
             this.db.query("SELECT * FROM useraccount WHERE login=$1", [ login ])
@@ -36,4 +34,15 @@ module.exports = class UserAccountDAO extends BaseDAO {
                 .catch(err=>reject(err))
         }))
     }
+    insert(useraccount) {
+        return this.db.query("INSERT INTO useraccount(displayname,login,challenge,verif) VALUES ($1,$2,$3,$4)",
+            [useraccount.displayName, useraccount.login, useraccount.challenge,useraccount.verif])
+    }
+    update(useraccount){
+        return this.db.query("UPDATE useraccount SET displayname=$1,login=$2,challenge=$3,verif=$4 where id=$5",
+            [useraccount.displayname, useraccount.login, useraccount.challenge,useraccount.verif,useraccount.id])
+    }
+
+
+
 }

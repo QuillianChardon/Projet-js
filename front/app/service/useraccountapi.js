@@ -35,4 +35,22 @@ class UserAccountAPI extends BaseAPIService {
             resolve(res.status)
         }).catch(err => reject(err)))
     }
+
+    // getValidation(token){
+    //     return new Promise((resolve, reject) => fetch(`${this.url}/token`, {
+    //         method: "POST",
+    //         headers: this.headers,
+    //         body: `token=${token}`
+    //     }).then(res => {
+    //         if (res.status === 200) {
+    //             resolve(res.json())
+    //         } else {
+    //             reject(res.status)
+    //         }
+    //     }).catch(err => reject(err)))
+    // }
+
+    getValidation(token){
+        return fetchJSON(`${this.url}/token/${token}`)
+    }
 }
