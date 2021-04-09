@@ -62,8 +62,26 @@ module.exports=class UserAccountService{
             subject: "Inscription [ESIMED NODEJS]",
             html: "Bonjour,<br>voici votre lien de confirmation de l'inscription<br>cliquez ici : <a href='"+lien+"'>"+lien+"</a>",
         });
+    }
 
-        console.log("Message sent: %s", info.messageId);
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    async sendMailChangePassword(login,jwt){
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            port: 587,
+            secure: false,
+            auth: {
+                user: 'nodejs.qc@gmail.com',
+                pass: 'esimedqc'
+            },
+            tls: { rejectUnauthorized: false }
+        });
+
+        let lien="http://localhost:63342/front/changeMDP.html?token="+jwt.generateLienChangePassword(login)
+        console.log("lien : "+lien)
+        let info = await transporter.sendMail({
+            to: login,
+            subject: "Changement de mot de passe [ESIMED NODEJS]",
+            html: "Bonjour,<br>voici votre lien de confirmation de changement de mot de passe<br>cliquez ici : <a href='"+lien+"'>"+lien+"</a>",
+        });
     }
 }

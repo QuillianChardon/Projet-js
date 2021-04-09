@@ -17,7 +17,7 @@
                 <form class="col s12" id="formLogin">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="fieldLogin" type="text" class="validate" value="user1@example.com">
+                            <input id="fieldLogin" type="text" class="validate" value="btssio.quillianchardon@gmail.com">
                             <label for="fieldLogin" class="active">Adresse e-mail</label>
                         </div>
                         <div class="input-field col s12">
@@ -29,6 +29,9 @@
             </div>
             <div class="row">
                 <button class="waves-effect waves-light btn" onclick="loginController.authenticate()"><i class="material-icons right">check</i>Se connecter</button>
+            </div>
+            <div class="row">
+                <button class="waves-effect waves-light btn" onclick="window.location.replace('changeMDP.html')"><i class="material-icons right">check</i>mot de passe oublié</button>
             </div>
             <div class="row">
                 <button class="waves-effect waves-light btn" onclick="window.location.replace('inscription.html')"><i class="material-icons right">check</i>S'inscrire</button>

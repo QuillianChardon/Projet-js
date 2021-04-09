@@ -41,8 +41,22 @@ class UserAccountAPI extends BaseAPIService {
     getValidation(token){
         return fetchJSON(`${this.url}/token/${token}`)
     }
+    getValidationChangePassword(token,password){
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        return new Promise((resolve, reject) => fetch(`${this.url}/modificationPassword`, {
+            method: "POST",
+            headers: this.headers,
+            body: `token=${token}&password=${password}`
+        }).then(res => {
+            resolve(res.status)
+        }).catch(err => reject(err)))
+    }
 
     reSendMailValidation(login){
         return fetchJSON(`${this.url}/sendMail/${login}`)
+    }
+
+    sendResetPasswordByLogin(login){
+        return fetchJSONChange(`${this.url}/sendMailBylogin/${login}`)
     }
 }

@@ -90,7 +90,47 @@ module.exports=(app,service,jwt)=>{
             console.log(e)
             res.status(500).end()
         }
+    })
 
+    app.get("/useraccount/sendMailBylogin/:id",async (req,res)=>{
+        try{
+            let user = await service.dao.getByLogin(req.params.id)
+            if(user!==undefined){
+                await service.sendMailChangePassword(req.params.id,jwt)
+                res.status(200).end()
+            }
+            else{
+                res.status(404).end()
+            }
+        }
+        catch (e) {
+            console.log(e)
+            res.status(500).end()
+        }
+    })
+
+    app.post("/useraccount/modificationPassword",jwt.validateLienPassword,async (req,res)=>{
+        try{
+            const  {token, password} = req.body
+            if((token ===undefined) || (password === undefined)){
+                res.status(400).end()
+                return
+            }
+
+            console.log(req.user)
+
+            req.user.challenge=service.hashPassword(password)
+            if(await service.dao.update(req.user)){
+                res.status(200).end()
+            }
+            else{
+                res.status(404).end()
+            }
+        }
+        catch (e) {
+            console.log(e)
+            res.status(500).end()
+        }
     })
 }
 
