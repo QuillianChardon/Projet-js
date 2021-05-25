@@ -3,6 +3,10 @@ class CompteController extends BaseFormController{
         super(true)
         this.displayCompte()
         this.svc = new UserAccountAPI()
+        this.isAdmin()
+        this.doNav("Index","index")
+        this.doNav("Ajouter une liste","edit")
+        this.doNav("Deconnexion","deconnexion")
     }
     async displayCompte(){
        let user=  await this.model.GetOneByToken()

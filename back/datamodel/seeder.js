@@ -1,14 +1,18 @@
 const liste = require('./liste')
 const produit = require('./produit')
 const useraccount = require('./useraccount')
+const role = require('./role')
+const userRole = require('./userRole')
 
-module.exports = (userAccountService,listeService,produitService,sharedService) => {
+module.exports = (userAccountService,listeService,produitService,sharedService,roleService,userRoleService) => {
     return new Promise(async (resolve, reject) => {
         try {
             await userAccountService.dao.db.query("CREATE TABLE useraccount(id SERIAL PRIMARY KEY, displayname TEXT NOT NULL, login TEXT NOT NULL, challenge TEXT NOT NULL,verif BOOLEAN NOT NULL)")
             await listeService.dao.db.query("CREATE TABLE liste(id SERIAL PRIMARY KEY, nom TEXT NOT NULL,date DATE NOT NULL,done BOOLEAN NOT NULL, useraccount_id INTEGER REFERENCES useraccount(id))")//clé étrangére --> useraccount_id INTEGER REFERENCES useraccount(id)
             await produitService.dao.db.query("CREATE TABLE produit(id SERIAL PRIMARY KEY, idListe INTEGER, nom TEXT NOT NULL,quantite INTEGER NOT NULL,done BOOLEAN NOT NULL)")
             await sharedService.dao.db.query("CREATE TABLE shared(id SERIAL PRIMARY KEY,idListe INTEGER ,idUser INTEGER ,droit BOOLEAN NOT NULL)")
+            await roleService.dao.db.query("CREATE TABLE role(id SERIAL PRIMARY KEY,nom TEXT NOT NULL)")
+            await userRoleService.dao.db.query("CREATE TABLE userRole(id SERIAL PRIMARY KEY,idRole INTEGER ,idUser INTEGER ,date DATE NOT NULL)")
             // INSERTs
         } catch (e) {
             if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html
@@ -18,7 +22,8 @@ module.exports = (userAccountService,listeService,produitService,sharedService) 
             }
             return
         }
-
+        roleService.dao.insert("utilisateur")
+        roleService.dao.insert("administrateur")
         userAccountService.insert("User1", "user1@example.com", "azerty",true)
             .then(_ => userAccountService.dao.getByLogin("user1@example.com"))
             .then(async user1 => {
@@ -28,6 +33,8 @@ module.exports = (userAccountService,listeService,produitService,sharedService) 
                         await produitService.dao.insert(new produit(id, `produit${j}`,i,false))
                     }
                 }
+                await userRoleService.daoUserRole.insert(new userRole(1,user1.id,new Date()))
+                await userRoleService.daoUserRole.insert(new userRole(2,user1.id,new Date()))
             })
 
         userAccountService.insert("User2", "user2@example.com", "azerty",true)
@@ -39,6 +46,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService) 
                         await produitService.dao.insert(new produit(id, `produitV2${j}`,i,false))
                     }
                 }
+                await userRoleService.daoUserRole.insert(new userRole(1,user2.id,new Date()))
             })
     })
 

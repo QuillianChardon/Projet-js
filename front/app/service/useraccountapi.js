@@ -90,4 +90,8 @@ class UserAccountAPI extends BaseAPIService {
             resolve(res.status)
         }).catch(err => reject(err)))
     }
+
+    isAdmin(){
+        return fetchJSONChange(`${this.url}/isAdmin`, this.token)
+    }
 }

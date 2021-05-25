@@ -124,4 +124,8 @@ class Model {
         return userCache
     }
 
+    async isAdmin(){
+        return this.apiUser.isAdmin().then(res => res.status)
+    }
+
 }

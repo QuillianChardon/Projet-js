@@ -9,6 +9,8 @@ const ListeService = require("./services/liste")
 const ProduitService = require("./services/produit")
 const UserAccountService = require("./services/useraccount")
 const SharedService = require("./services/shared")
+const RoleService = require("./services/role")
+const UserRoleService = require("./services/userRole")
 
 
 const app = express()
@@ -25,15 +27,17 @@ const listeService = new ListeService(db)
 const produitService = new ProduitService(db)
 const userAccountService = new UserAccountService(db)
 const sharedService = new SharedService(db)
+const roleService = new RoleService(db)
+const userRoleService = new UserRoleService(db)
 
 const jwt = require('./jwt')(userAccountService)
-require('./api/useraccount')(app, userAccountService,jwt)
+require('./api/useraccount')(app, userAccountService,userRoleService,jwt)
 require('./api/liste')(app, listeService,sharedService,jwt)
 require('./api/produit')(app, produitService,listeService,sharedService,jwt)
 
 require('./api/shared')(app,sharedService,listeService,jwt)
 
-require('./datamodel/seeder')(userAccountService,listeService,produitService,sharedService)
+require('./datamodel/seeder')(userAccountService,listeService,produitService,sharedService,roleService,userRoleService)
      .then(app.listen(3333))
 
 

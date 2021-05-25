@@ -8,6 +8,10 @@ class EditController extends BaseFormController{
             $("#fieldDate").value=this.liste.date.toISOString().substr(0,10)
             indexController.selectListe=null
         }
+        this.isAdmin()
+        this.doNav("Index","index")
+        this.doNav("Compte","compte")
+        this.doNav("Deconnexion","deconnexion")
     }
 
     async save(){

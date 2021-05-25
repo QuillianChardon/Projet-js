@@ -48,4 +48,23 @@ class BaseController {
             window.location.replace("login.html")
         }
     }
+
+    doNav(Elem,link){
+        $("#nav-mobile").innerHTML+=`<li><a onclick='navigate("${link}")'>${Elem}</a></li>`
+    }
+
+    async isAdmin(){
+        let flag=false
+        await this.model.isAdmin()
+            .then(flag=true)
+            .catch(err => {
+                console.log(err)
+                flag=false
+            })
+
+        if(flag==true){
+            this.doNav("Administration", "admin")
+        }
+    }
+
 }

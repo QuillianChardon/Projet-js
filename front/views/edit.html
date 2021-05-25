@@ -1,23 +1,33 @@
-<a class="btn-floating btn-large waves-effect waves-light red" onclick='navigate("index")'><i class="material-icons">arrow_back</i></a>
-<div class="container">
-    <h3 id="editTitle">Ajouter d'une liste</h3>
-    <div id="formEditCar">
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="fieldName" type="text" class="validate">
-                        <label for="fieldName" class="active">Nom</label>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+        </ul>
+    </div>
+</nav>
+<div id="tempo">
+    <div class="container">
+
+        <h3 id="editTitle">Ajouter d'une liste</h3>
+        <div id="formEditCar">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="fieldName" type="text" class="validate">
+                            <label for="fieldName" class="active">Nom</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="fieldDate" type="date" class="validate">
+                            <label for="fieldDate" class="active">Date</label>
+                        </div>
                     </div>
-                    <div class="input-field col s6">
-                        <input id="fieldDate" type="date" class="validate">
-                        <label for="fieldDate" class="active">Date</label>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <button class="waves-effect waves-light btn" onclick="editController.save()"><i class="material-icons right">check</i>Enregistrer</button>
+                </form>
+            </div>
+            <div class="row">
+                <button class="waves-effect waves-light btn" onclick="editController.save()"><i class="material-icons right">check</i>Enregistrer</button>
+            </div>
         </div>
     </div>
 </div>

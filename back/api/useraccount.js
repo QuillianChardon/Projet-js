@@ -1,4 +1,5 @@
-module.exports=(app,service,jwt)=>{
+const userRole = require('../datamodel/userRole')
+module.exports=(app,service,UserRoleService,jwt)=>{
     app.post("/useraccount/authentificate", async (req,res)=>{
         const  {login, password} = req.body
         if((login ===undefined) || (password === undefined)){
@@ -51,7 +52,12 @@ module.exports=(app,service,jwt)=>{
             return
         }
         service.insert(pseudo, login, password,false,jwt)
-            .then(res.status(200).end())
+            .then(async e=>{
+                let userTempo=await service.dao.getByLogin(login)
+                let userRoleInscr=new userRole(1,userTempo.id,new Date())
+                UserRoleService.daoUserRole.insert(userRoleInscr)
+                res.status(200).end()
+            })
             .catch(e=>{
                 console.log(e)
                 res.status(400).end()
@@ -199,6 +205,19 @@ module.exports=(app,service,jwt)=>{
                 console.log(err)
                 return res.status(500).end()
             })
+    })
+
+    app.get("/useraccount/isAdmin",jwt.validateJWT,async (req,res)=> {
+
+        let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
+        console.log("----------")
+        console.log(rolePourUser)
+        if(rolePourUser[0]==undefined){
+            res.status(401).end()
+        }
+        else{
+            res.status(200).end();
+        }
     })
 
 

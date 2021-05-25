@@ -9,6 +9,11 @@ class IndexController extends BaseController {
         this.partage=$('#partage')
         this.displayAllListe()
         this.getlock()
+        //affichage nav
+        this.isAdmin()
+        this.doNav("Compte","compte")
+        this.doNav("Ajouter une liste","edit")
+        this.doNav("Deconnexion","deconnexion")
     }
 
     async displayAllListe(){
@@ -53,7 +58,7 @@ class IndexController extends BaseController {
         }catch (e) {
             console.log(e)
             this.displayServiceError()
-            
+
         }
     }
 

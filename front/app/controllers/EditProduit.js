@@ -8,6 +8,11 @@ class EditProduitController extends BaseFormController{
             $("#fieldQtt").value=this.produit.quantite
             indexController.selectProduit=null
         }
+        this.isAdmin()
+        this.doNav("Index","index")
+        this.doNav("Compte","compte")
+        this.doNav("Ajouter une liste","edit")
+        this.doNav("Deconnexion","deconnexion")
     }
 
     async save(){
