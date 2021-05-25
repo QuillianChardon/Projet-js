@@ -11,7 +11,7 @@ class CompteController extends BaseFormController{
     }
 
     saveEmail(){
-        let email=$("#fieldEmail").value
+        let email=this.valideRequiredField("#email",'email')
         this.svc.modifEmail(email)
             .then(res => {
                 localStorage.setItem("token", res.token)
@@ -29,8 +29,8 @@ class CompteController extends BaseFormController{
     }
 
     savePassword(){
-        let password=$("#fieldPassword").value
-        let repeatPassword=$("#fieldPassword1").value
+        let password=this.valideRequiredField("#fieldPassword",'password')
+        let repeatPassword=this.valideRequiredField("#fieldPassword1",'Repeter le password')
         if(password!=repeatPassword){
             this.toast("Mot de passe différent")
         }
