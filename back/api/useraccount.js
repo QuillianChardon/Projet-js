@@ -5,6 +5,10 @@ module.exports=(app,service,jwt)=>{
             res.status(400).end()
             return
         }
+        if(await service.dao.getByLogin(login)==undefined){
+            res.status(401).end()
+            return
+        }
          service.validatePassword(login,password)
             .then(async authenticated=> {
                 if(!authenticated){
@@ -62,6 +66,21 @@ module.exports=(app,service,jwt)=>{
                 res.status(400).end()
             })
     })
+
+    app.get("/useraccount/One",jwt.validateJWT,async (req,res) => {
+        try {
+            console.log(req.user.id)
+            const user = await service.dao.getById(req.user.id)
+            if(user==undefined){
+                return res.status(404).end()
+            }
+            return res.json(user)
+        } catch (e) {
+            console.log(e)
+            res.status(500).end()
+        }
+    })
+
 
     app.get("/useraccount/token/:id",jwt.validateLienInscription, async (req,res)=>{
         try{
@@ -132,5 +151,56 @@ module.exports=(app,service,jwt)=>{
             res.status(500).end()
         }
     })
+
+    app.post("/useraccount/modif/email",jwt.validateJWT,async (req,res)=>{
+        const email = req.body.login
+        if(await service.dao.getByLogin(email)!=undefined){
+            return res.status(401).end()
+        }
+        if(req.user==undefined){
+            return res.status(500).end()
+        }
+        let userbdd = await service.dao.getByIdAllColonne(req.user.id)
+        if(userbdd==undefined){
+            return res.status(404).end()
+        }
+
+        userbdd.login=email
+        service.dao.update(userbdd)
+            .then(e=>{
+                    res.json({'token': jwt.generateJWT(email)});
+                    res.status(200).end();
+            })
+            .catch(err=>{
+                console.log(err)
+                return res.status(500).end()
+            })
+    })
+
+    app.post("/useraccount/modif/password",jwt.validateJWT,async (req,res)=>{
+        const password = req.body.password
+        console.log("ici")
+        console.log(password)
+
+        if(req.user==undefined){
+            return res.status(500).end()
+        }
+        let userbdd = await service.dao.getByIdAllColonne(req.user.id)
+        if(userbdd==undefined){
+            return res.status(404).end()
+        }
+        Hashpassword= await service.hashPassword(password)
+        userbdd.challenge=Hashpassword
+        service.dao.update(userbdd)
+            .then(e=>{
+                res.status(200).end();
+            })
+            .catch(err=>{
+                console.log(err)
+                return res.status(500).end()
+            })
+    })
+
+
 }
 

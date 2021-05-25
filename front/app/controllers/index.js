@@ -53,6 +53,7 @@ class IndexController extends BaseController {
         }catch (e) {
             console.log(e)
             this.displayServiceError()
+            
         }
     }
 

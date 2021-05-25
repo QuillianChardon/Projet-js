@@ -117,5 +117,11 @@ class Model {
         return userCache
     }
 
+    async GetOneByToken(){
+        let user=await this.apiUser.GetOneByToken()
+        console.log(user)
+        let userCache=Object.assign(new User(), user)
+        return userCache
+    }
 
 }

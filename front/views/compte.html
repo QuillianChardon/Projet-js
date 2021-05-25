@@ -1,0 +1,41 @@
+<a class="btn-floating btn-large waves-effect waves-light red" onclick='navigate("index")'><i class="material-icons">arrow_back</i></a>
+<div class="container">
+
+    <h3 id="editTitle">Compte</h3>
+    <div >
+        <h4 >Modification de l'email</h4>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="fieldEmail" type="email" class="validate">
+                        <label for="fieldEmail" class="active">Email</label>
+                    </div>
+
+            </form>
+        </div>
+        <div class="row">
+            <button class="waves-effect waves-light btn" onclick="compteController.saveEmail()"><i class="material-icons right">check</i>Enregistrer</button>
+        </div>
+    </div>
+
+    <div >
+        <h4 >Modification du mot de passe</h4>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="fieldPassword" type="password" class="validate">
+                        <label for="fieldPassword" class="active">password</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="fieldPassword1" type="password" class="validate">
+                        <label for="fieldPassword1" class="active">Repeter le password</label>
+                    </div>
+            </form>
+        </div>
+        <div class="row">
+            <button class="waves-effect waves-light btn" onclick="compteController.savePassword()"><i class="material-icons right">check</i>Enregistrer</button>
+        </div>
+    </div>
+</div>
