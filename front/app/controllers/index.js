@@ -1,5 +1,5 @@
 class IndexController extends BaseController {
-    constructor() {
+     constructor() {
         super(true)
         this.tableListe=$('#tableListe')
         this.tablebody=$('#tableBody')
@@ -7,10 +7,12 @@ class IndexController extends BaseController {
         this.tableBodyOff=$('#tableBodyOff')
         this.archive=$('#archive')
         this.partage=$('#partage')
-        this.displayAllListe()
         this.getlock()
+        this.displayAllListe()
+
         //affichage nav
         this.isAdmin()
+         this.doNav("Index","index",true)
         this.doNav("Compte","compte")
         this.doNav("Ajouter une liste","edit")
         this.doNav("Deconnexion","deconnexion")
@@ -30,10 +32,10 @@ class IndexController extends BaseController {
                 }
 
                 if(liste.done==true){
-                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"waves-effect waves-light btn disabledQC\"><i class=\"fa fa-share-alt\"></i></button><button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn disabledQC\" disabled '>modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
+                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"btn btn-primary borderRadus paddingLeft disabledQC\">partage&nbsp;<i class=\"fa fa-share-alt\"></i></button> <button  onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus \">effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus disabledQC\" disabled '>editer&nbsp;<i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '>"+cpt+"&nbsp;<i class=\"fa fa-user\"></i></button>"
                 }
                 else{
-                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"waves-effect waves-light btn\"><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+liste.id+")' class=\"waves-effect waves-light btn\">modif</button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"waves-effect waves-light btn \" '><i class=\"fa fa-user\">"+cpt+"</i></button>"
+                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"btn btn-primary borderRadus paddingLeft\">partage&nbsp;<i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus\">effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus\">editer&nbsp;<i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus\" '>"+cpt+"&nbsp;<i class=\"fa fa-user\"> </i></button>"
                 }
             }
             let contentShared=""
@@ -48,13 +50,14 @@ class IndexController extends BaseController {
                     contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+",false)'><td>"+obj.nom+"<td>"+date
                 }
             }
-            this.refreshDisable()
+
             this.tablebody.innerHTML=contentOff
             this.tableListe.style.display="block"
             this.tableBodyOff.innerHTML=contentOn
             this.tableBodyPartage.innerHTML=contentShared
             this.archive.style.display="block"
             this.partage.style.display="block"
+            this.refreshDisable()
         }catch (e) {
             console.log(e)
             this.displayServiceError()
@@ -141,7 +144,7 @@ class IndexController extends BaseController {
             }
             user = await this.model.getAllUser(shared.iduser)
             console.log(user)
-            sharedResult+="<tr><td>"+user.login+"</td><td>"+droit+"<button onclick='indexController.displayConfirmDeleteShared("+shared.id+")' class=\"waves-effect waves-light btn\">suppr</button></td>"
+            sharedResult+="<tr><td>"+user.login+"</td><td>"+droit+"<button onclick='indexController.displayConfirmDeleteShared("+shared.id+")' class=\"btn btn-primary borderRadus paddingGlobal\">suppr</button></td>"
         }
         $("#tableSharedcontent").innerHTML=sharedResult
        this.getModal("#modalSharedDisplay").open()
@@ -254,18 +257,19 @@ class IndexController extends BaseController {
                     let doneStatus=""
 
                     if(produit.done){
-                        doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span>valider</span></label>"
+
+                        doneStatus = "<label><input type='checkbox' class=' "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span class=\"x2paddingLeft\">valider</span></label>"
                     }
                     else{
-                        doneStatus = "<label><input type='checkbox' class='filled-in' onclick='indexController.checkItems("+produit.id+")'/> <span>valider</span></label>"
+                        doneStatus = "<label><input type='checkbox' class='' onclick='indexController.checkItems("+produit.id+")'/> <span class=\"x2paddingLeft\">valider</span></label>"
                     }
 
 
                     if(object.done==true){
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn "+classAdd+"' disabled>modif</button>"+doneStatus+"</a>"
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>editer&nbsp;<i class=\"fas fa-pen\"></i> </button>"+doneStatus+"</a>"
                     }
                     else{
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='waves-effect waves-light btn'>suppr</button> <button onclick='indexController.editProduit("+produit.id+")' class='waves-effect waves-light btn'>modif</button>"+doneStatus+"</a>"
+                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus'>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus'>editer&nbsp;<i class=\"fas fa-pen\"></i></button>"+doneStatus+"</a>"
                     }
                 }
             }
@@ -274,10 +278,10 @@ class IndexController extends BaseController {
                 for(const produit of await this.model.getProduitByListe(id)){
                     let doneStatus=""
                     if(produit.done){
-                        doneStatus = "<label><input type='checkbox' class='filled-in "+classAdd+"' disabled checked/> <span>valider</span></label>"
+                        doneStatus = "<label><input type='checkbox' class=' "+classAdd+"' disabled checked/> <span class=\"x2paddingLeft\">valider</span></label>"
                     }
                     else{
-                        doneStatus = "<label><input type='checkbox' class='filled-in' disabled /> <span>valider</span></label>"
+                        doneStatus = "<label><input type='checkbox' class='' disabled /> <span class=\"x2paddingLeft\"> valider</span></label>"
                     }
                     if(object.done==true){
                         result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"

@@ -5,8 +5,8 @@ class InscriptionController extends BaseFormController {
     }
     inscription(){
 
-        let login = this.valideRequiredField('#fieldLogin', 'Login')
-        let password = this.valideRequiredField('#fieldPassword', 'Mot de passe')
+        let login = this.valideRequiredField('#fieldLoginInscription', 'Login')
+        let password = this.valideRequiredField('#fieldPassword1', 'Mot de passe')
         let passwordVerif = this.valideRequiredField('#fieldPassword2', 'Mot de passe verif')
         let pseudo = this.valideRequiredField('#fieldNom', 'pseudo')
 

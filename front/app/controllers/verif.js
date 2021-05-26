@@ -25,7 +25,5 @@ class VerifController extends BaseController {
             this.toast("mail expriré")
         }
     }
-
-
 }
 window.verifController = new VerifController()

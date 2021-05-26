@@ -1,64 +1,69 @@
 <nav>
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Logo</a>
+        <a onclick='navigate("index")'class="brand-logo">Note'Tout</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
 
         </ul>
     </div>
 </nav>
-<div id="tempo">
+<ul class="sidenav" id="mobile-demo">
 
-    <div class="row">
-        <h5>Vos liste actives </h5>
-        <table id="tableListe" class="stripped responsive-table" style="display: none">
-            <thead>
+</ul>
+<div id="tempo">
+    <div class="container">
+        <h3 id="editTitle">Mes listes</h3>
+        <div class="row">
+            <h4>Vos liste actives </h4>
+            <table id="tableListe" class="table table-hover" style="display: none">
+                <thead>
+                    <tr>
+                        <th>nom</th>
+                        <th>date</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+
+                </tbody>
+            </table>
+            <h4>Vos liste archive </h4>
+            <table id="archive" class="table table-hover" style="display: none">
+                <thead>
                 <tr>
                     <th>nom</th>
                     <th>date</th>
                 </tr>
-            </thead>
-            <tbody id="tableBody">
+                </thead>
+                <tbody id="tableBodyOff">
 
-            </tbody>
-        </table>
-        <h5>Vos liste archive </h5>
-        <table id="archive" class="stripped responsive-table" style="display: none">
-            <thead>
-            <tr>
-                <th>nom</th>
-                <th>date</th>
-            </tr>
-            </thead>
-            <tbody id="tableBodyOff">
+                </tbody>
+            </table>
 
-            </tbody>
-        </table>
+            <h4>Vos liste partagé </h4>
+            <table id="partage" class="table table-hover" style="display: none">
+                <thead>
+                <tr>
+                    <th>nom</th>
+                    <th>date</th>
+                </tr>
+                </thead>
+                <tbody id="tableBodyPartage">
 
-        <h5>Vos liste partagé </h5>
-        <table id="partage" class="stripped responsive-table" style="display: none">
-            <thead>
-            <tr>
-                <th>nom</th>
-                <th>date</th>
-            </tr>
-            </thead>
-            <tbody id="tableBodyPartage">
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
 
-        <div class="container mt-5 Novisiblee" id="afficheproduit">
-            <div id="divlisteProduit" class="liste d-none">
-                <h3 id="titleListe" class="mt-5">Vos produits dans la liste :  </h3>
-                <button onclick='navigate("editProduit")' class="waves-effect waves-light btn" id="addProduct">ajout</button>
-                <div class="collection" id="listeProduit">
+            <div class="container mt-5 Novisiblee" id="afficheproduit">
+                <div id="divlisteProduit" class="liste d-none">
+                    <h3 id="titleListe" class="mt-5">Vos produits dans la liste :  </h3>
+                    <button onclick='navigate("editProduit")' class="btn btn-primary borderRadus" id="addProduct">Ajouter&nbsp;<i class="fas fa-plus"></i></button>
+                    <div class="collection" id="listeProduit">
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <button onclick="indexController.getlock()" type="button" class="btn btn-primary"  style="
         position: fixed;
         bottom: 10px;

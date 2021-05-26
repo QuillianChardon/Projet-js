@@ -7,38 +7,179 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="res/css/login_register.css"/>
     <link rel="stylesheet" type="text/css" href="res/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="res/css/responsive.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+
 </head>
 <body>
+
     <div class="container">
-        <h3>Connexion</h3>
-        <div>
-            <div class="row">
-                <form class="col s12" id="formLogin">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="fieldLogin" type="text" class="validate" value="btssio.quillianchardon@gmail.com">
-                            <label for="fieldLogin" class="active">Adresse e-mail</label>
+        <span>
+            <h1 class="center-align">List'tout</h1>
+            <div id="containerForm">
+                <div class="cont">
+                    <div class="form sign-in">
+                        <h2>Connexion</h2>
+                        <label>
+                            <span>Email</span>
+                            <input id="fieldLogin" type="text" class="" value="user1@example.com"/>
+                        </label>
+                        <label>
+                            <span>Votre mot de passe</span>
+                            <input id="fieldPassword" type="password" class="">
+                        </label>
+                        <span id="relatSpan">
+                            <p class="forgot-pass" onclick="window.location.replace('changeMDP.html')">Mot de passe oublié ?</p>
+                        </span>
+                        <button type="button" class="submit" onclick="loginController.authenticate()"><i class="fas fa-check"></i>Connexion</button>
+                    </div>
+                    <div class="sub-cont">
+                        <div class="img">
+                            <div class="img__text m--up">
+                                <h2>Pas encore inscript ?</h2>
+                                <p>Inscrit toi vite pour ne jamais rien oublier !</p>
+                            </div>
+                            <div class="img__text m--in">
+                                <h2>Déjà membre ?</h2>
+                                <p>Va vite retrouver tes listes créé !</p>
+                            </div>
+                            <div class="img__btn">
+                                <span class="m--up" onclick="myFunction()">Inscription</span>
+                                <span class="m--in" onclick="myFunction()">Connexion</span>
+                            </div>
                         </div>
-                        <div class="input-field col s12">
-                            <input id="fieldPassword" type="password" class="validate">
-                            <label for="fieldPassword" class="active">Mot de passe</label>
+                        <div class="form sign-up">
+                            <h2>Inscription</h2>
+                            <label>
+                                <span>Email</span>
+                                <input id="fieldLoginInscription" type="text" class="" value="user1@example.com"/>
+                            </label>
+                            <label>
+                                <span>Nom</span>
+                                <input id="fieldNom" type="text" class="">
+                            </label>
+                            <label>
+                                <span>Votre mot de passe</span>
+                                <input id="fieldPassword1" type="password" class="">
+                            </label>
+                            <label id="marginBot">
+                                <span>re mot de passe</span>
+                                <input id="fieldPassword2" type="password" class="">
+                            </label>
+                            <button type="button" class="submit" onclick="inscriptionController.inscription()"><i class="fas fa-check"></i>Inscription</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="row">
-                <button class="waves-effect waves-light btn" onclick="loginController.authenticate()"><i class="material-icons right">check</i>Se connecter</button>
-            </div>
-            <div class="row">
-                <button class="waves-effect waves-light btn" onclick="window.location.replace('changeMDP.html')"><i class="material-icons right">check</i>mot de passe oublié</button>
-            </div>
-            <div class="row">
-                <button class="waves-effect waves-light btn" onclick="window.location.replace('inscription.html')"><i class="material-icons right">check</i>S'inscrire</button>
-            </div>
-        </div>
-    </div>
+            <div class="form_login_register">
+                <div class="log-fom responsiveForm">
 
+                    <h2>Connexion</h2>
+                        <p class="bigLetter">Déjà membre ?</p>
+                        <p>Va vite retrouver tes listes créé !</p>
+                        <label>
+                            <span>Email</span>
+                            <input id="fieldLoginResponsive" type="text" class="" value="user1@example.com"/>
+                        </label>
+                        <label>
+                            <span>Votre mot de passe</span>
+                            <input id="fieldPasswordResponsive" type="password" class="">
+                        </label>
+                        <span id="relatSpan">
+                            <p class="forgot-pass" onclick="window.location.replace('changeMDP.html')">Mot de passe oublié ?</p>
+                        </span>
+                        <button type="button" class="submit" onclick="loginController.authenticate()"><i class="fas fa-check"></i>Connexion</button>
+                </div>
+                <div class="sign-form responsiveForm">
+                    <h2>Inscription</h2>
+                    <p class="bigLetter">Pas encore inscript ?</p>
+                    <p>Inscrit toi vite pour ne jamais rien oublier !</p>
+                    <label>
+                        <span>Email</span>
+                        <input id="fieldLoginInscriptionResponsive" type="text" class="" value="user1@example.com"/>
+                    </label>
+                    <label>
+                        <span>Nom</span>
+                        <input id="fieldNomResponsive" type="text" class="">
+                    </label>
+                    <label>
+                        <span>Votre mot de passe</span>
+                        <input id="fieldPassword1Responsive" type="password" class="">
+                    </label>
+                    <label id="marginBot">
+                        <span>re mot de passe</span>
+                        <input id="fieldPassword2Responsive" type="password" class="">
+                    </label>
+                    <button type="button" class="submit" onclick="inscriptionController.inscription()"><i class="fas fa-check"></i>Inscription</button>
+                </div>
+            </div>
+        </span>
+    </div>
+    <script>
+        let flag=true
+        document.querySelector('.img__btn').addEventListener('click', function() {
+            document.querySelector('.cont').classList.toggle('s--signup');
+            if(flag==true){
+                $(".cont").style.transition = "all 2s";
+                $(".cont").style.boxShadow="3px 2px 5px #666666"
+                flag=false
+            }
+            else{
+                $(".cont").style.transition = "all 2s";
+                $(".cont").style.boxShadow="-3px 2px 5px #666666"
+                flag=true
+            }
+        });
+        //login
+        document.getElementById("fieldLogin").addEventListener("change", function (){
+                document.getElementById("fieldLoginResponsive").value=this.value
+        });
+        document.getElementById("fieldLoginResponsive").addEventListener("change", function (){
+            document.getElementById("fieldLogin").value=this.value
+        });
+        //password
+        document.getElementById("fieldPassword").addEventListener("change", function (){
+            document.getElementById("fieldPasswordResponsive").value=this.value
+        });
+        document.getElementById("fieldPasswordResponsive").addEventListener("change", function (){
+            document.getElementById("fieldPassword").value=this.value
+        });
+        //inscription
+        //login
+        document.getElementById("fieldLoginInscription").addEventListener("change", function (){
+            document.getElementById("fieldLoginInscriptionResponsive").value=this.value
+        });
+        document.getElementById("fieldLoginInscriptionResponsive").addEventListener("change", function (){
+            document.getElementById("fieldLoginInscription").value=this.value
+        });
+        //nom
+        document.getElementById("fieldNom").addEventListener("change", function (){
+            document.getElementById("fieldNomResponsive").value=this.value
+        });
+        document.getElementById("fieldNomResponsive").addEventListener("change", function (){
+            document.getElementById("fieldNom").value=this.value
+        });
+        //password1
+        document.getElementById("fieldPassword1").addEventListener("change", function (){
+            document.getElementById("fieldPassword1Responsive").value=this.value
+        });
+        document.getElementById("fieldPassword1Responsive").addEventListener("change", function (){
+            document.getElementById("fieldPassword1").value=this.value
+        });
+        //password2
+        document.getElementById("fieldPassword2").addEventListener("change", function (){
+            document.getElementById("fieldPassword2Responsive").value=this.value
+        });
+        document.getElementById("fieldPassword2Responsive").addEventListener("change", function (){
+            document.getElementById("fieldPassword2").value=this.value
+        });
+
+
+    </script>
     <script type="application/ecmascript" src="app/tools.js"></script>
     <script type="application/ecmascript" src="app/model/classes.js"></script>
     <script type="application/ecmascript" src="app/model/model.js"></script>
@@ -50,5 +191,6 @@
     <script type="application/ecmascript" src="app/service/listeapi.js"></script>
     <script type="application/ecmascript" src="app/service/produitapi.js"></script>
     <script type="application/ecmascript" src="app/controllers/login.js"></script>
+    <script type="application/ecmascript" src="app/controllers/inscription.js"></script>
 </body>
 </html>

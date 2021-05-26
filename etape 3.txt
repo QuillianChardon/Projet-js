@@ -10,8 +10,8 @@ Le rôle "administrateur" permettra d'effectuer les actions suivantes à ajouter
 * Désactiver/Activer un utilisateur (un utilisateur désactivé mais actuellement connecté ne devra plus pouvoir utiliser l'application)
 
 
--- -rajout de deux tables, une role et une user_role pour faire le lien entre un utilisateur et un role
--deconnexion
+--  / -rajout de deux tables, une role et une user_role pour faire le lien entre un utilisateur et un role
+--  / -deconnexion
 - page admin :
 	-liste de tout les utilisateurs
 	-barre de recherche pour épurer la liste

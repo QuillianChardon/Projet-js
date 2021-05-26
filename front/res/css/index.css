@@ -1,3 +1,21 @@
+:root {
+    --primary-color: #232833;
+    --second-color: #fc3754;
+    --third-color: #494e5a;
+    --fourth-color:#5a606a;
+    --fifth-color:#2b313c;
+    --third-color-hover: #646873;
+    --second-color-hover: #f96d81;
+    --colorText:#fff;
+    --colorTextOnSecond:#232833;
+    --modal-color:#232833;
+
+}
+
+body{
+    background:var(--primary-color)!important;
+    color:var(--colorText)!important;
+}
 #tempo {
     margin: 10px;
 }
@@ -7,4 +25,229 @@
 
 html{
     overflow: auto;
+}
+button{
+    transition:0.4s
+}
+button:focus{
+    background: var(--second-color-hover)!important;
+}
+input:focus,input:visited{
+    border-bottom: 1px solid var(--second-color-hover)!important;
+    -webkit-box-shadow: 0 1px 0 0 var(--second-color-hover)!important;
+    box-shadow: 0 1px 0 0 var(--second-color-hover)!important;
+}
+#RelatSpan{
+    position: relative;
+}
+a.brand-logo{
+    cursor: pointer;
+}
+
+input:not([type]):focus.valid ~ label, input[type=text]:not(.browser-default):focus.valid ~ label, input[type=password]:not(.browser-default):focus.valid ~ label, input[type=email]:not(.browser-default):focus.valid ~ label, input[type=url]:not(.browser-default):focus.valid ~ label, input[type=time]:not(.browser-default):focus.valid ~ label, input[type=date]:not(.browser-default):focus.valid ~ label, input[type=datetime]:not(.browser-default):focus.valid ~ label, input[type=datetime-local]:not(.browser-default):focus.valid ~ label, input[type=tel]:not(.browser-default):focus.valid ~ label, input[type=number]:not(.browser-default):focus.valid ~ label, input[type=search]:not(.browser-default):focus.valid ~ label, textarea.materialize-textarea:focus.valid ~ label,input:not([type]):focus:not([readonly])+label, input[type=text]:not(.browser-default):focus:not([readonly])+label, input[type=password]:not(.browser-default):focus:not([readonly])+label, input[type=email]:not(.browser-default):focus:not([readonly])+label, input[type=url]:not(.browser-default):focus:not([readonly])+label, input[type=time]:not(.browser-default):focus:not([readonly])+label, input[type=date]:not(.browser-default):focus:not([readonly])+label, input[type=datetime]:not(.browser-default):focus:not([readonly])+label, input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label, input[type=tel]:not(.browser-default):focus:not([readonly])+label, input[type=number]:not(.browser-default):focus:not([readonly])+label, input[type=search]:not(.browser-default):focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label{
+    color: #ffffff;
+}
+
+input.valid:not([type]), input.valid:not([type]):focus, input.valid[type=text]:not(.browser-default), input.valid[type=text]:not(.browser-default):focus, input.valid[type=password]:not(.browser-default), input.valid[type=password]:not(.browser-default):focus, input.valid[type=email]:not(.browser-default), input.valid[type=email]:not(.browser-default):focus, input.valid[type=url]:not(.browser-default), input.valid[type=url]:not(.browser-default):focus, input.valid[type=time]:not(.browser-default), input.valid[type=time]:not(.browser-default):focus, input.valid[type=date]:not(.browser-default), input.valid[type=date]:not(.browser-default):focus, input.valid[type=datetime]:not(.browser-default), input.valid[type=datetime]:not(.browser-default):focus, input.valid[type=datetime-local]:not(.browser-default), input.valid[type=datetime-local]:not(.browser-default):focus, input.valid[type=tel]:not(.browser-default), input.valid[type=tel]:not(.browser-default):focus, input.valid[type=number]:not(.browser-default), input.valid[type=number]:not(.browser-default):focus, input.valid[type=search]:not(.browser-default), input.valid[type=search]:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid>input.select-dropdown{
+    border-bottom: 1px solid var(--second-color-hover)!important;
+    -webkit-box-shadow: 0 1px 0 0 var(--second-color-hover)!important;
+    box-shadow: 0 1px 0 0 var(--second-color-hover)!important;
+}
+.btn:focus, .btn-large:focus, .btn-small:focus, .btn-floating:focus{
+    background-color: var(--second-color-hover)!important;
+    box-shadow: 0 1px 0 0 var(--second-color-hover)!important;
+}
+button.submit {
+    display: block;
+    width: 260px;
+    height: 36px;
+    border-radius: 30px !important;
+    color: var(--colorText);
+    font-size: 15px;
+    cursor: pointer;
+}
+input, button {
+    border: none;
+    outline: none;
+    background: none;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.submit {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background: var(--second-color);
+    text-transform: uppercase;
+    color:var(--colorTextOnSecond);
+}
+.submit:hover {
+    background: var(--second-color-hover);
+}
+h1{
+    font-size: 3.8rem;
+}
+
+nav{
+    background: var(--primary-color);
+}
+a.link_anim_hover::before,a.link_anim::before{
+    bottom: 0;
+    border-bottom: 2px solid var(--second-color)!important;
+    left: 50%;
+}
+a.link_anim_hover::after,a.link_anim::after {
+    bottom: 0;
+    border-bottom: 2px solid var(--second-color) !important;
+    right: 50%;
+}
+a.link_anim::before,a.link_anim::after {
+    border-bottom: 2px solid #ffc341 !important;
+}
+a.link_anim_hover::after, a.link_anim_hover::before,a.link_anim::after,a.link_anim::before {
+    position: absolute;
+    border: unset;
+    transition: 0.5s;
+    z-index: 999;
+    height: 0%;
+    content: '';
+    display: block;
+    width: 0;
+}
+.link_anim_hover:hover::after, .link_anim_hover:hover::before {
+    width: 100%;
+    transition: 1s;
+}
+.link_anim::after, .link_anim::before {
+    width: 100% !important;
+    transition: 1s;
+}
+
+a.link_anim_hover,a.link_anim{
+    position: relative;
+}
+ul#nav-mobile>li {
+    overflow: hidden;
+}
+button.btn.btn-primary{
+    background: var(--second-color);
+    border-color: var(--second-color-hover);
+}
+button.btn.btn-primary:hover{
+    background: var(--second-color-hover);
+}
+
+nav .brand-logo{
+    padding-left: 5px;
+}
+a.link_anim.lien_anim::before,a.link_anim.lien_anim::after {
+    border-bottom: 2px solid var(--second-color) !important;
+}
+.lien_anim{
+    overflow: hidden;
+    color: var(--colorText);
+    cursor: pointer;
+
+}
+
+h1,h2,h3,h4,h5,p,label{
+    color: var(--colorText);
+}
+.dropdown-content li>a, .dropdown-content li>span{
+    color: var(--third-color);
+}
+[type="checkbox"]:checked+span:not(.lever):before{
+    border-right: 2px solid #fc3754;
+    border-bottom: 2px solid #fc3754;
+}
+a{
+    text-decoration: none;
+
+}
+nav ul a{
+    transition: 1s;
+}
+a:hover {
+    color: var(--second-color);
+}
+button.btn.btn-primary {
+    font-variant-caps: all-small-caps !important;
+}
+.btn i{
+    font-size: unset;
+}
+.modal{
+    height: auto !important;
+}
+
+.collection a.collection-item{
+    color:var(--third-color);
+}
+.table{
+    color:var(--colorText)
+}
+.table-hover>tbody>tr:hover{
+    color: var(--second-color-hover);
+}
+.sidenav{
+    background: var(--primary-color);
+}
+.sub-cont{
+    background: #5a606a;
+}
+
+.cont{
+    border-top: solid 0px #66666640;
+    background: var(--fourth-color);
+}
+label span{
+    color:var(--colorText) !important;
+}
+.forgot-pass{
+    color:var(--colorText) !important;
+}
+.toast{
+    background-color: rgb(90 96 106);
+}
+.modal-content,.modal{
+    background: var(--modal-color);
+}
+
+.dropdown-content li>a, .dropdown-content li>span,.select-dropdown li.disabled, .select-dropdown li.disabled>span, .select-dropdown li.optgroup,.select-wrapper input.select-dropdown{
+    color: #ffffff;
+}
+.dropdown-content{
+    background: var(--fifth-color);
+}
+.collection .collection-item{
+    color: var(--colorText) !important;
+    background: var(--primary-color);
+}
+.collection{
+    border: 0px solid #e0e0e0;
+}
+.collection a.collection-item:not(.active):hover {
+    background-color: #20252f;
+}
+tr,.collection .collection-item {
+    border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+
+.borderRadus{
+border-radius: 30px !important;
+}
+.paddingGlobal{
+margin: 7px 7px;
+}
+.paddingLeft{
+margin-left: 7px;
+}
+.x2paddingLeft{
+margin-left: 14px;
+}
+.x3paddingLeft{
+margin-left: 21px;
+}
+input{
+color: #ffffff;
 }

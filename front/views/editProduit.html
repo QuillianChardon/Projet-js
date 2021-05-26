@@ -1,11 +1,15 @@
 <nav>
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Logo</a>
+        <a onclick='navigate("index")'class="brand-logo">Note'Tout</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
 
         </ul>
     </div>
 </nav>
+<ul class="sidenav" id="mobile-demo">
+
+</ul>
 <div id="tempo">
     <div class="container">
 
@@ -26,7 +30,7 @@
                 </form>
             </div>
             <div class="row">
-                <button class="waves-effect waves-light btn" onclick="editProduitController.save()"><i class="material-icons right">check</i>Enregistrer</button>
+                <button class="btn btn-primary borderRadus" onclick="editProduitController.save()"><i class="material-icons right">check</i>Enregistrer</button>
             </div>
         </div>
     </div>

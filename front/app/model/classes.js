@@ -34,7 +34,7 @@ class Shared{
         this.droit=droit
     }
     toString(){
-        return `${this.idUser} ${this.droit}`
+        return `${this.idUser}`
     }
 }
 

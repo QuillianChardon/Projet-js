@@ -6,7 +6,7 @@ class BaseFormController extends BaseController{
         const value =  $(selector).value
         if ((value == null) || (value.trim() === "")) {
             this.toast(`Le champs '${name}' est obligatoire`)
-            $(selector).style.backgroundColor = 'antiquewhite'
+            $(selector).style.border = '2px solid #fc3754'
             return null
         }
         return value

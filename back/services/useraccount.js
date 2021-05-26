@@ -45,14 +45,13 @@ module.exports=class UserAccountService{
     async sendMail(login,jwt){
 
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            port: 587,
-            secure: false,
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
             auth: {
-                user: 'nodejs.qc@gmail.com',
+                user: 'projet.nodejs.esimed@gmail.com',
                 pass: 'esimedqc'
-            },
-            tls: { rejectUnauthorized: false }
+            }
         });
 
         let lien="http://localhost:63342/front/verif.html?token="+jwt.generateLienValidation(login)
@@ -66,14 +65,13 @@ module.exports=class UserAccountService{
 
     async sendMailChangePassword(login,jwt){
         let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            port: 587,
-            secure: false,
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
             auth: {
-                user: 'nodejs.qc@gmail.com',
+                user: 'projet.nodejs.esimed@gmail.com',
                 pass: 'esimedqc'
-            },
-            tls: { rejectUnauthorized: false }
+            }
         });
 
         let lien="http://localhost:63342/front/changeMDP.html?token="+jwt.generateLienChangePassword(login)

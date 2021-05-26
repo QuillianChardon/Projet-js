@@ -11,6 +11,7 @@ class EditController extends BaseFormController{
         this.isAdmin()
         this.doNav("Index","index")
         this.doNav("Compte","compte")
+        this.doNav("Ajouter une liste","edit",true)
         this.doNav("Deconnexion","deconnexion")
     }
 

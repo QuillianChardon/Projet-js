@@ -49,11 +49,17 @@ class BaseController {
         }
     }
 
-    doNav(Elem,link){
-        $("#nav-mobile").innerHTML+=`<li><a onclick='navigate("${link}")'>${Elem}</a></li>`
+    doNav(Elem,link,isActive){
+        if(isActive){
+            $("#nav-mobile").innerHTML+=`<li><a class="link_anim" onclick='navigate("${link}")'>${Elem}</a></li>`
+        }
+        else{
+            $("#nav-mobile").innerHTML+=`<li><a class="link_anim_hover" onclick='navigate("${link}")'>${Elem}</a></li>`
+        }
+        $("#mobile-demo").innerHTML+=`<li><a  onclick='navigate("${link}")'>${Elem}</a></li>`
     }
 
-    async isAdmin(){
+    async isAdmin(isActive=false){
         let flag=false
         await this.model.isAdmin()
             .then(flag=true)
@@ -63,7 +69,13 @@ class BaseController {
             })
 
         if(flag==true){
-            this.doNav("Administration", "admin")
+            if(isActive){
+                this.doNav("Administration", "admin",true)
+            }
+            else{
+                this.doNav("Administration", "admin")
+            }
+
         }
     }
 

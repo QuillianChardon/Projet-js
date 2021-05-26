@@ -45,7 +45,6 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             res.status(400).end()
             return
         }
-
         let user = await service.dao.getByLogin(login)
         if(user!==undefined){
             res.status(401).end()
@@ -55,7 +54,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             .then(async e=>{
                 let userTempo=await service.dao.getByLogin(login)
                 let userRoleInscr=new userRole(1,userTempo.id,new Date())
-                UserRoleService.daoUserRole.insert(userRoleInscr)
+                await UserRoleService.daoUserRole.insert(userRoleInscr)
                 res.status(200).end()
             })
             .catch(e=>{
@@ -219,7 +218,6 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             res.status(200).end();
         }
     })
-
 
 }
 

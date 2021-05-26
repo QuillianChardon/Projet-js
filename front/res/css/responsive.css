@@ -1,0 +1,11 @@
+
+
+/* RESPONSIVE login / changement mot de passe / register */
+@media (max-width: 933px) {
+    #containerForm {
+        display: none;
+    }
+    .form_login_register{
+        display: block;
+    }
+}
