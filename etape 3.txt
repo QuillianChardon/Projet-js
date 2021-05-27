@@ -13,9 +13,9 @@ Le rôle "administrateur" permettra d'effectuer les actions suivantes à ajouter
 --  / -rajout de deux tables, une role et une user_role pour faire le lien entre un utilisateur et un role
 --  / -deconnexion
 - page admin :
-	-liste de tout les utilisateurs
-	-barre de recherche pour épurer la liste
-	-affichage d'une page d'un utilisateur pour le modifier email / envoyer mail pour password / role / desactiver un utilisateur / le réactiver
+	--/ -liste de tout les utilisateurs
+	--/-barre de recherche pour épurer la liste
+	--/-affichage d'une page d'un utilisateur pour le modifier email / envoyer mail pour password / role / desactiver un utilisateur / le réactiver
 
 Un utilisateur desactivé ne pourras pas utiliser l'application :
 	- a chaque requete verifier si le compte est desactivé et remplacer le token de validiter	

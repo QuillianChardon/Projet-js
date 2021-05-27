@@ -27,7 +27,7 @@
                 </form>
             </div>
             <div class="row">
-                <button class="waves-effect waves-light btn" onclick="compteController.saveEmail()"><i class="material-icons right">check</i>Enregistrer</button>
+                <button class="btn btn-primary borderRadus" onclick="compteController.saveEmail()"><i class="fas fa-check"></i>&nbsp;enregistrer</button>
             </div>
         </div>
 
@@ -47,8 +47,14 @@
                 </form>
             </div>
             <div class="row">
-                <button class="waves-effect waves-light btn" onclick="compteController.savePassword()"><i class="material-icons right">check</i>Enregistrer</button>
+                <button class="btn btn-primary borderRadus" onclick="compteController.savePassword()"><i class="fas fa-check"></i>&nbsp;enregistrer</button>
             </div>
         </div>
     </div>
 </div>
+<style>
+    button.btn.btn-primary.borderRadus{
+        width: max-content !important;
+        margin-left: auto;
+    }
+</style>

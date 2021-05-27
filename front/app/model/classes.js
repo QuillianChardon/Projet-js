@@ -44,3 +44,12 @@ class User{
         this.login=login
     }
 }
+
+class UserInfo{
+    constructor(id,login,displayname,active) {
+        this.id=id
+        this.login=login
+        this.displayname=displayname
+        this.active=active
+    }
+}

@@ -27,6 +27,8 @@ module.exports = class UserAccountDAO extends BaseDAO {
                 .catch(e => reject(e)))
     }
 
+
+
     getAll(idUserLog){
         return new Promise(((resolve, reject) => {
             this.db.query("select id,login from useraccount where id<>$1 order by id Desc",[idUserLog])
@@ -42,8 +44,8 @@ module.exports = class UserAccountDAO extends BaseDAO {
         }))
     }
     insert(useraccount) {
-        return this.db.query("INSERT INTO useraccount(displayname,login,challenge,verif) VALUES ($1,$2,$3,$4)",
-            [useraccount.displayName, useraccount.login, useraccount.challenge,useraccount.verif])
+        return this.db.query("INSERT INTO useraccount(displayname,login,challenge,verif,active) VALUES ($1,$2,$3,$4,$5)",
+            [useraccount.displayName, useraccount.login, useraccount.challenge,useraccount.verif,useraccount.active])
     }
     update(useraccount){
         return this.db.query("UPDATE useraccount SET displayname=$1,login=$2,challenge=$3,verif=$4 where id=$5",
@@ -51,5 +53,11 @@ module.exports = class UserAccountDAO extends BaseDAO {
     }
 
 
+    getByIdForAdmin(id) {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT id,login,displayname,active FROM useraccount WHERE id=$1", [id])
+                .then(res => resolve(res.rows[0]) )
+                .catch(e => reject(e)))
+    }
 
 }

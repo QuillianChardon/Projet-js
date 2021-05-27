@@ -32,10 +32,10 @@ class IndexController extends BaseController {
                 }
 
                 if(liste.done==true){
-                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"btn btn-primary borderRadus paddingLeft disabledQC\">partage&nbsp;<i class=\"fa fa-share-alt\"></i></button> <button  onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus \">effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus disabledQC\" disabled '>editer&nbsp;<i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '>"+cpt+"&nbsp;<i class=\"fa fa-user\"></i></button>"
+                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"btn btn-primary borderRadus paddingLeft disabledQC\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button  onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus \"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus disabledQC\" disabled '><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"></i></button>"
                 }
                 else{
-                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"btn btn-primary borderRadus paddingLeft\">partage&nbsp;<i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus\">effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus\">editer&nbsp;<i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus\" '>"+cpt+"&nbsp;<i class=\"fa fa-user\"> </i></button>"
+                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"btn btn-primary borderRadus paddingLeft\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus\" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"> </i></button>"
                 }
             }
             let contentShared=""
@@ -366,6 +366,7 @@ class IndexController extends BaseController {
 
     async displayConfirmDeleteProduit(id){
         try{
+
             const produit = await this.model.getProduit(id)
             let idliste=produit.idliste
             produit.idListe=produit.idliste
@@ -424,9 +425,11 @@ class IndexController extends BaseController {
 
     async displayConfirmDelete(id){
         try{
+
             const liste = await this.model.getListe(id)
             super.displayConfirmDelete(liste,async ()=>{
-
+                document.querySelector("#divlisteProduit").classList.add("d-none")
+                document.querySelector("#afficheproduit").classList.add("Novisiblee")
 
                 this.deletedlisteProduit=[]
                 for(let ligne of await this.model.getProduitByListe(id)){
@@ -470,11 +473,11 @@ class IndexController extends BaseController {
             //si cookie est vrai
             if(lock=="true"){
                 //si l'icone est verrouillé
-                if($("#lock").innerText=="lock_outline"){
+                if($("#lock").innerHTML=="<i class=\"fas fa-lock\"></i>"){
                     console.log("cas 1")
                     let r = confirm("En faisait oui vous rendez les listes archivé modifiable !");
                     if (r == true) {
-                        $("#lock").innerText="lock_open"
+                        $("#lock").innerHTML="<i class=\"fas fa-unlock\"></i>"
                         this.setCookie("lock", false, 365);
                          flag=true
                     }
@@ -482,7 +485,7 @@ class IndexController extends BaseController {
                 //icone fermé ou non existante
                 else{
                     console.log("cas 2")
-                    $("#lock").innerText="lock_outline"
+                    $("#lock").innerHTML="<i class=\"fas fa-lock\"></i>"
                     this.setCookie("lock", true, 365);
                     flag=false
                 }
@@ -490,20 +493,20 @@ class IndexController extends BaseController {
             //cookie faux
             else{
                 //icone ouverte
-                if($("#lock").innerText=="lock_open"){
+                if($("#lock").innerHTML=="<i class=\"fas fa-unlock\"></i>"){
                     console.log("cas 3")
-                    $("#lock").innerText="lock_outline"
+                    $("#lock").innerHTML="<i class=\"fas fa-lock\"></i>"
                     this.setCookie("lock", true, 365);
                     flag=false
                 }
                 //icone fermé ou inexistante
                 else{
                     //icone ouverte
-                    if($("#lock").innerText=="lock_outline") {
+                    if($("#lock").innerText=="<i class=\"fas fa-lock\"></i>") {
                         console.log("cas 4")
                         let r = confirm("En faisait oui vous rendez les listes archivé modifiable !");
                         if (r == true) {
-                            $("#lock").innerText="lock_open"
+                            $("#lock").innerHTML="<i class=\"fas fa-unlock\"></i>"
                             this.setCookie("lock", false, 365);
                             flag=true
                         }
@@ -511,7 +514,7 @@ class IndexController extends BaseController {
                     //icone non existante
                     else{
                         console.log("cas 5")
-                        $("#lock").innerText="lock_open"
+                        $("#lock").innerHTML="<i class=\"fas fa-unlock\"></i>"
                         this.setCookie("lock", false, 365);
                         flag=false
                     }
@@ -521,7 +524,7 @@ class IndexController extends BaseController {
         }//pas de cookie
         else {
             console.log("cas 6")
-            $("#lock").innerText="lock_outline"
+            $("#lock").innerHTML="<i class=\"fas fa-lock\"></i>"
             this.setCookie("lock", true, 365);
             flag=false
         }

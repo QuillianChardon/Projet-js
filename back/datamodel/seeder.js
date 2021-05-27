@@ -7,7 +7,7 @@ const userRole = require('./userRole')
 module.exports = (userAccountService,listeService,produitService,sharedService,roleService,userRoleService) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await userAccountService.dao.db.query("CREATE TABLE useraccount(id SERIAL PRIMARY KEY, displayname TEXT NOT NULL, login TEXT NOT NULL, challenge TEXT NOT NULL,verif BOOLEAN NOT NULL)")
+            await userAccountService.dao.db.query("CREATE TABLE useraccount(id SERIAL PRIMARY KEY, displayname TEXT NOT NULL, login TEXT NOT NULL, challenge TEXT NOT NULL,verif BOOLEAN NOT NULL,active BOOLEAN NOT NULL)")
             await listeService.dao.db.query("CREATE TABLE liste(id SERIAL PRIMARY KEY, nom TEXT NOT NULL,date DATE NOT NULL,done BOOLEAN NOT NULL, useraccount_id INTEGER REFERENCES useraccount(id))")//clé étrangére --> useraccount_id INTEGER REFERENCES useraccount(id)
             await produitService.dao.db.query("CREATE TABLE produit(id SERIAL PRIMARY KEY, idListe INTEGER, nom TEXT NOT NULL,quantite INTEGER NOT NULL,done BOOLEAN NOT NULL)")
             await sharedService.dao.db.query("CREATE TABLE shared(id SERIAL PRIMARY KEY,idListe INTEGER ,idUser INTEGER ,droit BOOLEAN NOT NULL)")
@@ -24,7 +24,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
         }
         roleService.dao.insert("utilisateur")
         roleService.dao.insert("administrateur")
-        userAccountService.insert("User1", "user1@example.com", "azerty",true)
+        userAccountService.insert("User1", "user1@example.com", "azerty",true,true)
             .then(_ => userAccountService.dao.getByLogin("user1@example.com"))
             .then(async user1 => {
                 for(let i=0;i<3;i++){
@@ -37,7 +37,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
                 await userRoleService.daoUserRole.insert(new userRole(2,user1.id,new Date()))
             })
 
-        userAccountService.insert("User2", "user2@example.com", "azerty",true)
+        userAccountService.insert("User2", "user2@example.com", "azerty",true,true)
             .then(_ => userAccountService.dao.getByLogin("user2@example.com"))
             .then(async user2 => {
                 for(let i=0;i<3;i++){

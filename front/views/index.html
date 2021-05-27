@@ -14,45 +14,74 @@
     <div class="container">
         <h3 id="editTitle">Mes listes</h3>
         <div class="row">
-            <h4>Vos liste actives </h4>
-            <table id="tableListe" class="table table-hover" style="display: none">
-                <thead>
-                    <tr>
-                        <th>nom</th>
-                        <th>date</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <h4>Vos listes actives </h4>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <table id="tableListe" class="table table-hover" style="display: none">
+                                <thead>
+                                    <tr>
+                                        <th>nom</th>
+                                        <th>date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
 
-                </tbody>
-            </table>
-            <h4>Vos liste archive </h4>
-            <table id="archive" class="table table-hover" style="display: none">
-                <thead>
-                <tr>
-                    <th>nom</th>
-                    <th>date</th>
-                </tr>
-                </thead>
-                <tbody id="tableBodyOff">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <h4>Vos listes Archivée </h4>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <table id="archive" class="table table-hover" style="display: none">
+                                <thead>
+                                    <tr>
+                                        <th>nom</th>
+                                        <th>date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBodyOff">
 
-                </tbody>
-            </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <h4>Vos listes partagé </h4>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <table id="partage" class="table table-hover" style="display: none">
+                                <thead>
+                                <tr>
+                                    <th>nom</th>
+                                    <th>date</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tableBodyPartage">
 
-            <h4>Vos liste partagé </h4>
-            <table id="partage" class="table table-hover" style="display: none">
-                <thead>
-                <tr>
-                    <th>nom</th>
-                    <th>date</th>
-                </tr>
-                </thead>
-                <tbody id="tableBodyPartage">
-
-                </tbody>
-            </table>
-
-
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container mt-5 Novisiblee" id="afficheproduit">
                 <div id="divlisteProduit" class="liste d-none">
                     <h3 id="titleListe" class="mt-5">Vos produits dans la liste :  </h3>
@@ -68,7 +97,7 @@
         position: fixed;
         bottom: 10px;
         right: 60px;
-        border-radius: 35px;">
-        <i class="material-icons" id="lock"></i>
+        border-radius: 35px;" id="lock">
+        <i class="fas fa-lock"></i>
     </button>
 </div>

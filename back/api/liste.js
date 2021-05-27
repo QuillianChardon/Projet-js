@@ -20,8 +20,6 @@ module.exports=(app,service,serviceShared,jwt)=>{
             if ((liste.useraccount_id !== req.user.id) && (flag==false)){
                 return res.status(403).end()
             }
-
-
             return res.json(liste)
         }
         catch (e){

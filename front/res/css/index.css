@@ -231,6 +231,36 @@ label span{
 tr,.collection .collection-item {
     border-bottom: 1px solid rgb(255 255 255 / 12%);
 }
+.toast .toast-action{
+    color: #ffc341;
+}
+.accordion-item{
+    background-color: #232833;
+}
+button.accordion-button:focus,button.accordion-button,.accordion-button:not(.collapsed){
+    background:#232833 !important;
+    border-color: unset;
+    box-shadow: inset 0 -1px 0 rgb(255 255 255 / 13%);
+}
+.accordion-item {
+    border: 1px solid #fff;
+}
+h2.accordion-header{
+    margin: 0px;
+}
+.accordion-button::after{
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+#userInfo{
+    display: none;
+}
+input[type=text]:not(.browser-default):disabled{
+    color: #fff;
+    border-bottom: 1px solid #9e9e9e;
+}
+input[type=text]:not(.browser-default):disabled+label{
+    color: #9e9e9e;
+}
 
 
 .borderRadus{

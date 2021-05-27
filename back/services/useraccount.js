@@ -28,12 +28,12 @@ module.exports=class UserAccountService{
         return bcrypt.hashSync(password,10)
     }
 
-    async insert(displayname,login,password,verif,jwt){
+    async insert(displayname,login,password,verif,active,jwt){
         if(verif){
-            return this.dao.insert(new UserAccount(displayname,login,this.hashPassword(password),verif))
+            return this.dao.insert(new UserAccount(displayname,login,this.hashPassword(password),verif,active))
         }
         else{
-            if(this.dao.insert(new UserAccount(displayname,login,this.hashPassword(password),verif))){
+            if(this.dao.insert(new UserAccount(displayname,login,this.hashPassword(password),verif,active))){
                 await this.sendMail(login,jwt)
                 return true
             }

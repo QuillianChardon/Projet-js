@@ -117,6 +117,14 @@ class Model {
         return userCache
     }
 
+    async getAllUserByAdmin(){
+        let users=[]
+        for(let user of await this.apiUser.getAll()) {
+            users.push(Object.assign(new User(), user))
+        }
+        return users
+    }
+
     async GetOneByToken(){
         let user=await this.apiUser.GetOneByToken()
         console.log(user)
@@ -128,4 +136,10 @@ class Model {
         return this.apiUser.isAdmin().then(res => res.status)
     }
 
+
+    async GetOneByIdForAdmin(id){
+        let userInfo=await this.apiUser.GetOneByIdForAdmin(id)
+        let userCache=Object.assign(new UserInfo(), userInfo)
+        return userCache
+    }
 }

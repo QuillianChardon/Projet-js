@@ -50,7 +50,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             res.status(401).end()
             return
         }
-        service.insert(pseudo, login, password,false,jwt)
+        service.insert(pseudo, login, password,false,true,jwt)
             .then(async e=>{
                 let userTempo=await service.dao.getByLogin(login)
                 let userRoleInscr=new userRole(1,userTempo.id,new Date())
@@ -79,6 +79,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             if(user==undefined){
                 return res.status(404).end()
             }
+
             return res.json(user)
         } catch (e) {
             console.log(e)
@@ -219,5 +220,136 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         }
     })
 
+    app.get("/useraccount/one/:id",jwt.validateJWT,async (req,res) => {
+        try {
+            let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
+            if(rolePourUser[0]==undefined){
+                res.status(401).end()
+            }
+            else {
+                console.log(req.user.id)
+                const user = await service.dao.getByIdForAdmin(req.params.id)
+                if(user==undefined){
+                    return res.status(404).end()
+                }
+                console.log(user)
+                return res.json(user)
+            }
+        } catch (e) {
+            console.log(e)
+            res.status(500).end()
+        }
+    })
+
+
+
+    app.post("/useraccount/modif/emailAdmin",jwt.validateJWT,async (req,res)=>{
+        const email = req.body.login
+        const id =req.body.id
+
+        if(await service.dao.getByLogin(email)!=undefined){
+            return res.status(401).end()
+        }
+
+        let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
+        if(rolePourUser[0]==undefined){
+            res.status(401).end()
+        }
+        else {
+            if (req.user == undefined) {
+                return res.status(500).end()
+            }
+            let userbdd = await service.dao.getByIdAllColonne(id)
+            if (userbdd == undefined) {
+                return res.status(404).end()
+            }
+            userbdd.login=email
+            service.dao.update(userbdd)
+                .then(e => {
+                    res.status(200).end();
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.status(500).end()
+                })
+        }
+    })
+
+
+    app.post("/useraccount/modif/passwordAdmin",jwt.validateJWT,async (req,res)=>{
+        const password = req.body.password
+        const id =req.body.id
+
+        let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
+        if(rolePourUser[0]==undefined){
+            res.status(401).end()
+        }
+        else {
+            if (req.user == undefined) {
+                return res.status(500).end()
+            }
+            let userbdd = await service.dao.getByIdAllColonne(id)
+            if (userbdd == undefined) {
+                return res.status(404).end()
+            }
+            console.log(userbdd)
+            console.log(password)
+            Hashpassword = await service.hashPassword(password)
+            userbdd.challenge = Hashpassword
+            service.dao.update(userbdd)
+                .then(e => {
+                    res.status(200).end();
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.status(500).end()
+                })
+        }
+    })
+
+    app.post("/useraccount/allRoleForAdmin",jwt.validateJWT,async (req,res)=>{
+        const id =req.body.id
+        console.log(id)
+        res.json(await UserRoleService.daoUserRole.getAllByUserForAdmin(id))
+    })
+    app.post("/useraccount/allRoleNotInUserForAdmin/",jwt.validateJWT,async (req,res)=>{
+
+        const id =req.body.id
+        console.log(id)
+        res.json(await UserRoleService.daoUserRole.getAllByUserNoInForAdmin(id))
+    })
+    app.post("/useraccount/modifRolePourUnUtilisateurDonne/",jwt.validateJWT,async (req,res)=>{
+
+        const roleId =req.body.roleId
+        const idUser =req.body.idUser
+        let tempo =await UserRoleService.daoUserRole.getAllByUserForAdminOnlyId(idUser,roleId)
+        if(tempo[0]!==undefined){
+            //delet
+            UserRoleService.daoUserRole.deletebyidUser(idUser,roleId).then(e => {
+                console.log("ici1-1")
+                res.status(200).end();
+            })
+                .catch(err => {
+                    console.log("ici1-2")
+                    console.log(err)
+                    return res.status(500).end()
+                })
+        }
+        else{
+            //insert
+            let oneUserRole = new userRole(roleId,idUser,new Date())
+            console.log(oneUserRole)
+            UserRoleService.daoUserRole.insert(oneUserRole  ).then(e => {
+                console.log("ici2-1")
+                    res.status(200).end();
+                })
+                .catch(err => {
+                    console.log("ici2-2")
+                    console.log(err)
+                    return res.status(500).end()
+                })
+        }
+
+    })
 }
 
