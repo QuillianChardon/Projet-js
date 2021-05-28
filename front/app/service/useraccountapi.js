@@ -49,7 +49,7 @@ class UserAccountAPI extends BaseAPIService {
     getValidationChangePassword(token,password){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modificationPassword`, {
-            method: "POST",
+            method: "GET",
             headers: this.headers,
             body: `token=${token}&password=${password}`
         }).then(res => {
@@ -69,7 +69,7 @@ class UserAccountAPI extends BaseAPIService {
     modifEmail(login){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modif/email`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: `login=${login}`
         }).then(res => {
@@ -84,7 +84,7 @@ class UserAccountAPI extends BaseAPIService {
     modifPassword(password){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modif/password`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: `password=${password}`
         }).then(res => {
@@ -103,7 +103,7 @@ class UserAccountAPI extends BaseAPIService {
     modifEmailByAdmin(login,id){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modif/emailAdmin`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: `login=${login}&id=${id}`
         }).then(res => {
@@ -113,7 +113,7 @@ class UserAccountAPI extends BaseAPIService {
     modifPasswordByAdmin(password,id){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modif/passwordAdmin`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: `password=${password}&id=${id}`
         }).then(res => {
@@ -153,7 +153,7 @@ class UserAccountAPI extends BaseAPIService {
 
     changeUserRoleByAdmin(roleId,idUser){
         return new Promise((resolve, reject) => fetch(`${this.url}/modifRolePourUnUtilisateurDonne`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: `roleId=${roleId}&idUser=${idUser}`
         }).then(res => {
@@ -161,15 +161,19 @@ class UserAccountAPI extends BaseAPIService {
         }).catch(err => reject(err)))
     }
 
-    modifActifByAdmin(actif,id){
+    ActiveUser(id){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modif/actifAdmin`, {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
-            body: `actif=${actif}&id=${id}`
+            body: `id=${id}`
         }).then(res => {
             resolve(res.status)
         }).catch(err => reject(err)))
     }
 
+
+    isActive(){
+        return fetchJSONChange(`${this.url}/isActive`, this.token)
+    }
 }

@@ -1,9 +1,11 @@
 class BaseController {
     constructor(secured) {
+        this.model = new Model()
         if(secured) this.checkAuthentification()
         M.AutoInit();
         this.setBackButtonView('index')
-        this.model = new Model()
+
+        this.msg=""
     }
     toast(msg) {
         M.toast({html: msg, classes: 'rounded'})
@@ -43,9 +45,12 @@ class BaseController {
         this.toast('Opération annulée')
     }
 
-    checkAuthentification(){
+    async checkAuthentification(){
         if (localStorage.getItem("token") === null) {
             window.location.replace("login.html")
+        }
+        else{
+            this.isActive()
         }
     }
 
@@ -76,6 +81,20 @@ class BaseController {
                 this.doNav("Administration", "admin")
             }
 
+        }
+    }
+
+    async isActive(){
+        let flag=false
+        await this.model.isActive()
+            .then(flag=false)
+            .catch(err => {
+                console.log(err)
+                flag=true
+            })
+        if(flag==true){
+            localStorage.clear();
+            window.location.replace("login.html")
         }
     }
 

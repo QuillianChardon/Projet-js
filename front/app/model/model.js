@@ -135,6 +135,9 @@ class Model {
     async isAdmin(){
         return this.apiUser.isAdmin().then(res => res.status)
     }
+    async isActive(){
+        return this.apiUser.isActive().then(res => res.status)
+    }
 
 
     async GetOneByIdForAdmin(id){
@@ -142,4 +145,5 @@ class Model {
         let userCache=Object.assign(new UserInfo(), userInfo)
         return userCache
     }
+
 }

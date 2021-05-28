@@ -58,6 +58,18 @@ class AdminController extends BaseFormController {
         }
 
     }
+    async ActiveUser(){
+        let idUser=$("#idUserSuperCache").value
+        let r = confirm("êtes vous sur de vouloir bloquer/débloquer cette utilisateur ?");
+        if (r == true) {
+            if(await this.svc.ActiveUser(idUser)===200){
+                this.toast("modif bien effectué")
+            }
+            else{
+                this.toast("modif non effectué")
+            }
+        }
+    }
 
     async saveAll(){
         let id=$("#idUserSuperCache").value

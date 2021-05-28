@@ -16,7 +16,8 @@ class CompteController extends BaseFormController{
     }
 
     saveEmail(){
-        let email=this.valideRequiredField("#email",'email')
+        this.isActive()
+        let email=this.valideRequiredField("#fieldEmail",'email')
         this.svc.modifEmail(email)
             .then(res => {
                 localStorage.setItem("token", res.token)
@@ -34,6 +35,7 @@ class CompteController extends BaseFormController{
     }
 
     savePassword(){
+        this.isActive()
         let password=this.valideRequiredField("#fieldPassword",'password')
         let repeatPassword=this.valideRequiredField("#fieldPassword1",'Repeter le password')
         if(password!=repeatPassword){

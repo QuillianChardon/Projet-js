@@ -16,6 +16,11 @@ module.exports=(app,service,UserRoleService,jwt)=>{
                     res.status(401).end()
                     return
                 }
+                let user =await service.dao.getByLogin(login)
+                if(user.active==false){
+                    res.status(423).end()
+                    return
+                }
 
                 if(await service.isValide(login)){
                     res.json({'token': jwt.generateJWT(login)})
@@ -134,7 +139,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         }
     })
 
-    app.post("/useraccount/modificationPassword",jwt.validateLienPassword,async (req,res)=>{
+    app.get("/useraccount/modificationPassword",jwt.validateLienPassword,async (req,res)=>{
         try{
             const  {token, password} = req.body
             if((token ===undefined) || (password === undefined)){
@@ -158,7 +163,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         }
     })
 
-    app.post("/useraccount/modif/email",jwt.validateJWT,async (req,res)=>{
+    app.put("/useraccount/modif/email",jwt.validateJWT,async (req,res)=>{
         const email = req.body.login
         if(await service.dao.getByLogin(email)!=undefined){
             return res.status(401).end()
@@ -166,8 +171,9 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         if(req.user==undefined){
             return res.status(500).end()
         }
+        console.log(req.user)
         let userbdd = await service.dao.getByIdAllColonne(req.user.id)
-        if(userbdd==undefined){
+        if(userbdd===undefined){
             return res.status(404).end()
         }
 
@@ -183,16 +189,16 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             })
     })
 
-    app.post("/useraccount/modif/password",jwt.validateJWT,async (req,res)=>{
+    app.put("/useraccount/modif/password",jwt.validateJWT,async (req,res)=>{
         const password = req.body.password
         console.log("ici")
         console.log(password)
 
-        if(req.user==undefined){
+        if(req.user===undefined){
             return res.status(500).end()
         }
         let userbdd = await service.dao.getByIdAllColonne(req.user.id)
-        if(userbdd==undefined){
+        if(userbdd===undefined){
             return res.status(404).end()
         }
         Hashpassword= await service.hashPassword(password)
@@ -243,7 +249,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
 
 
 
-    app.post("/useraccount/modif/emailAdmin",jwt.validateJWT,async (req,res)=>{
+    app.put("/useraccount/modif/emailAdmin",jwt.validateJWT,async (req,res)=>{
         const email = req.body.login
         const id =req.body.id
 
@@ -276,7 +282,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
     })
 
 
-    app.post("/useraccount/modif/passwordAdmin",jwt.validateJWT,async (req,res)=>{
+    app.put("/useraccount/modif/passwordAdmin",jwt.validateJWT,async (req,res)=>{
         const password = req.body.password
         const id =req.body.id
 
@@ -318,7 +324,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         console.log(id)
         res.json(await UserRoleService.daoUserRole.getAllByUserNoInForAdmin(id))
     })
-    app.post("/useraccount/modifRolePourUnUtilisateurDonne/",jwt.validateJWT,async (req,res)=>{
+    app.put("/useraccount/modifRolePourUnUtilisateurDonne/",jwt.validateJWT,async (req,res)=>{
 
         const roleId =req.body.roleId
         const idUser =req.body.idUser
@@ -349,7 +355,37 @@ module.exports=(app,service,UserRoleService,jwt)=>{
                     return res.status(500).end()
                 })
         }
+    })
 
+
+    app.put("/useraccount/modif/actifAdmin",jwt.validateJWT,async (req,res)=>{
+
+        const id =req.body.id
+        let User = await service.dao.getByIdAllColonne(id)
+        if(User.active){
+            User.active=false
+        }
+        else{
+            User.active=true
+        }
+        service.dao.update(User)
+            .then(e => {
+                res.status(200).end();
+            })
+            .catch(err => {
+                console.log(err)
+                return res.status(500).end()
+            })
+    })
+
+    app.get("/useraccount/isActive",jwt.validateJWT,async (req,res)=>{
+        const user = await service.dao.getByIdAllColonne(req.user.id)
+        if(user.active===true){
+            res.status(200).end();
+        }
+        else{
+            res.status(423).end();
+        }
     })
 }
 

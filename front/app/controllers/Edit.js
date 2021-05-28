@@ -16,6 +16,7 @@ class EditController extends BaseFormController{
     }
 
     async save(){
+        this.isActive()
         let nom=this.valideRequiredField("#fieldName",'nom')
         let date=this.valideRequiredField("#fieldDate",'date')
         if(nom !=null && date !=null){

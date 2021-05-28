@@ -44,7 +44,7 @@ class IndexController extends BaseController {
                 let obj = await this.model.getListe(shareListe.idliste)
                 const date= obj.date.toLocaleDateString()
                 if(shareListe.droit==true){
-                    contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+")'><td>"+obj.nom+"<td>"+date+" <button onclick='indexController.displayConfirmDelete("+obj.id+")' class=\"waves-effect waves-light btn\">suppr</button> <button onclick='indexController.edit("+obj.id+")' class=\"waves-effect waves-light btn\">modif</button> "
+                    contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+")'><td>"+obj.nom+"<td>"+date+" <button onclick='indexController.displayConfirmDelete("+obj.id+")' class=\"btn btn-primary borderRadus paddingLeft\"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+obj.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> "
                 }
                 else{
                     contentShared+="<tr onclick='indexController.AfficheProduit("+obj.id+",false)'><td>"+obj.nom+"<td>"+date
@@ -68,6 +68,7 @@ class IndexController extends BaseController {
 
 
     async shared(id,event){
+         this.isActive()
         //partage de la liste
         event.stopPropagation();
         this.getModal("#modalShared").open()
@@ -91,7 +92,7 @@ class IndexController extends BaseController {
     }
 
     async addShared(idListe){
-
+        this.isActive()
         let droit =$("#checkedDroit").checked
         let user=$("#listeUser").value
 
@@ -112,6 +113,7 @@ class IndexController extends BaseController {
     }
 
     async changeShard(id){
+        this.isActive()
         let shared = await this.model.getShared(id)
         shared.droit =$("#checkedDroit"+id).checked
         if(await this.model.updateShared(shared)===200){
@@ -129,6 +131,7 @@ class IndexController extends BaseController {
     }
 
    async afficheShared(id,event){
+       this.isActive()
         if(event!=null){
             event.stopPropagation();
         }
@@ -151,6 +154,7 @@ class IndexController extends BaseController {
     }
 
     async edit(id){
+        this.isActive()
         try{
             const object = await this.model.getListe(id)
             if(object === undefined){
@@ -170,6 +174,7 @@ class IndexController extends BaseController {
     }
 
     async editProduit(id){
+        this.isActive()
         try{
             const object = await this.model.getProduit(id)
             if(object === undefined){
@@ -189,6 +194,7 @@ class IndexController extends BaseController {
     }
 
    async checkItems(id){
+       this.isActive()
         const object = await this.model.getProduit(id)
         if(object === undefined){
             this.displayServiceError()
@@ -235,6 +241,7 @@ class IndexController extends BaseController {
     }
 
     async AfficheProduit(id,open=true){
+        this.isActive()
         this.idListe=id
         try{
             const object = await this.model.getListe(id)
@@ -307,6 +314,7 @@ class IndexController extends BaseController {
     }
 
     async undoDelete() {
+
         if (this.deletedliste) {
            await this.model.insert(this.deletedliste).then(id => {
                if (typeof id === "number"){
@@ -365,6 +373,7 @@ class IndexController extends BaseController {
     }
 
     async displayConfirmDeleteProduit(id){
+        this.isActive()
         try{
 
             const produit = await this.model.getProduit(id)
@@ -394,6 +403,7 @@ class IndexController extends BaseController {
     }
 
     async displayConfirmDeleteShared(id){
+        this.isActive()
         try{
             const shared = await this.model.getShared(id)
             let idliste=shared.idliste
@@ -424,6 +434,7 @@ class IndexController extends BaseController {
     }
 
     async displayConfirmDelete(id){
+        this.isActive()
         try{
 
             const liste = await this.model.getListe(id)
@@ -532,6 +543,7 @@ class IndexController extends BaseController {
     }
 
     refreshDisable(){
+        this.isActive()
         let lock = this.getCookie("lock");
         var els = document.getElementsByClassName("disabledQC");
         for(var i = 0; i < els.length; i++)

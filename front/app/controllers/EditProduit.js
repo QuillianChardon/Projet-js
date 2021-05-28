@@ -16,6 +16,7 @@ class EditProduitController extends BaseFormController{
     }
 
     async save(){
+        this.isActive()
         let nom=this.valideRequiredField("#fieldName",'nom')
         let quantite=this.valideRequiredField("#fieldQtt",'quantite')
         if(nom !=null && quantite !=null && indexController.idListe!=undefined){

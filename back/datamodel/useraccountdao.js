@@ -28,7 +28,6 @@ module.exports = class UserAccountDAO extends BaseDAO {
     }
 
 
-
     getAll(idUserLog){
         return new Promise(((resolve, reject) => {
             this.db.query("select id,login from useraccount where id<>$1 order by id Desc",[idUserLog])
@@ -48,8 +47,8 @@ module.exports = class UserAccountDAO extends BaseDAO {
             [useraccount.displayName, useraccount.login, useraccount.challenge,useraccount.verif,useraccount.active])
     }
     update(useraccount){
-        return this.db.query("UPDATE useraccount SET displayname=$1,login=$2,challenge=$3,verif=$4 where id=$5",
-            [useraccount.displayname, useraccount.login, useraccount.challenge,useraccount.verif,useraccount.id])
+        return this.db.query("UPDATE useraccount SET displayname=$1,login=$2,challenge=$3,verif=$4,active=$5 where id=$6",
+            [useraccount.displayname, useraccount.login, useraccount.challenge,useraccount.verif,useraccount.active,useraccount.id])
     }
 
 

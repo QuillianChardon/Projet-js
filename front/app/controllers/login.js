@@ -20,6 +20,9 @@ class LoginController extends BaseFormController {
                     else if(err == 406){
                         this.toast(`Compte non verifié&nbsp;<a class=\"link_anim lien_anim\" onclick='loginController.resendMe("${login}")'>redemander le lien </a>`)
                     }
+                    else if(err==423) {
+                        this.toast("Compte desactivé, contacter un administrateur")
+                    }
                     else {
                         this.displayServiceError()
                     }
