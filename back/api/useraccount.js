@@ -1,5 +1,6 @@
 const userRole = require('../datamodel/userRole')
-module.exports=(app,service,UserRoleService,jwt)=>{
+const notification = require('../datamodel/notification')
+module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
     app.post("/useraccount/authentificate", async (req,res)=>{
         const  {login, password} = req.body
         if((login ===undefined) || (password === undefined)){
@@ -7,7 +8,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             return
         }
         if(await service.dao.getByLogin(login)==undefined){
-            res.status(401).end()
+            res.status(404).end()
             return
         }
          service.validatePassword(login,password)
@@ -52,12 +53,18 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         }
         let user = await service.dao.getByLogin(login)
         if(user!==undefined){
-            res.status(401).end()
+            res.status(404).end()
             return
         }
         service.insert(pseudo, login, password,false,true,jwt)
             .then(async e=>{
                 let userTempo=await service.dao.getByLogin(login)
+
+                let Notif=new notification(userTempo.id,"Bienvenue","vous venez de vous créer un compte",false,new Date())
+                await notificationService.dao.insert(Notif)
+
+                console.log(Notif)
+
                 let userRoleInscr=new userRole(1,userTempo.id,new Date())
                 await UserRoleService.daoUserRole.insert(userRoleInscr)
                 res.status(200).end()
@@ -109,7 +116,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
                     }
                 }
                 else{
-                    res.status(401).end()
+                    res.status(404).end()
                 }
             }
             else{
@@ -166,7 +173,7 @@ module.exports=(app,service,UserRoleService,jwt)=>{
     app.put("/useraccount/modif/email",jwt.validateJWT,async (req,res)=>{
         const email = req.body.login
         if(await service.dao.getByLogin(email)!=undefined){
-            return res.status(401).end()
+            return res.status(404).end()
         }
         if(req.user==undefined){
             return res.status(500).end()
@@ -313,14 +320,14 @@ module.exports=(app,service,UserRoleService,jwt)=>{
         }
     })
 
-    app.post("/useraccount/allRoleForAdmin",jwt.validateJWT,async (req,res)=>{
-        const id =req.body.id
+    app.get("/useraccount/allRoleForAdmin/:id",jwt.validateJWT,async (req,res)=>{
+        const id =req.params.id
         console.log(id)
         res.json(await UserRoleService.daoUserRole.getAllByUserForAdmin(id))
     })
-    app.post("/useraccount/allRoleNotInUserForAdmin/",jwt.validateJWT,async (req,res)=>{
+    app.get("/useraccount/allRoleNotInUserForAdmin/:id",jwt.validateJWT,async (req,res)=>{
 
-        const id =req.body.id
+        const id =req.params.id
         console.log(id)
         res.json(await UserRoleService.daoUserRole.getAllByUserNoInForAdmin(id))
     })
@@ -387,5 +394,23 @@ module.exports=(app,service,UserRoleService,jwt)=>{
             res.status(423).end();
         }
     })
+
+    app.get("/useraccount/AllUser",jwt.validateJWT,async (req,res)=>{
+        let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
+        if(rolePourUser[0]==undefined){
+            res.status(401).end()
+        }
+        else {
+            service.dao.getAllAdmin()
+                .then(user=> res.json(user))
+                .catch(e=>{
+                    console.log(e)
+                    res.status(500).end()
+                })
+        }
+
+    })
+
+
 }
 

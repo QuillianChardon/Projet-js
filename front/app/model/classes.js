@@ -53,3 +53,21 @@ class UserInfo{
         this.active=active
     }
 }
+
+class Role{
+    constructor(id,name) {
+        this.id=id
+        this.name=name
+    }
+}
+
+class Notification{
+    constructor(id,idUser,titre,texte,vue,date) {
+        this.id=id
+        this.idUser=idUser
+        this.titre=titre
+        this.texte=texte
+        this.vue=vue
+        this.date=date
+    }
+}

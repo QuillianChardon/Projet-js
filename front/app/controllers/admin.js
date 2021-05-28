@@ -10,6 +10,28 @@ class AdminController extends BaseFormController {
         this.chargeValue()
     }
 
+
+    async saveNotification(){
+        let titre=this.valideRequiredField("#fieldTitre",'titre')
+        let texte=this.valideRequiredField("#textarea1",'texte')
+        if(titre !=null && texte !=null) {
+            console.log(titre)
+            console.log(texte)
+            titre = titre.replace(/(<([^>]+)>)/gi, "");
+            texte = texte.replace(/(<([^>]+)>)/gi, "");
+            if (await this.model.saveNotif($("#idUserSuperCache").value, texte, titre) === 200) {
+                this.toast("Notification bien envoyé")
+                $("#fieldTitre").value=""
+                $("#textarea1").value=""
+            } else {
+                this.toast("Notification non envoyé")
+            }
+        }
+    }
+
+
+
+
     async chargeValue() {
         let usersHTMl = ""
         for (let user of await this.model.getAllUserByAdmin()) {
@@ -33,7 +55,7 @@ class AdminController extends BaseFormController {
 
         }
         let roleActif=""
-        for (let role of await this.svc.getAllRolesUser(id)) {
+        for (let role of await this.model.getAllRolesUser(id)) {
             roleActif+=`<label>
                         <input type="checkbox"  id="fieldCheck" class="" checked onclick="adminController.changeValueRole(${role.id},${id})">
                         <span class="x2paddingLeft">${role.nom}</span>

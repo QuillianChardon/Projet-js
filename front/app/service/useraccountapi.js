@@ -13,6 +13,11 @@ class UserAccountAPI extends BaseAPIService {
             if (res.status === 200) {
                 resolve(res.json())
             } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
                 reject(res.status)
             }
         }).catch(err => reject(err)))
@@ -36,7 +41,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `login=${login}&password=${password}&pseudo=${pseudo}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
@@ -53,7 +67,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `token=${token}&password=${password}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
@@ -76,6 +99,11 @@ class UserAccountAPI extends BaseAPIService {
             if (res.status === 200) {
                 resolve(res.json())
             } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
                 reject(res.status)
             }
         }).catch(err => reject(err)))
@@ -88,7 +116,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `password=${password}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
@@ -107,7 +144,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `login=${login}&id=${id}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
     modifPasswordByAdmin(password,id){
@@ -117,39 +163,26 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `password=${password}&id=${id}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
     getAllRolesUser(id){
-        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
-        return new Promise((resolve, reject) => fetch(`${this.url}/allRoleForAdmin`, {
-            method: "POST",
-            headers: this.headers,
-            body: `id=${id}`
-        }).then(res => {
-            if (res.status === 200) {
-                resolve(res.json())
-            } else {
-                reject(res.status)
-            }
-        }).catch(err => reject(err)))
+        return fetchJSON(`${this.url+"/allRoleForAdmin/"+id}`, this.token)
+    }
+    getAllRolesNotUser(id){
+        return fetchJSON(`${this.url+"/allRoleNotInUserForAdmin/"+id}`, this.token)
     }
 
-    getAllRolesNotUser(id){
-        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
-        return new Promise((resolve, reject) => fetch(`${this.url}/allRoleNotInUserForAdmin`, {
-            method: "POST",
-            headers: this.headers,
-            body: `id=${id}`
-        }).then(res => {
-            if (res.status === 200) {
-                resolve(res.json())
-            } else {
-                reject(res.status)
-            }
-        }).catch(err => reject(err)))
-    }
 
     changeUserRoleByAdmin(roleId,idUser){
         return new Promise((resolve, reject) => fetch(`${this.url}/modifRolePourUnUtilisateurDonne`, {
@@ -157,7 +190,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `roleId=${roleId}&idUser=${idUser}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
@@ -168,7 +210,16 @@ class UserAccountAPI extends BaseAPIService {
             headers: this.headers,
             body: `id=${id}`
         }).then(res => {
-            resolve(res.status)
+            if (res.status === 200) {
+                resolve(res.status)
+            } else {
+                if (res.status === 401) {
+                    reject(res.status)
+                    localStorage.clear();
+                    window.location.replace("login.html")
+                }
+                reject(res.status)
+            }
         }).catch(err => reject(err)))
     }
 
@@ -176,4 +227,10 @@ class UserAccountAPI extends BaseAPIService {
     isActive(){
         return fetchJSONChange(`${this.url}/isActive`, this.token)
     }
+
+    getAllUserForAdmin(){
+        return fetchJSONChange(`${this.url}/AllUser`, this.token)
+    }
+
+
 }

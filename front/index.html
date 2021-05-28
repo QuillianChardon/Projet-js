@@ -31,7 +31,7 @@
     <!-- affichage-->
     <div id="modalSharedDisplay" class="modal">
         <div class="modal-content">
-            <h4>visualisation des partage</h4>
+            <h4>Visualisation des partage</h4>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -67,20 +67,31 @@
         </div>
     </div>
 
-
+    <!-- notification-->
+    <div id="modalNotifDisplay" class="modal">
+        <div class="modal-content">
+            <h4>Visualisation des Notification</h4>
+            <table class="table table-hover">
+                <tbody id="tableNotifscontent">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script type="application/ecmascript" src="app/tools.js"></script>
     <script type="application/ecmascript" src="app/model/classes.js"></script>
     <script type="application/ecmascript" src="app/model/model.js"></script>
     <script type="application/ecmascript" src="app/controllers/basecontroller.js"></script>
     <script type="application/ecmascript" src="app/controllers/baseformcontroller.js"></script>
+
     <script type="application/ecmascript" src="app/service/baseapiservice.js"></script>
     <script type="application/ecmascript" src="app/service/useraccountapi.js"></script>
     <script type="application/ecmascript" src="app/service/sharedapi.js"></script>
     <script type="application/ecmascript" src="app/service/listeapi.js"></script>
     <script type="application/ecmascript" src="app/service/produitapi.js"></script>
+    <script type="application/ecmascript" src="app/service/notificationapi.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script>navigate("index")</script>
+    <script>navigate("index")    </script>
 </body>
 </html>
 <style>

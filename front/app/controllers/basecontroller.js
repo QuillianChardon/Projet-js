@@ -1,3 +1,4 @@
+
 class BaseController {
     constructor(secured) {
         this.model = new Model()
@@ -45,23 +46,23 @@ class BaseController {
         this.toast('Opération annulée')
     }
 
-    async checkAuthentification(){
-        if (localStorage.getItem("token") === null) {
-            window.location.replace("login.html")
-        }
-        else{
-            this.isActive()
-        }
-    }
 
-    doNav(Elem,link,isActive){
-        if(isActive){
-            $("#nav-mobile").innerHTML+=`<li><a class="link_anim" onclick='navigate("${link}")'>${Elem}</a></li>`
+
+    doNav(Elem,link,isActive,specialLink=""){
+        if(specialLink!=""){
+            $("#nav-mobile").innerHTML=`<li id="NotifForDelete"><a class="link_anim_hover" onclick='${specialLink}'>${Elem}</a></li>`+$("#nav-mobile").innerHTML
+            $("#mobile-demo").innerHTML=`<li id="NotifForDeleteResponsive"><a  onclick='${specialLink}'>${Elem}</a></li>`+ $("#mobile-demo").innerHTML
         }
         else{
-            $("#nav-mobile").innerHTML+=`<li><a class="link_anim_hover" onclick='navigate("${link}")'>${Elem}</a></li>`
+            if(isActive){
+                $("#nav-mobile").innerHTML+=`<li><a class="link_anim" onclick='navigate("${link}")'>${Elem}</a></li>`
+            }
+            else{
+                $("#nav-mobile").innerHTML+=`<li><a class="link_anim_hover" onclick='navigate("${link}")'>${Elem}</a></li>`
+            }
+            $("#mobile-demo").innerHTML+=`<li><a  onclick='navigate("${link}")'>${Elem}</a></li>`
         }
-        $("#mobile-demo").innerHTML+=`<li><a  onclick='navigate("${link}")'>${Elem}</a></li>`
+
     }
 
     async isAdmin(isActive=false){
@@ -84,6 +85,16 @@ class BaseController {
         }
     }
 
+    async checkAuthentification(){
+        if (localStorage.getItem("token") === null) {
+            window.location.replace("login.html")
+        }
+        else{
+            this.isActive()
+            this.checknotif()
+        }
+    }
+
     async isActive(){
         let flag=false
         await this.model.isActive()
@@ -93,9 +104,71 @@ class BaseController {
                 flag=true
             })
         if(flag==true){
+            clearInterval(this.Notification);
             localStorage.clear();
             window.location.replace("login.html")
         }
     }
+
+    async  checknotif(){
+        let notifHTML=""
+        let cpt=0
+        for(const notification of await this.model.getAllNotificationNotSeen()){
+
+            notification.texte=notification.texte.replaceAll('\n', '<br>')
+            notifHTML+=`<div class="alert" role="alert">
+              <span class="flexNotif">
+                    <h4 class="alert-heading">${notification.titre}</h4>
+                    <span>${notification.date.toLocaleDateString()}</span>
+              </span>
+              <hr class="separatorAlert">
+              <p class="mb-0">${notification.texte}</p>
+             <span class="flexNotifVue"> <span class="badge rounded-pill bg-secondColor" onclick="readNotif(${notification.id})">Vue</span></span>
+            </div>`
+            cpt++
+        }
+        if(cpt>0){
+            if($("#NotifForDelete")!==null){
+                $("#NotifForDelete").remove()
+            }
+            if($("#NotifForDeleteResponsive")!==null){
+                $("#NotifForDeleteResponsive").remove()
+            }
+            $('#tableNotifscontent').innerHTML=notifHTML
+            this.doNav("<i class=\"fas fa-bell\"></i>"+cpt, "",false,"openAllNotif()")
+        }
+        else{
+            if($("#NotifForDelete")!==null){
+                $("#NotifForDelete").remove()
+            }
+            if($("#NotifForDeleteResponsive")!==null){
+                $("#NotifForDeleteResponsive").remove()
+            }
+        }
+        return cpt
+    }
+
+}
+
+function openAllNotif(){
+    baseC= new BaseController(true)
+    baseC.getModal("#modalNotifDisplay").open()
+}
+async function readNotif(id){
+    baseC= new BaseController(true)
+    switch (await baseC.model.markAsReadNotif(id)){
+        case 200 :
+           baseC.toast("Notification bien lu")
+            if(await baseC.checknotif()>0){
+                openAllNotif()
+            }
+            break
+        case 404 :
+            baseC.displayNotFoundError("Notification")
+            break
+        default:
+            baseC.displayServiceError()
+            break
+        }
 
 }

@@ -87,6 +87,19 @@
                         <div class="row">
                             <button class="btn btn-primary borderRadus" onclick="adminController.saveAll()"><i class="fas fa-check"></i>&nbsp;enregistrer</button>
                         </div>
+
+                        <h5>Notification :</h5>
+                        <div class="input-field col s6">
+                            <input id="fieldTitre" type="text" class="validate">
+                            <label for="fieldTitre" class="active">Titre</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea"></textarea>
+                            <label for="textarea1">Texte</label>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-primary borderRadus" onclick="adminController.saveNotification()"><i class="fas fa-check"></i>&nbsp;enregistrer</button>
+                        </div>
                     </div>
                 </div>
             </div>

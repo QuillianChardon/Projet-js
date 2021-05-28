@@ -4,6 +4,7 @@ class Model {
         this.apiProduct = new ProduitApi()
         this.apiShared = new SharedApi()
         this.apiUser = new UserAccountAPI()
+        this.apiNotification = new NotificationApi()
     }
     async getAllListes(){
         let listes=[]
@@ -145,5 +146,51 @@ class Model {
         let userCache=Object.assign(new UserInfo(), userInfo)
         return userCache
     }
+
+    async getAllRolesUser(id){
+        let roles=[]
+        for(let role of await this.apiUser.getAllRolesUser(id)) {
+            roles.push(Object.assign(new Role(), role))
+        }
+        return roles
+    }
+
+    async getAllRolesNotUser(id){
+        let roles=[]
+        for(let role of await this.apiUser.getAllRolesNotUser(id)) {
+            roles.push(Object.assign(new Role(), role))
+        }
+        return roles
+    }
+
+
+    async getAllUserForAdmin(){
+        let users=[]
+        for(let user of await this.apiUser.getAll()) {
+            users.push(Object.assign(new User(), user))
+        }
+        return users
+    }
+
+    /**
+     * NOTIFICATION
+     */
+    async getAllNotificationNotSeen(){
+        let notifications=[]
+        for(let notif of await this.apiNotification.getAllNotSeen()){
+            notif.date=new Date (notif.date)
+            notifications.push(Object.assign(new Notification(), notif))
+        }
+        return notifications
+    }
+
+    async markAsReadNotif(id){
+        return this.apiNotification.markAsReadNotif(id).then(res => res.status)
+    }
+
+    async saveNotif(id,texte,titre){
+        return this.apiNotification.saveNotif(id,texte,titre).then(res => res.status)
+    }
+
 
 }

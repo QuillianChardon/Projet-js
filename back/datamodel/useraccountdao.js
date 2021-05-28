@@ -35,6 +35,14 @@ module.exports = class UserAccountDAO extends BaseDAO {
                 .catch(err=>reject(err))
         }))
     }
+
+    getAllAdmin(){
+        return new Promise(((resolve, reject) => {
+            this.db.query("select id,login from useraccount  order by id Desc")
+                .then(res=>resolve(res.rows))
+                .catch(err=>reject(err))
+        }))
+    }
     getAllShare(idUserLog,idListe){
         return new Promise(((resolve, reject) => {
             this.db.query("select id,login from useraccount where id<>$1 and id not in (select idUser from shared where idListe=$2) order by id Desc",[idUserLog,idListe])

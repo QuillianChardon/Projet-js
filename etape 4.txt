@@ -1,0 +1,15 @@
+4/ Notifications
+Les administrateurs devront pouvoir créer des notifications aux utilisateurs (un notification = titre et texte).
+Pour un utilisateur les notifications non lues seront affichées par l'intermédiaire d'une icône qui affichera:
+* Une bulle de notification avec le nombre de notifications non lues
+* Les notifications non lues sous forme d'un popup dans l'ordre de la plus récente à la moins récente
+* Un bouton par notification pour marquer indépendamment chaque notification comme lue
+L'icône sera visible uniquement si il y a des notifications non lues
+Certaines actions devront générer les notifications automatiques :
+* Création d'un compte (notification "bienvenue")
+* Une liste partagée à été modifiée par un autre utilisateur (ne pas générer de notifications supplémentaire sur cette modification de liste pour cet utilisateur tant que l'utilisateur propriétaire de la liste n'aura pas lu la notification)
+* Une liste dont la date est > 1 semaine générera une notification « liste périmée » avec rappel à l’utilisateur qu’il peut archiver ou supprimer sa liste 
+Note : toutes les notifications sont crées coté NodeJS
+
+liste 7j + --> notif
+liste partagé --> notif

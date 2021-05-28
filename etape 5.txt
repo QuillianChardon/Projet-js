@@ -1,0 +1,14 @@
+5/ Abonnements
+Un rôle supplémentaire sera rajouté : utilisateur abonné.
+Ce rôle permettra l'accès à toutes les fonctionnalités de l'application.
+Les utilisateur n'ayant pas se rôle se verront limités dans les fonctionnalités :
+* Une seule liste de courses en cours possible.
+* Impossibilité de partager sa liste de courses.
+Les utilisateurs passeront au rôle "abonné" en payant un abonnement :
+* Simulation d’un paiement à l’aide d’un formulaire
+* Enregistrement du paiement dans la base de données
+* Envoi d’un e-mail de confirmation d’abonnement avec détail du paiement
+Les administrateur pourront :
+* Visualiser les utilisateur abonnés
+* Abonner un utilisateur gratuitement 
+* Annuler un abonnement
