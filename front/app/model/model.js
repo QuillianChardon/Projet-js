@@ -5,6 +5,8 @@ class Model {
         this.apiShared = new SharedApi()
         this.apiUser = new UserAccountAPI()
         this.apiNotification = new NotificationApi()
+        this.apiTypePayment = new TypePaymentapi()
+        this.apiAbonnement = new Abonnementapi()
     }
     async getAllListes(){
         let listes=[]
@@ -193,4 +195,29 @@ class Model {
     }
 
 
+    /**
+     * TYPE PAYMENT
+     */
+    async getAllPaymentType(){
+        let typePayments=[]
+        for(let oneTypePayment of await this.apiTypePayment.getAll()){
+            typePayments.push(Object.assign(new TypePayment(), oneTypePayment))
+        }
+        return typePayments
+    }
+
+    getIdType(name) {
+        return this.apiTypePayment.getIdType(name);
+    }
+
+    /**
+     * ABONNEMENT
+     */
+
+    async savePayment(id){
+        return this.apiAbonnement.insertAbonnement(id).then(res => res.status)
+    }
+    async isPremium(){
+        return this.apiAbonnement.isPremium().then(res => res.status)
+    }
 }

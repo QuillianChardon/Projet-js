@@ -7,6 +7,7 @@ class CompteController extends BaseFormController{
         this.doNav("Index","index")
         this.doNav("Compte","compte",true)
         this.doNav("Ajouter une liste","edit")
+
         this.doNav("Deconnexion","deconnexion")
     }
     async displayCompte(){

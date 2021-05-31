@@ -71,3 +71,11 @@ class Notification{
         this.date=date
     }
 }
+
+class TypePayment{
+    constructor(id,nom,icon) {
+        this.id=id
+        this.nom=nom
+        this.icon=icon
+    }
+}

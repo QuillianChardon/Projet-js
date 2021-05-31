@@ -148,6 +148,28 @@ class BaseController {
         return cpt
     }
 
+
+    async isPremium(isActive=false){
+        console.log("ici")
+        let flag=false
+        await this.model.isPremium()
+            .then(flag=true)
+            .catch(err => {
+                console.log(err)
+                flag=false
+            })
+
+        if(flag==true){
+            if(isActive){
+                this.doNav("Devenir premium", "premium",true)
+            }
+            else{
+                this.doNav("Devenir premium", "premium")
+            }
+
+        }
+    }
+
 }
 
 function openAllNotif(){

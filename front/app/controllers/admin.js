@@ -3,9 +3,11 @@ class AdminController extends BaseFormController {
         super(true)
         this.svc = new UserAccountAPI()
         this.isAdmin(true)
+        this.isPremium()
         this.doNav("Index","index")
         this.doNav("Compte","compte")
         this.doNav("Ajouter une liste","edit")
+
         this.doNav("Deconnexion","deconnexion")
         this.chargeValue()
     }

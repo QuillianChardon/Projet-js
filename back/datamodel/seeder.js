@@ -4,8 +4,10 @@ const useraccount = require('./useraccount')
 const role = require('./role')
 const userRole = require('./userRole')
 const notification = require('./notification')
+const abonnement = require('./abonnement')
+const typePayment = require('./typePayment')
 
-module.exports = (userAccountService,listeService,produitService,sharedService,roleService,userRoleService,notificationService) => {
+module.exports = (userAccountService,listeService,produitService,sharedService,roleService,userRoleService,notificationService,typePaymentService,abonnementService) => {
     return new Promise(async (resolve, reject) => {
         try {
             await userAccountService.dao.db.query("CREATE TABLE useraccount(id SERIAL PRIMARY KEY, displayname TEXT NOT NULL, login TEXT NOT NULL, challenge TEXT NOT NULL,verif BOOLEAN NOT NULL,active BOOLEAN NOT NULL)")
@@ -15,6 +17,8 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
             await roleService.dao.db.query("CREATE TABLE role(id SERIAL PRIMARY KEY,nom TEXT NOT NULL)")
             await userRoleService.dao.db.query("CREATE TABLE userRole(id SERIAL PRIMARY KEY,idRole INTEGER ,idUser INTEGER ,date DATE NOT NULL)")
             await notificationService.dao.db.query("CREATE TABLE notification(id SERIAL PRIMARY KEY,idUser INTEGER ,titre TEXT NOT NULL,texte TEXT NOT NULL,vue BOOLEAN NOT NULL,date DATE NOT NULL)")
+            await typePaymentService.dao.db.query("CREATE TABLE typepayment(id SERIAL PRIMARY KEY,nom TEXT NOT NULL,icon TEXT NOT NULL)")
+            await abonnementService.dao.db.query("CREATE TABLE abonnement(id SERIAL PRIMARY KEY,idTypePayment INTEGER,idUser INTEGER,date DATE NOT NULL)")
             // INSERTs
         } catch (e) {
             if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html
@@ -26,6 +30,13 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
         }
         roleService.dao.insert("utilisateur")
         roleService.dao.insert("administrateur")
+        roleService.dao.insert(" utilisateur abonné")
+
+        typePaymentService.dao.insert(new typePayment("paypal","<i class=\"fab fa-cc-paypal\"></i>"))
+        typePaymentService.dao.insert(new typePayment("carte bleu","<i class=\"fab fa-cc-visa\"></i>"))
+        typePaymentService.dao.insert(new typePayment("stripe","<i class=\"fab fa-cc-stripe\"></i>"))
+
+
         userAccountService.insert("User1", "user1@example.com", "azerty",true,true)
             .then(_ => userAccountService.dao.getByLogin("user1@example.com"))
             .then(async user1 => {
@@ -38,6 +49,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
                 await userRoleService.daoUserRole.insert(new userRole(1,user1.id,new Date()))
                 await userRoleService.daoUserRole.insert(new userRole(2,user1.id,new Date()))
                 await notificationService.dao.insert(new notification(user1.id,"Bienvenue","vous venez de vous créer un compte",false,new Date()))
+                await abonnementService.dao.insert(new abonnement(1,user1.id,new Date()))
             })
 
         userAccountService.insert("User2", "user2@example.com", "azerty",true,true)

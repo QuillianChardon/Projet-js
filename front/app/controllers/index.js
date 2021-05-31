@@ -10,8 +10,11 @@ class IndexController extends BaseController {
         this.getlock()
         this.displayAllListe()
 
+
+
         //affichage nav
         this.isAdmin()
+         this.isPremium()
          this.doNav("Index","index",true)
         this.doNav("Compte","compte")
         this.doNav("Ajouter une liste","edit")

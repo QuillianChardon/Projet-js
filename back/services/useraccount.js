@@ -82,4 +82,23 @@ module.exports=class UserAccountService{
             html: "Bonjour,<br>voici votre lien de confirmation de changement de mot de passe<br>cliquez ici : <a href='"+lien+"'>"+lien+"</a>",
         });
     }
+
+    async sendMailAchat(login,type){
+        console.log(type.nom)
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: 'projet.nodejs.esimed@gmail.com',
+                pass: 'esimedqc'
+            }
+        });
+
+        let info = await transporter.sendMail({
+            to: login,
+            subject: "[ESIMED NODEJS] Premium",
+            html: "Bonjour,<br>voici votre récapitulatif : <br> Vous avez acheté notre premium pour 5€ par "+type.nom,
+        });
+    }
 }

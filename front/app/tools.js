@@ -58,10 +58,13 @@ function include(selector, url, urlcontroller) {
         });
 }
 
-function navigate(view,functionStrat="") {
+function navigate(view,functionStrat="",toastValue="") {
     include('content',  `views/${view}.html`, `app/controllers/${view}.js`)
     if(functionStrat!=""){
         indexController.AfficheProduit(functionStrat)
+    }
+    if(toastValue!=""){
+        indexController.toast(toastValue)
     }
 
 }
@@ -78,3 +81,4 @@ function getParameterByName(name) {
     let match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
+

@@ -12,3 +12,12 @@ Les administrateur pourront :
 * Visualiser les utilisateur abonnés
 * Abonner un utilisateur gratuitement 
 * Annuler un abonnement
+
+
+
+-Annuler un abonnement
+-Abonner un utilisateur gratuitement 
+-Visualiser les utilisateur abonnés
+-Impossibilité de partager sa liste de courses.
+-Une seule liste de courses en cours possible.
+

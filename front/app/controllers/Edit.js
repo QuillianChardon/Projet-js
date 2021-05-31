@@ -9,9 +9,11 @@ class EditController extends BaseFormController{
             indexController.selectListe=null
         }
         this.isAdmin()
+        this.isPremium()
         this.doNav("Index","index")
         this.doNav("Compte","compte")
         this.doNav("Ajouter une liste","edit",true)
+        this.doNav("Devenir premium","premium")
         this.doNav("Deconnexion","deconnexion")
     }
 

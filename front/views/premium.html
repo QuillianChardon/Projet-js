@@ -1,0 +1,91 @@
+<nav>
+    <div class="nav-wrapper">
+        <a onclick='navigate("index")'class="brand-logo">Note'Tout</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+        </ul>
+    </div>
+</nav>
+<ul class="sidenav" id="mobile-demo">
+
+</ul>
+<div id="tempo">
+    <div class="container">
+        <span class='modalPayment'>
+            <header class='header'>
+                <h1>Devenir premium pour 5 €</h1>
+                <div class='card-type' id="allPaymentType">
+
+                </div>
+            </header>
+            <div class='content'>
+                <div class='form d_show' id="carte bleu">
+                    <h4>
+                        Carte bleu
+                    </h4>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Name on card</label>
+                            <input placeholder='monsieur M' type='text' id="FieldName">
+                        </div>
+                    </div>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Card Number</label>
+                            <input pattern="[0-9]{13,16}" placeholder='0000 0000 0000 0000' type='number'  maxlength="16" id="FieldCB">
+                        </div>
+                    </div>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Expiry Date</label>
+                            <input placeholder='' type='month' id="FieldMonth">
+                        </div>
+                        <div class='input-group'>
+                            <label for=''>CVS</label>
+                            <input pattern="[0-9]{3}" maxlength="3" placeholder='000' type='number' id="FieldCVS">
+                        </div>
+                    </div>
+                </div>
+                <div class='form d_none' id="paypal">
+                    <h4>
+                        Paypal
+                    </h4>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Login</label>
+                            <input placeholder='azerty@qsd.cvb' type='email' id="FieldPaypalMail">
+                        </div>
+                    </div>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Password</label>
+                            <input placeholder='******' type='password' id="FieldPaypalPassword">
+                        </div>
+                    </div>
+                </div>
+                <div class='form d_none' id="stripe">
+                    <h4>
+                        Stripe
+                    </h4>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Login</label>
+                            <input  placeholder='azerty@qsd.cvb' type='email'   id="FieldStripeMail">
+                        </div>
+                    </div>
+                    <div class='form-row'>
+                        <div class='input-group'>
+                            <label for=''>Password</label>
+                            <input  placeholder='******' type='password'  id="FieldStripePassword">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary borderRadus" onclick="premiumController.savePremium()" style="float: right;"><i class="fas fa-check"></i>&nbsp;valider le payment</button>
+        </span>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="res/css/payment.css"/>
+
