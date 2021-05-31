@@ -1,6 +1,7 @@
-module.exports=(app,service,serviceShared,jwt)=>{
+module.exports=(app,service,serviceShared,notificationService,jwt)=>{
     //get all
     app.get("/liste",jwt.validateJWT, async(req,res)=>{
+        await service.checkNotif(req.user)
         res.json(await service.dao.getAll(req.user))
     })
 
@@ -112,7 +113,12 @@ module.exports=(app,service,serviceShared,jwt)=>{
         }
 
         service.dao.update(liste)
-            .then(res.status(200).end())
+            .then(e=>{
+                if(prevListe.useraccount_id !== req.user.id){
+                    service.checkNotifForModifPartageListe(liste.id,prevListe.useraccount_id,req.user.id)
+                }
+                res.status(200).end()
+            })
             .catch(err=>{
                 console.log(err)
                 res.status(500).end()

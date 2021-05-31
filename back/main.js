@@ -34,7 +34,7 @@ const notificationService = new NotificationService(db)
 
 const jwt = require('./jwt')(userAccountService)
 require('./api/useraccount')(app, userAccountService,userRoleService,notificationService,jwt)
-require('./api/liste')(app, listeService,sharedService,jwt)
+require('./api/liste')(app, listeService,sharedService,notificationService,jwt)
 require('./api/produit')(app, produitService,listeService,sharedService,jwt)
 
 require('./api/shared')(app,sharedService,listeService,jwt)

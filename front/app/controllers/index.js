@@ -58,6 +58,7 @@ class IndexController extends BaseController {
             this.archive.style.display="block"
             this.partage.style.display="block"
             this.refreshDisable()
+            this.checknotif()
         }catch (e) {
             console.log(e)
             this.displayServiceError()

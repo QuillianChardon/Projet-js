@@ -226,7 +226,7 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
         console.log("----------")
         console.log(rolePourUser)
         if(rolePourUser[0]==undefined){
-            res.status(401).end()
+            res.status(404).end()
         }
         else{
             res.status(200).end();

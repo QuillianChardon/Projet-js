@@ -12,6 +12,7 @@ module.exports= class notificationDAO extends BaseDAO {
                 .catch(err => reject(err))
         }))
     }
+
     getById(id) {
         return new Promise((resolve, reject) =>
             this.db.query("SELECT * FROM notification WHERE id=$1", [id])
@@ -29,6 +30,22 @@ module.exports= class notificationDAO extends BaseDAO {
     getAllNotSeen(idUser){
         return new Promise(((resolve, reject) => {
             this.db.query("select * from notification where idUser=$1 and vue=false order by id desc", [idUser])
+                .then(res=>resolve(res.rows))
+                .catch(err=>reject(err))
+        }))
+    }
+
+    checkNotif(idUser,titre){
+        return new Promise(((resolve, reject) => {
+            this.db.query("select * from notification where idUser=$1 and titre=$2 and vue=false order by id desc", [idUser,titre])
+                .then(res=>resolve(res.rows))
+                .catch(err=>reject(err))
+        }))
+    }
+
+    checkNotifModifListePartage(idUser,titre){
+        return new Promise(((resolve, reject) => {
+            this.db.query("select * from notification where idUser=$1 and titre=$2 and vue=false order by id desc", [idUser,titre])
                 .then(res=>resolve(res.rows))
                 .catch(err=>reject(err))
         }))

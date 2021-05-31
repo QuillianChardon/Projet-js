@@ -11,5 +11,4 @@ Certaines actions devront générer les notifications automatiques :
 * Une liste dont la date est > 1 semaine générera une notification « liste périmée » avec rappel à l’utilisateur qu’il peut archiver ou supprimer sa liste 
 Note : toutes les notifications sont crées coté NodeJS
 
-liste 7j + --> notif
 liste partagé --> notif

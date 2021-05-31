@@ -154,7 +154,12 @@ module.exports=(app,service,serviceListe,sharedService,jwt)=>{
         }
 
         service.dao.update(produit)
-            .then(res.status(200).end())
+            .then(e=>{
+                if(liste.useraccount_id !== req.user.id){
+                    service.checkNotifForModifPartageListe(liste.id,liste.useraccount_id,req.user.id)
+                }
+                res.status(200).end()
+            })
             .catch(err=>{
                 console.log(err)
                 res.status(500).end()
