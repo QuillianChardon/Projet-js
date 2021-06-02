@@ -194,6 +194,16 @@ class Model {
         return this.apiNotification.saveNotif(id,texte,titre).then(res => res.status)
     }
 
+    /**
+     * USER
+     */
+    getUserById(id){
+        return this.apiUser.getById(id)
+    }
+    isNotPremiumAndOneListe(){
+        return this.apiAbonnement.isNotPremiumAndOneListe()
+    }
+
 
     /**
      * TYPE PAYMENT
@@ -209,7 +219,9 @@ class Model {
     getIdType(name) {
         return this.apiTypePayment.getIdType(name);
     }
-
+    async getTypeAbo(id){
+        return this.apiTypePayment.getType(id)
+    }
     /**
      * ABONNEMENT
      */
@@ -219,5 +231,13 @@ class Model {
     }
     async isPremium(){
         return this.apiAbonnement.isPremium().then(res => res.status)
+    }
+
+    async getAllAbonnement(){
+        let abonnements=[]
+        for(let abo of await this.apiAbonnement.getAll()){
+            abonnements.push(Object.assign(new Abonnement(), abo))
+        }
+        return abonnements
     }
 }

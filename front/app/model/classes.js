@@ -79,3 +79,12 @@ class TypePayment{
         this.icon=icon
     }
 }
+
+class Abonnement{
+    constructor(id,idTypePayment,idUser,date) {
+        this.id=id
+        this.idTypePayment=idTypePayment
+        this.idUser=idUser
+        this.date=date
+    }
+}

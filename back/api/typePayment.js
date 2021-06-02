@@ -10,4 +10,12 @@ module.exports=(app,service,jwt)=> {
         }
         res.json(type)
     })
+    app.get("/typepayment/id/:id",jwt.validateJWT, async(req,res)=>{
+        let id=req.params.id
+        let type=await service.dao.getById(id)
+        if(type===undefined){
+            return res.status(404).end()
+        }
+        res.json(type)
+    })
 }

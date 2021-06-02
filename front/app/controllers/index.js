@@ -75,24 +75,38 @@ class IndexController extends BaseController {
          this.isActive()
         //partage de la liste
         event.stopPropagation();
-        this.getModal("#modalShared").open()
-        let result="<table className=\"stripped responsive-table\" style=\"display: none\">"
-        let userLogin = "<option value=\"-1\" disabled selected>Choose your option</option>"
 
-        $("#addUserShared").setAttribute("onclick","indexController.addShared("+id+")")
+        let flag=true
+        await this.model.isPremium()
+            .then(flag=true)
+            .catch(err => {
+                console.log(err)
+                flag=false
+            })
+        if(flag==false){
+            this.getModal("#modalShared").open()
+            let result="<table className=\"stripped responsive-table\" style=\"display: none\">"
+            let userLogin = "<option value=\"-1\" disabled selected>Choose your option</option>"
 
-        for(const user of await this.model.getAllUserNotInShared(id)){
-            console.log(user)
-            if(this.shared.idLogin==user.id){
-                userLogin+="<option selected value='"+user.id+"'>"+user.login+"</option>"
+            $("#addUserShared").setAttribute("onclick","indexController.addShared("+id+")")
+
+            for(const user of await this.model.getAllUserNotInShared(id)){
+                console.log(user)
+                if(this.shared.idLogin==user.id){
+                    userLogin+="<option selected value='"+user.id+"'>"+user.login+"</option>"
+                }
+                else{
+                    userLogin+="<option value='"+user.id+"'>"+user.login+"</option>"
+                }
             }
-            else{
-                userLogin+="<option value='"+user.id+"'>"+user.login+"</option>"
-            }
+            $("#listeUser").innerHTML = userLogin
+
+            M.FormSelect.init($("#listeUser"));
         }
-        $("#listeUser").innerHTML = userLogin
+        else{
+            this.toast("Pour partager une liste il faut être premium")
+        }
 
-        M.FormSelect.init($("#listeUser"));
     }
 
     async addShared(idListe){

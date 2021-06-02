@@ -166,7 +166,6 @@ class BaseController {
             else{
                 this.doNav("Devenir premium", "premium")
             }
-
         }
     }
 

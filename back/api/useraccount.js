@@ -1,6 +1,7 @@
 const userRole = require('../datamodel/userRole')
 const notification = require('../datamodel/notification')
-module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
+const abonnement = require('../datamodel/abonnement')
+module.exports=(app,service,UserRoleService,notificationService,abonnementService,typePaymentService,jwt)=>{
     app.post("/useraccount/authentificate", async (req,res)=>{
         const  {login, password} = req.body
         if((login ===undefined) || (password === undefined)){
@@ -8,7 +9,7 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
             return
         }
         if(await service.dao.getByLogin(login)==undefined){
-            res.status(404).end()
+            res.status(403).end()
             return
         }
          service.validatePassword(login,password)
@@ -42,7 +43,14 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
     })
 
     app.get("/useraccount/share/:id",jwt.validateJWT, async(req,res)=>{
-        res.json(await service.dao.getAllShare(req.user.id, req.params.id))
+        let Abo = await abonnementService.dao.getForUser(req.user.id)
+        console.log(Abo)
+        if(Abo[0]===undefined){
+            res.status(423).end()
+        }
+        else{
+            res.json(await service.dao.getAllShare(req.user.id, req.params.id))
+        }
     })
 
     app.post("/useraccount/inscription",async (req,res)=>{
@@ -336,8 +344,18 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
         const roleId =req.body.roleId
         const idUser =req.body.idUser
         let tempo =await UserRoleService.daoUserRole.getAllByUserForAdminOnlyId(idUser,roleId)
+
+        let role =await UserRoleService.dao.getById(roleId)
+        console.log(role)
+        console.log(roleId)
         if(tempo[0]!==undefined){
-            //delet
+            //delete
+
+            if(role.nom=="utilisateur abonné"){
+                console.log("ici delete")
+                await abonnementService.dao.deleteByidUser(idUser)
+            }
+
             UserRoleService.daoUserRole.deletebyidUser(idUser,roleId).then(e => {
                 console.log("ici1-1")
                 res.status(200).end();
@@ -350,6 +368,11 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
         }
         else{
             //insert
+            if(role.nom=="utilisateur abonné"){
+                console.log("ici insert")
+                let idTypePayment=await typePaymentService.dao.getByName("donne")
+                await abonnementService.dao.insert(new abonnement(idTypePayment.id,idUser,new Date()))
+            }
             let oneUserRole = new userRole(roleId,idUser,new Date())
             console.log(oneUserRole)
             UserRoleService.daoUserRole.insert(oneUserRole  ).then(e => {
@@ -408,9 +431,14 @@ module.exports=(app,service,UserRoleService,notificationService,jwt)=>{
                     res.status(500).end()
                 })
         }
-
     })
 
-
+    app.get("/useraccount/idUser/:id",jwt.validateJWT,async (req,res)=>{
+        let user=await service.dao.getById(req.params.id)
+        if(user===undefined){
+            return res.status(404).end()
+        }
+        res.json(user)
+    })
 }
 

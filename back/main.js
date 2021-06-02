@@ -37,7 +37,7 @@ const typePaymentService = new TypePaymentService(db)
 const abonnementService = new AbonnementService(db)
 
 const jwt = require('./jwt')(userAccountService)
-require('./api/useraccount')(app, userAccountService,userRoleService,notificationService,jwt)
+require('./api/useraccount')(app, userAccountService,userRoleService,notificationService,abonnementService,typePaymentService,jwt)
 require('./api/liste')(app, listeService,sharedService,notificationService,jwt)
 require('./api/produit')(app, produitService,listeService,sharedService,jwt)
 
@@ -45,7 +45,7 @@ require('./api/shared')(app,sharedService,listeService,jwt)
 require('./api/notification')(app,notificationService,userAccountService,userRoleService,jwt)
 
 require('./api/typePayment')(app,typePaymentService,jwt)
-require('./api/abonnement')(app,abonnementService,userAccountService,typePaymentService,jwt)
+require('./api/abonnement')(app,abonnementService,userAccountService,typePaymentService,userRoleService,listeService,jwt)
 
 
 require('./datamodel/seeder')(userAccountService,listeService,produitService,sharedService,roleService,userRoleService,notificationService,typePaymentService,abonnementService)

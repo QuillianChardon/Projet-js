@@ -13,7 +13,6 @@ class EditController extends BaseFormController{
         this.doNav("Index","index")
         this.doNav("Compte","compte")
         this.doNav("Ajouter une liste","edit",true)
-        this.doNav("Devenir premium","premium")
         this.doNav("Deconnexion","deconnexion")
     }
 
@@ -44,11 +43,22 @@ class EditController extends BaseFormController{
                     }
                 }
                 else{
-                    if(await this.model.insert(new Liste(nom,date,false))!==undefined){
-                        this.toast("ajout bien effectué")
-                        navigate("index")
-                        return
-                    }
+                    let flag=false
+                    await this.model.isNotPremiumAndOneListe()
+                        .then(async e=>{
+                            if(e==200){
+                                if(await this.model.insert(new Liste(nom,date,false))!==undefined){
+                                    this.toast("ajout bien effectué")
+                                    navigate("index")
+                                    return
+                                }
+                            }
+                        })
+                        .catch(err => {
+                            this.toast("Qu'une seule liste active en même temps pour les non premium")
+                            return
+                        })
+                    return
                 }
                 this.displayServiceError()
             }

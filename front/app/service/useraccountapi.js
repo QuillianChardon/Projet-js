@@ -185,6 +185,7 @@ class UserAccountAPI extends BaseAPIService {
 
 
     changeUserRoleByAdmin(roleId,idUser){
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modifRolePourUnUtilisateurDonne`, {
             method: "PUT",
             headers: this.headers,
@@ -202,6 +203,8 @@ class UserAccountAPI extends BaseAPIService {
             }
         }).catch(err => reject(err)))
     }
+
+
 
     ActiveUser(id){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
@@ -228,8 +231,8 @@ class UserAccountAPI extends BaseAPIService {
         return fetchJSONChange(`${this.url}/isActive`, this.token)
     }
 
-    getAllUserForAdmin(){
-        return fetchJSONChange(`${this.url}/AllUser`, this.token)
+    getById(id){
+        return fetchJSON(`${this.url}/idUser/${id}`, this.token)
     }
 
 

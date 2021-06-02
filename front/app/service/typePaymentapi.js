@@ -9,4 +9,8 @@ class TypePaymentapi extends BaseAPIService {
     getIdType(name){
         return fetchJSON(this.url+"/"+name, this.token)
     }
+
+    getType(id){
+        return fetchJSON(this.url+"/id/"+id, this.token)
+    }
 }

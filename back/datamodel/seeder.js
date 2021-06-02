@@ -17,7 +17,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
             await roleService.dao.db.query("CREATE TABLE role(id SERIAL PRIMARY KEY,nom TEXT NOT NULL)")
             await userRoleService.dao.db.query("CREATE TABLE userRole(id SERIAL PRIMARY KEY,idRole INTEGER ,idUser INTEGER ,date DATE NOT NULL)")
             await notificationService.dao.db.query("CREATE TABLE notification(id SERIAL PRIMARY KEY,idUser INTEGER ,titre TEXT NOT NULL,texte TEXT NOT NULL,vue BOOLEAN NOT NULL,date DATE NOT NULL)")
-            await typePaymentService.dao.db.query("CREATE TABLE typepayment(id SERIAL PRIMARY KEY,nom TEXT NOT NULL,icon TEXT NOT NULL)")
+            await typePaymentService.dao.db.query("CREATE TABLE typepayment(id SERIAL PRIMARY KEY,nom TEXT NOT NULL,icon TEXT NOT NULL,vue BOOLEAN NOT NULL)")
             await abonnementService.dao.db.query("CREATE TABLE abonnement(id SERIAL PRIMARY KEY,idTypePayment INTEGER,idUser INTEGER,date DATE NOT NULL)")
             // INSERTs
         } catch (e) {
@@ -30,11 +30,12 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
         }
         roleService.dao.insert("utilisateur")
         roleService.dao.insert("administrateur")
-        roleService.dao.insert(" utilisateur abonné")
+        roleService.dao.insert("utilisateur abonné")
 
-        typePaymentService.dao.insert(new typePayment("paypal","<i class=\"fab fa-cc-paypal\"></i>"))
-        typePaymentService.dao.insert(new typePayment("carte bleu","<i class=\"fab fa-cc-visa\"></i>"))
-        typePaymentService.dao.insert(new typePayment("stripe","<i class=\"fab fa-cc-stripe\"></i>"))
+        typePaymentService.dao.insert(new typePayment("paypal","<i class=\"fab fa-cc-paypal\"></i>"),true)
+        typePaymentService.dao.insert(new typePayment("carte bleu","<i class=\"fab fa-cc-visa\"></i>"),true)
+        typePaymentService.dao.insert(new typePayment("stripe","<i class=\"fab fa-cc-stripe\"></i>"),true)
+        typePaymentService.dao.insert(new typePayment("donne","<i class=\"fas fa-gifts\"></i>"),false)
 
 
         userAccountService.insert("User1", "user1@example.com", "azerty",true,true)
@@ -50,6 +51,7 @@ module.exports = (userAccountService,listeService,produitService,sharedService,r
                 await userRoleService.daoUserRole.insert(new userRole(2,user1.id,new Date()))
                 await notificationService.dao.insert(new notification(user1.id,"Bienvenue","vous venez de vous créer un compte",false,new Date()))
                 await abonnementService.dao.insert(new abonnement(1,user1.id,new Date()))
+                await userRoleService.daoUserRole.insert(new userRole(3,user1.id,new Date()))
             })
 
         userAccountService.insert("User2", "user2@example.com", "azerty",true,true)

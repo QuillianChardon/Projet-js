@@ -15,9 +15,9 @@ Les administrateur pourront :
 
 
 
--Annuler un abonnement
--Abonner un utilisateur gratuitement 
--Visualiser les utilisateur abonnés
--Impossibilité de partager sa liste de courses.
+/-Annuler un abonnement
+/-Abonner un utilisateur gratuitement 
+/-Visualiser les utilisateur abonnés
+/-Impossibilité de partager sa liste de courses.
 -Une seule liste de courses en cours possible.
 

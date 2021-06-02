@@ -10,8 +10,22 @@ class AdminController extends BaseFormController {
 
         this.doNav("Deconnexion","deconnexion")
         this.chargeValue()
+        this.chargeUserPremium()
     }
 
+    async chargeUserPremium(){
+        let Abonnement = ""
+        for (let abo of await this.model.getAllAbonnement()) {
+            console.log(abo)
+            //requete pour recup le type d'abo
+            let typeAbo = await this.model.getTypeAbo(abo.idtypepayment)
+            let user = await this.model.getUserById(abo.iduser)
+            console.log(typeAbo)
+            console.log(user)
+            Abonnement+=`<tr><td>${user.id}</td><td>${user.login}</td><td>${typeAbo.icon}</td></tr>`
+        }
+        $("#allAbonnement").innerHTML=Abonnement
+    }
 
     async saveNotification(){
         let titre=this.valideRequiredField("#fieldTitre",'titre')
@@ -58,28 +72,60 @@ class AdminController extends BaseFormController {
         }
         let roleActif=""
         for (let role of await this.model.getAllRolesUser(id)) {
-            roleActif+=`<label>
+            console.log(role)
+            if(role.nom=="utilisateur abonné"){
+                roleActif+=`<label>
+                        <input type="checkbox"  id="fieldCheck" class="" checked onclick="adminController.changeValueRole(${role.id},${id},true)">
+                        <span class="x2paddingLeft">${role.nom}</span>
+                    </label><br>`
+            }
+            else{
+                roleActif+=`<label>
                         <input type="checkbox"  id="fieldCheck" class="" checked onclick="adminController.changeValueRole(${role.id},${id})">
                         <span class="x2paddingLeft">${role.nom}</span>
                     </label><br>`
+            }
         }
 
         for (let role of await this.svc.getAllRolesNotUser(id)) {
-            roleActif+=`<label>
+            console.log(role)
+            if(role.nom=="utilisateur abonné"){
+                roleActif+=`<label>
+                        <input type="checkbox"  id="fieldCheck" class="" onclick="adminController.changeValueRole(${role.id},${id},true)">
+                        <span class="x2paddingLeft">${role.nom}</span>
+                    </label><br>`
+            }
+            else{
+                roleActif+=`<label>
                         <input type="checkbox"  id="fieldCheck" class="" onclick="adminController.changeValueRole(${role.id},${id})">
                         <span class="x2paddingLeft">${role.nom}</span>
                     </label><br>`
+            }
         }
         $("#rolesUser").innerHTML=roleActif;
 
     }
-    async changeValueRole(roleId,idUser){
-        if(await this.svc.changeUserRoleByAdmin(roleId,idUser)===200){
-            this.toast("modif bien effectué")
+    async changeValueRole(roleId,idUser,flag=false){
+        if(flag){
+            let r = confirm("Voulez vous vraiment donner/enlever le premium a cette personne ?");
+            if (r == true) {
+                if(await this.svc.changeUserRoleByAdmin(roleId,idUser)===200){
+                    this.toast("modif bien effectué")
+                }
+                else{
+                    this.toast("modif non effectué")
+                }
+            }
         }
         else{
-            this.toast("modif non effectué")
+            if(await this.svc.changeUserRoleByAdmin(roleId,idUser)===200){
+                this.toast("modif bien effectué")
+            }
+            else{
+                this.toast("modif non effectué")
+            }
         }
+
 
     }
     async ActiveUser(){
@@ -133,6 +179,7 @@ class AdminController extends BaseFormController {
         }*/
         this.chargeInfoUser(id,false)
         this.chargeValue()
+        this.chargeUserPremium()
     }
 
     filterUser(){

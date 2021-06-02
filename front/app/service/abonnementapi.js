@@ -13,4 +13,12 @@ class Abonnementapi extends BaseAPIService {
     isPremium(){
         return fetchJSONChange(`${this.url}`, this.token)
     }
+
+    getAll(){
+        return fetchJSON(`${this.url}/all`, this.token)
+    }
+
+    isNotPremiumAndOneListe(){
+        return fetchJSONChange(`${this.url}/Premium/Liste`, this.token)
+    }
 }

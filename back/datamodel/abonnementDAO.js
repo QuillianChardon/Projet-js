@@ -27,4 +27,7 @@ module.exports = class AbonnementDAO extends BaseDAO {
         return this.db.query("UPDATE abonnement SET idTypePayment=$1, idUser=$2, date=$3 where id=$4",
             [abonnement.idTypePayment,abonnement.idUser,abonnement.date,abonnement.id])
     }
+    deleteByidUser(idUser) {
+        return this.db.query(`DELETE FROM abonnement WHERE idUser=$1`, [idUser])
+    }
 }
