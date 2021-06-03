@@ -1,0 +1,3 @@
+6/ Déploiement sur Amazon Web Service
+Suivre les tutoriels données en PDF pour la création des comptes et les déploiements.
+Une fois déployé manuellement, écrire un script shell pour semi-automatiser le déploiement des mises à jour depuis le dépôt git.

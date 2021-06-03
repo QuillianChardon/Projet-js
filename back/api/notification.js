@@ -17,13 +17,13 @@ module.exports=(app,service,serviceUser,userRoleService,jwt)=>{
 
     app.put("/notification/seen",jwt.validateJWT, async(req,res)=>{
         let id=req.body.id
-        let notif = await service.dao.getById(id)
-        if(notif==undefined){
+        let notifs = await service.dao.getById(id)
+        if(notifs==undefined){
             return res.status(404).end()
         }
+        let notif=notifs[0]
         console.log(notif)
         notif.vue=true
-        notif.idUser=notif.iduser
         service.dao.update(notif)
             .then(res.status(200).end())
             .catch(err=>{

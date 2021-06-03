@@ -53,6 +53,6 @@ module.exports= class notificationDAO extends BaseDAO {
 
     update(notification){
         return this.db.query("UPDATE notification SET idUser=$1,titre=$2,texte=$3,vue=$4,date=$5 where id=$6",
-            [notification.idUser,notification.titre,notification.texte,notification.vue,notification.date,notification.id])
+            [notification.iduser,notification.titre,notification.texte,notification.vue,notification.date,notification.id])
     }
 }
