@@ -114,7 +114,7 @@ class BaseController {
         let notifHTML=""
         let cpt=0
         for(const notification of await this.model.getAllNotificationNotSeen()){
-
+            console.log(notification)
             notification.texte=notification.texte.replaceAll('\n', '<br>')
             notifHTML+=`<div class="alert" role="alert">
               <span class="flexNotif">
