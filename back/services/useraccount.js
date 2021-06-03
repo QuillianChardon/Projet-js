@@ -101,4 +101,24 @@ module.exports=class UserAccountService{
             html: "Bonjour,<br>voici votre récapitulatif : <br> Vous avez acheté notre premium pour 5€ par "+type.nom,
         });
     }
+
+    async sendMailChangePasswordFormAdmin(login,jwt){
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: 'projet.nodejs.esimed@gmail.com',
+                pass: 'esimedqc'
+            }
+        });
+
+        let lien="http://localhost:63342/front/changeMDP.html?token="+jwt.generateLienChangePassword(login)
+        console.log("lien : "+lien)
+        let info = await transporter.sendMail({
+            to: login,
+            subject: "Changement de mot de passe par un admin[ESIMED NODEJS]",
+            html: "Bonjour,<br>Voici votre lien de confirmation de changement de mot de passe car celui ci a était modifié par un admin<br>cliquez ici : <a href='"+lien+"'>"+lien+"</a>",
+        });
+    }
 }

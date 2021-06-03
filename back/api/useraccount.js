@@ -9,13 +9,13 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
             return
         }
         if(await service.dao.getByLogin(login)==undefined){
-            res.status(403).end()
+            res.status(404).end()
             return
         }
          service.validatePassword(login,password)
             .then(async authenticated=> {
                 if(!authenticated){
-                    res.status(401).end()
+                    res.status(403).end()
                     return
                 }
                 let user =await service.dao.getByLogin(login)
@@ -307,7 +307,7 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
         }
         else {
             if (req.user == undefined) {
-                return res.status(500).end()
+                return res.status(401).end()
             }
             let userbdd = await service.dao.getByIdAllColonne(id)
             if (userbdd == undefined) {
@@ -319,6 +319,7 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
             userbdd.challenge = Hashpassword
             service.dao.update(userbdd)
                 .then(e => {
+                    service.sendMailChangePasswordFormAdmin(userbdd.login,jwt)
                     res.status(200).end();
                 })
                 .catch(err => {

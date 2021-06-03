@@ -68,7 +68,6 @@ class AdminController extends BaseFormController {
             if($("#clickButtonInfoUser").classList.contains("collapsed")){
                 $("#clickButtonInfoUser").click()
             }
-
         }
         let roleActif=""
         for (let role of await this.model.getAllRolesUser(id)) {

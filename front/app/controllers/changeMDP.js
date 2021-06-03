@@ -29,11 +29,23 @@ class ChangeMDPController extends BaseFormController {
     async sendMail(){
         let login = this.valideRequiredField("#fieldLogin",'login')
         if(login !=null){
-            if(await this.svc.sendResetPasswordByLogin(login)==200){
-                this.toast("mail envoyé")
-                return
-            }
-            this.displayServiceError()
+            await this.svc.sendResetPasswordByLogin(login)
+                .then(e=>{
+                    if(e==200){
+                        this.toast("Mail envoyé")
+                        return
+                    }
+                })
+                .catch(e=>{
+                    if(e==404){
+                        this.toast("Utilisateur pas trouvé")
+                        return
+                    }
+                    else{
+                        this.displayServiceError()
+                    }
+                })
+
         }
         else{
             this.displayServiceError()
