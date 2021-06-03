@@ -63,7 +63,7 @@ class UserAccountAPI extends BaseAPIService {
     getValidationChangePassword(token,password){
         this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
         return new Promise((resolve, reject) => fetch(`${this.url}/modificationPassword`, {
-            method: "GET",
+            method: "PUT",
             headers: this.headers,
             body: `token=${token}&password=${password}`
         }).then(res => {

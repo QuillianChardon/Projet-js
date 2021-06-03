@@ -154,7 +154,7 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
         }
     })
 
-    app.get("/useraccount/modificationPassword",jwt.validateLienPassword,async (req,res)=>{
+    app.put("/useraccount/modificationPassword",jwt.validateLienPassword,async (req,res)=>{
         try{
             const  {token, password} = req.body
             if((token ===undefined) || (password === undefined)){

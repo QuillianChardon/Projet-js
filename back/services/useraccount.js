@@ -269,7 +269,7 @@ let mailTop = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
     "    </style>\n" +
     "</head>\n" +
     "\n" +
-    "<body bgcolor=\"#2b313c\" class=\"body\" style=\"padding:0;margin:0;display:block;background: #2b313c;-webkit-text-size-adjust:none;\">\n" +
+    "<body bgcolor=\"#2b313c\" class=\"body\" style=\"padding:0;margin:0;display:block;background: #2b313c;-webkit-text-size-adjust:none;padding-top: 100px;padding-bottom: 100px;\">\n" +
     "    <table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"force-full-width\" height=\"100%\">\n" +
     "        <tbody>\n" +
     "            <tr>\n" +
@@ -291,7 +291,7 @@ let mailTop = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
     "                                                <tr class=\"\">\n" +
     "                                                    <td class=\"\"><br>\n" +
     "                                                        <br>\n" +
-    "                                                        <a class=\"\" data-click-track-id=\"8768\" href=\"http://www.zenmate.com\" target=\"_blank\"><img class=\"\" height=\"70\" src=\"../img/icon.png\" width=\"70\"></a>\n" +
+    "                                                        <a class=\"\" data-click-track-id=\"8768\" href=\"#\"><img class=\"\" height=\"70\" src=\"../img/icon.png\" width=\"70\"></a>\n" +
     "                                                        <br>\n" +
     "                                                        <br></td>\n" +
     "                                                </tr>\n" +

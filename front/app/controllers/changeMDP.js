@@ -6,23 +6,50 @@ class ChangeMDPController extends BaseFormController {
         const urlParams = new URLSearchParams(queryString);
         if(urlParams.has('token')){
             const token = urlParams.get('token')
-            $("#champs").innerHTML=` <div class="row">
-            <form class="col s12" id="formLogin">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="fieldPassword" type="password" class="validate" >
-                        <label for="fieldPassword" class="active">Mot de passe</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="fieldPassword2" type="password" class="validate">
-                        <label for="fieldPassword2" class="active">Validation mot de passe</label>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <button class="waves-effect waves-light btn" onclick="changeMDPController.validate('${token}')"><i class="material-icons right">check</i>Modifier mot de passe</button>
-        </div>`
+            $("#champs").innerHTML=` 
+            
+            <label id="marginBot">
+                <span>Mot de passe</span>
+                <input id="fieldPassword" type="password"  >
+            </label>
+            <label id="marginBot">
+                <span>Validation mot de passe</span>
+                <input id="fieldPassword2" type="password">
+            </label>
+            <span id="relatSpan">
+                    <p class="forgot-pass" onclick="window.location.replace('login.html')">Connexion ?</p>
+                </span>
+            <div class="row">
+                <button class="submit" onclick="changeMDPController.validate('${token}')"><i class="fas fa-check"></i>Changer le nom mdp</button>
+            </div>`
+
+            $("#ChampsReponsive").innerHTML=` 
+            <label id="marginBot">
+                <span>Mot de passe</span>
+                <input id="fieldPasswordResponsive" type="password"  >
+            </label>
+            <label id="marginBot">
+                <span>Validation mot de passe</span>
+                <input id="fieldPassword2Responsive" type="password">
+            </label>
+            <span id="relatSpan">
+                    <p class="forgot-pass" onclick="window.location.replace('login.html')">Connexion ?</p>
+                </span>
+            <div class="row">
+                <button class="submit" onclick="changeMDPController.validate('${token}')"><i class="fas fa-check"></i>Changer le nom mdp</button>
+            </div>`
+            document.getElementById("fieldPassword2").addEventListener("change", function (){
+                document.getElementById("fieldPassword2Responsive").value=this.value
+            });
+            document.getElementById("fieldPassword2Responsive").addEventListener("change", function (){
+                document.getElementById("fieldPassword2").value=this.value
+            });
+            document.getElementById("fieldPassword").addEventListener("change", function (){
+                document.getElementById("fieldPasswordResponsive").value=this.value
+            });
+            document.getElementById("fieldPasswordResponsive").addEventListener("change", function (){
+                document.getElementById("fieldPassword").value=this.value
+            });
         }
     }
 

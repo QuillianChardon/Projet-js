@@ -20,7 +20,7 @@
     <h1 class="center-align">Changement mot de passe</h1>
     <div id="containerForm">
         <div class="cont">
-            <div class="form sign-in">
+            <div class="form sign-in" id="champs">
                 <label id="marginBot">
                     <span>Email</span>
                     <input id="fieldLogin" type="text" class="" value="btssio.quillianchardon@gmail.com"/>
@@ -42,8 +42,7 @@
         </div>
     </div>
     <div class="form_login_register">
-        <div class="log-fom responsiveForm">
-
+        <div class="log-fom responsiveForm" id="ChampsReponsive">
             <p class="bigLetter">Tu as oublié ton mot de passe ?</p>
             <p><br>Pas de panique on te permet de le retrouver en tappant ton adresse mail<br> il te sera envoyé un lien pour le rénitaliser !</p>
             <label id="marginBot">
@@ -51,9 +50,6 @@
                 <input id="fieldLoginResponsive" type="text" class="" value="btssio.quillianchardon@gmail.com"/>
             </label>
             <button type="button" class="submit" onclick="changeMDPController.sendMail()"><i class="fas fa-check"></i>Recevoir mail</button>
-            <div class="row">
-                <button class="submit" onclick="window.location.replace('login.html')"><i class="fas fa-check"></i>Se connecter</button>
-            </div>
         </div>
     </div>
 
@@ -66,6 +62,8 @@
     document.getElementById("fieldLoginResponsive").addEventListener("change", function (){
         document.getElementById("fieldLogin").value=this.value
     });
+
+
 </script>
 <script type="application/ecmascript" src="app/tools.js"></script>
 <script type="application/ecmascript" src="app/model/classes.js"></script>
@@ -83,3 +81,9 @@
 <script type="application/ecmascript" src="app/controllers/changeMDP.js"></script>
 </body>
 </html>
+
+
+<script>
+
+
+</script>
