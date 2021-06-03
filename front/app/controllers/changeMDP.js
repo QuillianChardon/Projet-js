@@ -23,6 +23,7 @@ class ChangeMDPController extends BaseFormController {
                 <button class="submit" onclick="changeMDPController.validate('${token}')"><i class="fas fa-check"></i>Changer le nom mdp</button>
             </div>`
 
+            
             $("#ChampsReponsive").innerHTML=` 
             <label id="marginBot">
                 <span>Mot de passe</span>
