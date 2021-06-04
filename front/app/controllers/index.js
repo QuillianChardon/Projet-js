@@ -244,28 +244,42 @@ class IndexController extends BaseController {
            event.stopPropagation();
        }
         const liste = await this.model.getListe(id)
-       await this.model.isNotPremiumAndOneListe()
-           .then(async e=>{
-               if(e==200){
-                   if(liste.done){
-                       liste.done=false
+       console.log(liste)
+       if(liste.done==false){
+
+           liste.done=true
+           if (await this.model.update(liste) === 200) {
+               this.toast("modif bien effectué")
+               this.displayAllListe()
+           }
+           else{
+               this.displayServiceError()
+           }
+       }
+       else{
+           await this.model.isNotPremiumAndOneListe()
+               .then(async e=>{
+                   if(e==200){
+                       if(liste.done){
+                           liste.done=false
+                       }
+                       else{
+                           liste.done=true
+                       }
+                       if (await this.model.update(liste) === 200) {
+                           this.toast("modif bien effectué")
+                           this.displayAllListe()
+                       }
+                       else{
+                           this.displayServiceError()
+                       }
                    }
-                   else{
-                       liste.done=true
-                   }
-                   if (await this.model.update(liste) === 200) {
-                       this.toast("modif bien effectué")
-                       this.displayAllListe()
-                   }
-                   else{
-                       this.displayServiceError()
-                   }
-               }
-           })
-           .catch(err => {
-               this.toast("Qu'une seule liste active en même temps pour les non premium")
-               return
-           })
+               })
+               .catch(err => {
+                   this.toast("Qu'une seule liste active en même temps pour les non premium")
+                   return
+               })
+       }
 
     }
     async AfficheProduit(id,open=true){
