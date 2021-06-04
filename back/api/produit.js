@@ -74,21 +74,32 @@ module.exports=(app,service,serviceListe,sharedService,jwt)=>{
 
     //insert
     app.post("/produit",jwt.validateJWT,async (req,res)=>{
-        const produit=req.body
-        if(! await service.isValid(produit)){
-            return res.status(400).end()
-        }
-        const liste = await serviceListe.dao.getById(produit.idListe)
-        if(liste==undefined){
-            return res.status(404).end()
-        }
+        try {
+            const produit=req.body
+            if(! await service.isValid(produit)){
+                return res.status(400).end()
+            }
+            const liste = await serviceListe.dao.getById(produit.idListe)
+            if(liste==undefined){
+                return res.status(404).end()
+            }
 
-        service.dao.insert(produit)
-            .then(res.status(200).end())
-            .catch(e=>{
-                console.log(e)
-                res.status(500).end()
-            })
+            service.dao.insert(produit)
+                .then(_=>{
+                    if(liste.useraccount_id !== req.user.id){
+                        service.checkNotifForModifPartageListe(liste.id,liste.useraccount_id,req.user.id)
+                    }
+                    res.status(200).end()
+                })
+                .catch(e=>{
+                    console.log(e)
+                    res.status(500).end()
+                })
+        }
+        catch (e){
+            console.log(e)
+            res.status(400).end()
+        }
     })
 
     //delete
@@ -116,7 +127,12 @@ module.exports=(app,service,serviceListe,sharedService,jwt)=>{
 
 
             service.dao.delete(req.params.id)
-                .then(res.status(200).end())
+                .then(_=>{
+                    if(liste.useraccount_id !== req.user.id){
+                        service.checkNotifForModifPartageListe(liste.id,liste.useraccount_id,req.user.id)
+                    }
+                    res.status(200).end()
+                })
                 .catch(err =>{
                     console.log(err)
                     res.status(500).end()
@@ -130,39 +146,45 @@ module.exports=(app,service,serviceListe,sharedService,jwt)=>{
 
     //modification
     app.put("/produit",jwt.validateJWT,async (req,res) => {
-        const produit = req.body
-        if((produit.id===undefined)|| (produit.id==null)||(!service.isValid(produit))){
-            return res.status(400).end()
-        }
-        if(await service.dao.getById(produit.id)===undefined){
-            return res.status(404).end()
-        }
-
-        const liste = await serviceListe.dao.getById(produit.idliste)
-        if(liste==undefined){
-            return res.status(404).end()
-        }
-
-        let flag=false
-        for(const shared of await sharedService.dao.getAll(req.user.id)){
-            if((liste.id==shared.idliste) &&(shared.droit==true)){
-                flag=true
+        try {
+            const produit = req.body
+            if((produit.id===undefined)|| (produit.id==null)||(!service.isValid(produit))){
+                return res.status(400).end()
             }
-        }
-        if ((liste.useraccount_id !== req.user.id) && (flag==false)){
-            return res.status(403).end()
-        }
+            if(await service.dao.getById(produit.id)===undefined){
+                return res.status(404).end()
+            }
 
-        service.dao.update(produit)
-            .then(e=>{
-                if(liste.useraccount_id !== req.user.id){
-                    service.checkNotifForModifPartageListe(liste.id,liste.useraccount_id,req.user.id)
+            const liste = await serviceListe.dao.getById(produit.idliste)
+            if(liste==undefined){
+                return res.status(404).end()
+            }
+
+            let flag=false
+            for(const shared of await sharedService.dao.getAll(req.user.id)){
+                if((liste.id==shared.idliste) &&(shared.droit==true)){
+                    flag=true
                 }
-                res.status(200).end()
-            })
-            .catch(err=>{
-                console.log(err)
-                res.status(500).end()
-            })
+            }
+            if ((liste.useraccount_id !== req.user.id) && (flag==false)){
+                return res.status(403).end()
+            }
+
+            service.dao.update(produit)
+                .then(_=>{
+                    if(liste.useraccount_id !== req.user.id){
+                        service.checkNotifForModifPartageListe(liste.id,liste.useraccount_id,req.user.id)
+                    }
+                    res.status(200).end()
+                })
+                .catch(err=>{
+                    console.log(err)
+                    res.status(500).end()
+                })
+        }
+        catch (err){
+            console.log(err)
+            res.status(400).end()
+        }
     })
 }

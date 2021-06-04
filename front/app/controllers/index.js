@@ -35,10 +35,10 @@ class IndexController extends BaseController {
                 }
 
                 if(liste.done==true){
-                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"btn btn-primary borderRadus paddingLeft disabledQC\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button  onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus \"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus disabledQC\" disabled '><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"></i></button>"
+                    contentOn+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' disabled class=\"btn btn-primary borderRadus paddingLeft disabledQC\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button  onclick='indexController.displayConfirmDelete("+liste.id+",event)' class=\"btn btn-primary borderRadus \"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus disabledQC\" disabled '><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"></i></button> <button onclick='indexController.ArchiveListe("+liste.id+",event)' class=\"btn btn-primary borderRadus  disabledQC\" disabled '><span class='responsivDisplayName'>Desarchiver&nbsp;</span><i class=\"fas fa-archive\"></i></button>"
                 }
                 else{
-                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"btn btn-primary borderRadus paddingLeft\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus\" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"> </i></button>"
+                    contentOff+="<tr onclick='indexController.AfficheProduit("+liste.id+")'><td>"+liste.nom+"<td>"+date+"<button onclick='indexController.shared("+liste.id+",event)' class=\"btn btn-primary borderRadus paddingLeft\"><span class='responsivDisplayName'>partage&nbsp;</span><i class=\"fa fa-share-alt\"></i></button> <button onclick='indexController.displayConfirmDelete("+liste.id+",event)' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>effacer&nbsp;</span><i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.edit("+liste.id+")' class=\"btn btn-primary borderRadus\"><span class='responsivDisplayName'>editer&nbsp;</span><i class=\"fas fa-pen\"></i></button> <button onclick='indexController.afficheShared("+liste.id+",event)' class=\"btn btn-primary borderRadus\" '><span class='responsivDisplayName'>"+cpt+"&nbsp;</span><i class=\"fa fa-user\"> </i></button> <button onclick='indexController.ArchiveListe("+liste.id+",event)' class=\"btn btn-primary borderRadus \" '><span class='responsivDisplayName'>Archiver &nbsp;</span><i class=\"fas fa-archive\"></i></button>"
                 }
             }
             let contentShared=""
@@ -231,25 +231,7 @@ class IndexController extends BaseController {
         }
         console.log(object)
        if(await this.model.updateP(object)===200) {
-           let flag = false
-           const liste = await this.model.getListe(object.idliste)
-           for (const produit of await this.model.getProduitByListe(object.idliste)) {
-               if (produit.done == false) {
-                   flag = true
-               }
-           }
-           if (flag) {
-               liste.done = false
-           }
-           else{
-               liste.done = true
-           }
-           if (await this.model.update(liste) === 200) {
-               this.toast("modif bien effectué")
-           }
-           else{
-               this.displayServiceError()
-           }
+           this.toast("modif bien effectué")
            this.displayAllListe()
            this.AfficheProduit(liste.id)
        }
@@ -257,7 +239,35 @@ class IndexController extends BaseController {
            this.displayServiceError()
        }
     }
+   async ArchiveListe(id,event){
+       if(event!=null){
+           event.stopPropagation();
+       }
+        const liste = await this.model.getListe(id)
+       await this.model.isNotPremiumAndOneListe()
+           .then(async e=>{
+               if(e==200){
+                   if(liste.done){
+                       liste.done=false
+                   }
+                   else{
+                       liste.done=true
+                   }
+                   if (await this.model.update(liste) === 200) {
+                       this.toast("modif bien effectué")
+                       this.displayAllListe()
+                   }
+                   else{
+                       this.displayServiceError()
+                   }
+               }
+           })
+           .catch(err => {
+               this.toast("Qu'une seule liste active en même temps pour les non premium")
+               return
+           })
 
+    }
     async AfficheProduit(id,open=true){
         this.isActive()
         this.idListe=id
@@ -451,8 +461,11 @@ class IndexController extends BaseController {
         }
     }
 
-    async displayConfirmDelete(id){
+    async displayConfirmDelete(id,event){
         this.isActive()
+        if(event!=null){
+            event.stopPropagation();
+        }
         try{
 
             const liste = await this.model.getListe(id)

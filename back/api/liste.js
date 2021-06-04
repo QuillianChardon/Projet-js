@@ -30,26 +30,31 @@ module.exports=(app,service,serviceShared,notificationService,jwt)=>{
 
     //insert
     app.post("/liste",jwt.validateJWT,(req,res)=>{
-        const liste=req.body
-        console.log(liste)
-        if(!service.isValid(liste)){
-            return res.status(400).end()
-        }
+        try {
+            const liste=req.body
+            console.log(liste)
+            if(!service.isValid(liste)){
+                return res.status(400).end()
+            }
 
-        console.log(liste)
-        if(liste.useraccount_id==undefined){
-            liste.useraccount_id = req.user.id
-        }
+            console.log(liste)
+            if(liste.useraccount_id==undefined){
+                liste.useraccount_id = req.user.id
+            }
 
-        service.dao.insert(liste)
-            .then(id=>{
-                res.json(id)
-                res.status(200).end()
-            })
-            .catch(e=>{
-                console.log(e)
-                res.status(500).end()
-            })
+            service.dao.insert(liste)
+                .then(id=>{
+                    res.json(id)
+                    res.status(200).end()
+                })
+                .catch(e=>{
+                    console.log(e)
+                    res.status(500).end()
+                })
+        }
+        catch (e){
+            res.status(400).end()
+        }
     })
 
     //delete
@@ -91,37 +96,43 @@ module.exports=(app,service,serviceShared,notificationService,jwt)=>{
 
     //modification
     app.put("/liste", jwt.validateJWT,async (req,res) => {
-        const liste = req.body
+        try {
+            const liste = req.body
 
-        if((liste.id===undefined)|| (liste.id==null)||(!service.isValid(liste))){
-            console.log(liste)
-            return res.status(400).end()
-        }
-        const prevListe=await service.dao.getById(liste.id)
-        if(prevListe===undefined){
-            return res.status(404).end()
-        }
-
-        let flag=false
-        for(const shared of await serviceShared.dao.getAll(req.user.id)){
-            if(prevListe.id==shared.idliste){
-                flag=true
+            if((liste.id===undefined)|| (liste.id==null)||(!service.isValid(liste))){
+                console.log(liste)
+                return res.status(400).end()
             }
-        }
-        if ((prevListe.useraccount_id !== req.user.id) && (flag==false)){
-            return res.status(403).end()
-        }
+            const prevListe=await service.dao.getById(liste.id)
+            if(prevListe===undefined){
+                return res.status(404).end()
+            }
 
-        service.dao.update(liste)
-            .then(e=>{
-                if(prevListe.useraccount_id !== req.user.id){
-                    service.checkNotifForModifPartageListe(liste.id,prevListe.useraccount_id,req.user.id)
+            let flag=false
+            for(const shared of await serviceShared.dao.getAll(req.user.id)){
+                if(prevListe.id==shared.idliste){
+                    flag=true
                 }
-                res.status(200).end()
-            })
-            .catch(err=>{
-                console.log(err)
-                res.status(500).end()
-            })
+            }
+            if ((prevListe.useraccount_id !== req.user.id) && (flag==false)){
+                return res.status(403).end()
+            }
+
+            service.dao.update(liste)
+                .then(e=>{
+                    if(prevListe.useraccount_id !== req.user.id){
+                        service.checkNotifForModifPartageListe(liste.id,prevListe.useraccount_id,req.user.id)
+                    }
+                    res.status(200).end()
+                })
+                .catch(err=>{
+                    console.log(err)
+                    res.status(500).end()
+                })
+        }
+        catch (err){
+            console.log(err)
+            res.status(400).end()
+        }
     })
 }
