@@ -1,4 +1,4 @@
-const serviceBaseUrl = "http://localhost:3333"
+const serviceBaseUrl = "http://ec2-18-208-186-244.compute-1.amazonaws.com:3333"
 
 class BaseAPIService {
     constructor(url) {
