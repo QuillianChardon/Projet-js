@@ -5,26 +5,29 @@ module.exports=(app,service,userService,typePaymentService,userRoleService,liste
         try{
             let Abo=await service.dao.getForUser(req.user.id)
             if(Abo[0]!==undefined){
+                console.log("ici -sdf-sdfs-qdf-sqdf-qsd-f")
                 res.status(500).end()
             }
-            service.dao.insert(new Abonnement(req.body.id,req.user.id,new Date()))
-                .then(async e=>{
-                    let userRoleTempo=new userRole(3,req.user.id,new Date())
-                    console.log(userRoleTempo)
-                   await userRoleService.daoUserRole.insert(userRoleTempo)
-                    let name=await typePaymentService.dao.getById(req.body.id)
-                    userService.sendMailAchat(req.user.login,name)
-                        .then(res.status(200).end())
-                        .catch(e=>{
-                            console.log(e)
-                            res.status(500).end()
-                        })
+            else{
+                service.dao.insert(new Abonnement(req.body.id,req.user.id,new Date()))
+                    .then(async e=>{
+                        let userRoleTempo=new userRole(3,req.user.id,new Date())
+                        console.log(userRoleTempo)
+                        await userRoleService.daoUserRole.insert(userRoleTempo)
+                        let name=await typePaymentService.dao.getById(req.body.id)
+                        userService.sendMailAchat(req.user.login,name)
+                            .then(res.status(200).end())
+                            .catch(_=>{
+                                console.log(e)
+                                res.status(500).end()
+                            })
 
-                })
-                .catch(e=>{
-                    console.log(e)
-                    res.status(500).end()
-                })
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                        res.status(500).end()
+                    })
+            }
         } catch (e) {
             console.log(e)
             res.status(500).end()

@@ -310,7 +310,7 @@ class IndexController extends BaseController {
                         doneStatus = "<label><input type='checkbox' class=' "+classAdd+"' checked onclick='indexController.checkItems("+produit.id+")' "+param+"/> <span class=\"x2paddingLeft\">valider</span></label>"
                     }
                     else{
-                        doneStatus = "<label><input type='checkbox' class='' onclick='indexController.checkItems("+produit.id+")'/> <span class=\"x2paddingLeft\">valider</span></label>"
+                        doneStatus = "<label><input type='checkbox' class=' "+classAdd+"'' onclick='indexController.checkItems("+produit.id+")'"+param+"/> <span class=\"x2paddingLeft\">valider</span></label>"
                     }
 
 

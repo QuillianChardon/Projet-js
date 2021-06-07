@@ -149,7 +149,7 @@ class AdminController extends BaseFormController {
                 .then(res => this.toast("Modification réussi"))
                 .catch(err => {
                     console.log(err)
-                    if (err == 401) {
+                    if (err == 403) {
                         this.toast("Adresse e-mail deja prise")
                     }
                     else {

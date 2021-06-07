@@ -291,7 +291,7 @@ let mailTop = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
     "                                                <tr class=\"\">\n" +
     "                                                    <td class=\"\"><br>\n" +
     "                                                        <br>\n" +
-    "                                                        <a class=\"\" data-click-track-id=\"8768\" href=\"#\"><img class=\"\" height=\"70\" src=\"../img/icon.png\" width=\"70\"></a>\n" +
+    "                                                        <a class=\"\" data-click-track-id=\"8768\" href=\"#\"><img class=\"\" height=\"70\" src=\"https://cdn.discordapp.com/attachments/845280382316576819/850306952160215050/icon.png\" width=\"70\"></a>\n" +
     "                                                        <br>\n" +
     "                                                        <br></td>\n" +
     "                                                </tr>\n" +

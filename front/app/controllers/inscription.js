@@ -27,8 +27,13 @@ class InscriptionController extends BaseFormController {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
-                        this.displayServiceError()
+                        if(err==403) {
+                            this.toast("Adresse e-mail deja prise")
+                        }
+                        else{
+                            this.displayServiceError()
+                        }
+
 
                     })
             }

@@ -135,7 +135,7 @@ class BaseController {
                 $("#NotifForDeleteResponsive").remove()
             }
             $('#tableNotifscontent').innerHTML=notifHTML
-            this.doNav("<i class=\"fas fa-bell\"></i>"+cpt, "",false,"openAllNotif()")
+            this.doNav("<i class=\"fas fa-bell animationBell\"></i>&nbsp;"+cpt, "",false,"openAllNotif()")
         }
         else{
             if($("#NotifForDelete")!==null){

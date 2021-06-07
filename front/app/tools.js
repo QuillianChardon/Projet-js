@@ -14,7 +14,13 @@ function fetchJSON(url, token) {
         .then(res => {
             if (res.status === 200) {
                 resolve(res.json())
-            } else {
+            }
+            else if(res.status===401){
+                reject(res.status)
+                localStorage.clear();
+                window.location.replace("login.html")
+            }
+            else{
                 reject(res.status)
             }
         })

@@ -79,7 +79,7 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
             }
             let user = await service.dao.getByLogin(login)
             if(user!==undefined){
-                res.status(404).end()
+                res.status(403).end()
                 return
             }
             service.insert(pseudo, login, password,false,true,jwt)
@@ -316,12 +316,12 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
             const id =req.body.id
 
             if(await service.dao.getByLogin(email)!=undefined){
-                return res.status(401).end()
+                return res.status(403).end()
             }
 
             let rolePourUser = await UserRoleService.daoUserRole.getAllByUser(req.user.id,"administrateur")
             if(rolePourUser[0]==undefined){
-                res.status(401).end()
+                res.status(404).end()
             }
             else {
                 if (req.user == undefined) {

@@ -23,7 +23,8 @@ app.use(cors())
 app.use(morgan('dev')); // toutes les requêtes HTTP dans le log du serveur
 app.use(cookieParser()) // read cookies (obligatoire pour l'authentification)
 
-//const connectionString = "postgres://user:password@192.168.56.101/instance"
+
+//const connectionString = "postgres://user1:default1@user1.cwgcsbcholow.us-east-1.rds.amazonaws.com/tpnode"
 const connectionString = "postgres://qc:qc@localhost/tpnode"
 const db = new pg.Pool({ connectionString: connectionString })
 const listeService = new ListeService(db)

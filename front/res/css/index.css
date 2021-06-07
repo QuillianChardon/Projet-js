@@ -297,6 +297,19 @@ table{
     display: table!important;
 }
 
+.animationBell {
+    animation: 0.35s linear 0s infinite alternate redSlide;
+}
+
+@keyframes redSlide {
+    from {
+        transform: rotate(-17deg);
+    }
+    to {
+        transform: rotate(17deg);
+    }
+}
+
 
 .borderRadus{
 border-radius: 30px !important;
