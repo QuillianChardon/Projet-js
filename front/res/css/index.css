@@ -309,7 +309,9 @@ table{
         transform: rotate(17deg);
     }
 }
-
+span.badge.rounded-pill.bg-secondColor{
+    cursor: pointer;
+}
 
 .borderRadus{
 border-radius: 30px !important;
