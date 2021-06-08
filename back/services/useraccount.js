@@ -53,8 +53,7 @@ module.exports=class UserAccountService{
                 pass: 'esimedqc'
             }
         });
-
-        let lien="http://localhost:63342/front/verif.html?token="+jwt.generateLienValidation(login)
+        let lien="http://ec2-18-208-186-244.compute-1.amazonaws.com/verif.html?token="+jwt.generateLienValidation(login)
         let constructHTML =""
         constructHTML+="<table cellpadding=\"0\" cellspacing=\"0\" class=\"force-width-80\" style=\"margin: 0 auto;\">\n" +
 "                   <tbody>\n" +
@@ -84,7 +83,7 @@ module.exports=class UserAccountService{
                 pass: 'esimedqc'
             }
         });
-        let lien="http://localhost:63342/front/changeMDP.html?token="+jwt.generateLienChangePassword(login)
+        let lien="http://ec2-18-208-186-244.compute-1.amazonaws.com/changeMDP.html?token="+jwt.generateLienChangePassword(login)
         let constructHTML =""
         constructHTML+="<table cellpadding=\"0\" cellspacing=\"0\" class=\"force-width-80\" style=\"margin: 0 auto;\">\n" +
             "                   <tbody>\n" +
@@ -144,7 +143,7 @@ module.exports=class UserAccountService{
                 pass: 'esimedqc'
             }
         });
-        let lien="http://localhost:63342/front/changeMDP.html?token="+jwt.generateLienChangePassword(login)
+        let lien="http://ec2-18-208-186-244.compute-1.amazonaws.com/changeMDP.html?token="+jwt.generateLienChangePassword(login)
         let constructHTML =""
         constructHTML+="<table cellpadding=\"0\" cellspacing=\"0\" class=\"force-width-80\" style=\"margin: 0 auto;\">\n" +
             "                   <tbody>\n" +
