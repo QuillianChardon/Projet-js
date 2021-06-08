@@ -4,6 +4,7 @@ class CompteController extends BaseFormController{
         this.displayCompte()
         this.svc = new UserAccountAPI()
         this.isAdmin()
+        this.isPremium()
         this.doNav("Index","index")
         this.doNav("Compte","compte",true)
         this.doNav("Ajouter une liste","edit")
