@@ -86,7 +86,7 @@ class IndexController extends BaseController {
         if(flag==false){
             this.getModal("#modalShared").open()
             let result="<table className=\"stripped responsive-table\" style=\"display: none\">"
-            let userLogin = "<option value=\"-1\" disabled selected>Choose your option</option>"
+            let userLogin = "<option value=\"-1\" disabled selected>Choisir un utilisateur</option>"
 
             $("#addUserShared").setAttribute("onclick","indexController.addShared("+id+")")
 
