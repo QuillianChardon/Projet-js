@@ -164,6 +164,38 @@ module.exports=class UserAccountService{
             html: mailTop+constructHTML+mailBottom,
         });
     }
+
+    async sendMailChangePasswordFormAdminMail(login,jwt) {
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: 'projet.nodejs.esimed@gmail.com',
+                pass: 'esimedqc'
+            }
+        });
+        let lien = "http://ec2-18-208-186-244.compute-1.amazonaws.com/changeMDP.html?token=" + jwt.generateLienChangePassword(login)
+        let constructHTML = ""
+        constructHTML += "<table cellpadding=\"0\" cellspacing=\"0\" class=\"force-width-80\" style=\"margin: 0 auto;\">\n" +
+            "                   <tbody>\n" +
+            "                        <tr class=\"\">\n" +
+            "                            <td class=\"\" style=\"text-align:left; color:#933f24;\"><br>\n" +
+            "                                     <center class=\"\" style=\"color:#999999; border-top:1px solid #FAFAFA;\"><br>Bonjour,<br> Voici votre lien pour changer de mot de passe car cela a étais envoyé par un administrateur du site <br>cliquez <a href='" + lien + "'>ici</a></center>\n" +
+            "                                            <br>\n" +
+            "                                            <br></td>\n" +
+            "                        </tr>\n" +
+            "                  </tbody>\n" +
+            "            </table>"
+
+
+        console.log("lien : " + lien)
+        let info = await transporter.sendMail({
+            to: login,
+            subject: "Changement de mot de passe[ESIMED NODEJS]",
+            html: mailTop + constructHTML + mailBottom,
+        });
+    }
 }
 
 

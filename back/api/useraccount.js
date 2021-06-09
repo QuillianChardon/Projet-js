@@ -487,6 +487,7 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
             const user = await service.dao.getByIdAllColonne(req.user.id)
             if(user.active===true){
                 res.status(200).end();
+                service.sendMailChangePasswordFormAdminMail(user.login,jwt)
             }
             else{
                 res.status(423).end();
@@ -524,6 +525,18 @@ module.exports=(app,service,UserRoleService,notificationService,abonnementServic
                 return res.status(404).end()
             }
             res.json(user)
+        } catch (e) {
+            console.log(e)
+            res.status(500).end()
+        }
+    })
+
+    app.get("/useraccount/changeMDPByAdminMail/:id",jwt.validateJWT,async (req,res)=> {
+        try {
+            let user=await service.dao.getById(req.params.id)
+            if(user===undefined){
+                return res.status(404).end()
+            }
         } catch (e) {
             console.log(e)
             res.status(500).end()

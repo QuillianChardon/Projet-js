@@ -203,6 +203,9 @@ class Model {
     isNotPremiumAndOneListe(){
         return this.apiAbonnement.isNotPremiumAndOneListe()
     }
+    changeMDPByAdminMail(id){
+        return this.apiUser.changeMDPByAdminMail(id)
+    }
 
 
     /**

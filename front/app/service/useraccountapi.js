@@ -235,5 +235,8 @@ class UserAccountAPI extends BaseAPIService {
         return fetchJSON(`${this.url}/idUser/${id}`, this.token)
     }
 
+    changeMDPByAdminMail(id){
+        return fetchJSONChange(`${this.url}/changeMDPByAdminMail/`+id, this.token)
+    }
 
 }

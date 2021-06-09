@@ -45,7 +45,14 @@ class AdminController extends BaseFormController {
         }
     }
 
-
+    async ChangeMDPADMIN(){
+        let id= $("#idUserSuperCache").value
+        if (await this.model.changeMDPByAdminMail(id) === 200) {
+            this.toast("Notification bien envoyé")
+        } else {
+            this.toast("Notification non envoyé")
+        }
+    }
 
 
     async chargeValue() {
