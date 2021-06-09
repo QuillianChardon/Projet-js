@@ -315,10 +315,10 @@ class IndexController extends BaseController {
 
 
                     if(object.done==true){
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>editer&nbsp;<i class=\"fas fa-pen\"></i> </button>"+doneStatus+"</a>"
+                        result+="<a class='collection-item noCursor'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus "+classAdd+"' disabled>editer&nbsp;<i class=\"fas fa-pen\"></i> </button>"+doneStatus+"</a>"
                     }
                     else{
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus'>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus'>editer&nbsp;<i class=\"fas fa-pen\"></i></button>"+doneStatus+"</a>"
+                        result+="<a class='collection-item noCursor'>"+produit.nom+" x "+produit.quantite+" <button onclick='indexController.displayConfirmDeleteProduit("+produit.id+")' class='btn btn-primary borderRadus'>effacer&nbsp;<i class=\"fas fa-trash-alt\"></i></button> <button onclick='indexController.editProduit("+produit.id+")' class='btn btn-primary borderRadus'>editer&nbsp;<i class=\"fas fa-pen\"></i></button>"+doneStatus+"</a>"
                     }
                 }
             }
