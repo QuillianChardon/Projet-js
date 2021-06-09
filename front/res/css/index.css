@@ -316,7 +316,7 @@ span.badge.rounded-pill.bg-secondColor{
 tr, .collection .collection-item{
     cursor: pointer;
 }
-#noCursor{
+.noCursor{
     cursor: default;
 }
 

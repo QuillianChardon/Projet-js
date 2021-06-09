@@ -333,10 +333,10 @@ class IndexController extends BaseController {
                         doneStatus = "<label><input type='checkbox' class='' disabled /> <span class=\"x2paddingLeft\"> valider</span></label>"
                     }
                     if(object.done==true){
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
+                        result+="<a class='collection-item noCursor'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
                     }
                     else{
-                        result+="<a class='collection-item'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
+                        result+="<a class='collection-item noCursor'>"+produit.nom+" x "+produit.quantite+" "+doneStatus+"</a>"
                     }
                 }
             }
