@@ -165,7 +165,7 @@ class IndexController extends BaseController {
             }
             user = await this.model.getAllUser(shared.iduser)
             console.log(user)
-            sharedResult+="<tr><td>"+user.login+"</td><td>"+droit+"<button onclick='indexController.displayConfirmDeleteShared("+shared.id+")' class=\"btn btn-primary borderRadus paddingGlobal\">suppr</button></td>"
+            sharedResult+="<tr class='noCursor'><td>"+user.login+"</td><td>"+droit+"<button onclick='indexController.displayConfirmDeleteShared("+shared.id+")' class=\"btn btn-primary borderRadus paddingGlobal\">suppr</button></td>"
         }
         $("#tableSharedcontent").innerHTML=sharedResult
        this.getModal("#modalSharedDisplay").open()
