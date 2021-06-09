@@ -22,7 +22,7 @@ class AdminController extends BaseFormController {
             let user = await this.model.getUserById(abo.iduser)
             console.log(typeAbo)
             console.log(user)
-            Abonnement+=`<tr><td>${user.id}</td><td>${user.login}</td><td>${typeAbo.icon}</td></tr>`
+            Abonnement+=`<tr class="noCursor"><td>${user.id}</td><td>${user.login}</td><td>${typeAbo.icon}</td></tr>`
         }
         $("#allAbonnement").innerHTML=Abonnement
     }

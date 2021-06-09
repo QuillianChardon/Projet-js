@@ -136,7 +136,7 @@ button.btn.btn-primary:hover{
 }
 
 nav .brand-logo{
-    padding-left: 5px;
+    padding-left: 10px;
 }
 a.link_anim.lien_anim::before,a.link_anim.lien_anim::after {
     border-bottom: 2px solid var(--second-color) !important;
@@ -312,6 +312,16 @@ table{
 span.badge.rounded-pill.bg-secondColor{
     cursor: pointer;
 }
+
+tr, .collection .collection-item{
+    cursor: pointer;
+}
+#noCursor{
+    cursor: default;
+}
+
+
+
 
 .borderRadus{
 border-radius: 30px !important;
