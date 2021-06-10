@@ -320,8 +320,12 @@ tr, .collection .collection-item{
 .noCursor{
     cursor: default !important;
 }
-
-
+th{
+    font-variant-caps: all-small-caps;
+}
+h1, h2, h3, h4, h5, p, label{
+    font-variant-caps: all-small-caps;
+}
 
 
 .borderRadus{
