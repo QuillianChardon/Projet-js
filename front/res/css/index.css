@@ -164,6 +164,7 @@ a{
 }
 nav ul a{
     transition: 0.6s;
+    font-variant-caps: all-small-caps;
 }
 a:hover {
     color: var(--second-color);
