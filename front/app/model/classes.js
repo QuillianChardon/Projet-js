@@ -23,7 +23,7 @@ class Produits {
         this.done=done
     }
     toString(){
-        return `${this.nom} ${this.quantite}`
+        return `${this.nom} x ${this.quantite}`
     }
 }
 
