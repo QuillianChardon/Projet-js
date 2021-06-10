@@ -313,3 +313,6 @@ p.forgot-pass:hover::after, p.forgot-pass:hover::before {
 .img__text.m--up> h2,.img__text.m--up> p,.img__text.m--in> h2,.img__text.m--in> p{
     color: #fff !important;
 }
+h1, h2, h3, h4, h5, p, label{
+    font-variant-caps: all-small-caps;
+}
